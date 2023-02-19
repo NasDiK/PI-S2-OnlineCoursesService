@@ -10,58 +10,20 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  build:
+  init:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-  
+        node-version: [ 18.x ]
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-  frontend build:
-    runs-on: ubuntu-latest
-
-    stategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: install dependencies
-      working-directory: ./services/frontend
-      run: npm i
-    - name: Run build
-      run: npm run build --if-present
-  tsLint:
-    runs-on: ubuntu-latest
-
-    stategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: install dependencies
-      working-directory: ./services/frontend
-      run: cp . .
-      run: npm i
-    - name: Run build
-      run: npm run tslint
-
+      - uses: actions/checkout@v3
+      - name: Starting node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install modules
+        run: npm install
+      - name: build project
+        run: npm run build
+      - name: tslint
+        run: npm run tslint
