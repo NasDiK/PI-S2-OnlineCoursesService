@@ -21,11 +21,12 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Going to the frontend directory
-        run: cd ./services/frontend
       - name: install modules
+        working-directory: ./services/frontend
         run: npm install
       - name: build project
+        working-directory: ./services/frontend
         run: npm run build
       - name: tslint
+        working-directory: ./services/frontend
         run: npm run tslint
