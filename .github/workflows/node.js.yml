@@ -30,4 +30,26 @@ jobs:
       - name: tslint
         working-directory: ./services/frontend
         run: npm run tslint
-  #Дополнить проверку тестов и линта для бэкенда
+  api:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Starting node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: install modules
+        working-directory: ./services/api
+        run: npm install
+      - name: run tests
+        working-directory: ./services/api
+        run: npm test
+      #- name: build project
+      #  working-directory: ./services/api
+      #  run: npm run build
+      #- name: tslint
+      #  working-directory: ./services/api
+      #  run: npm run tslint

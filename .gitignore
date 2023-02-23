@@ -12,6 +12,7 @@ services/api/coverage
 
 # production
 services/frontend/build
+services/api/build
 
 # misc
 .DS_Store
