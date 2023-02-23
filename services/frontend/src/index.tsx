@@ -5,6 +5,9 @@ import App from './App';
 //import app from './Routes';
 import reportWebVitals from './reportWebVitals';
 import {init} from './core/init';
+//import {createRoot} from 'react-dom/client';
+import {Provider} from 'react-redux';
+import {store} from './app/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +17,10 @@ window.onload = () => {
   init().then(() => {
     root.render(
       <React.StrictMode>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
+
       </React.StrictMode>
     );
   });
