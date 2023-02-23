@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import app from './Routes';
+//import app from './Routes';
 import reportWebVitals from './reportWebVitals';
 import {init} from './core/init';
 

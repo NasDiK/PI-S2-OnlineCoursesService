@@ -10,7 +10,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  init:
+  frontend:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -30,3 +30,4 @@ jobs:
       - name: tslint
         working-directory: ./services/frontend
         run: npm run tslint
+  #Дополнить проверку тестов и линта для бэкенда
