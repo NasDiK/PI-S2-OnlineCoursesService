@@ -8,6 +8,7 @@ import {init} from './core/init';
 //import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {store} from './app/store';
+import {Button} from './components/shared';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,6 +19,7 @@ window.onload = () => {
     root.render(
       <React.StrictMode>
         <Provider store={store}>
+          <Button variant={'thin'} />
           <App />
         </Provider>
 

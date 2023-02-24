@@ -1,4 +1,4 @@
-import Button from './Basic/Button';
+import Button from './Basic/Button/Button';
 
 export {
   Button
