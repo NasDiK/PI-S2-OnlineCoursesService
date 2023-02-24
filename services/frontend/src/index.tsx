@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {init} from './core/init';
 //import {createRoot} from 'react-dom/client';
+//жопа
 import {Provider} from 'react-redux';
 import {store} from './app/store';
 
