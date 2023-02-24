@@ -44,12 +44,9 @@ jobs:
       - name: install modules
         working-directory: ./services/api
         run: npm install
+      - name: run lint
+        working-directory: ./services/api
+        run: npm run lint
       - name: run tests
         working-directory: ./services/api
         run: npm test
-      #- name: build project
-      #  working-directory: ./services/api
-      #  run: npm run build
-      #- name: tslint
-      #  working-directory: ./services/api
-      #  run: npm run tslint

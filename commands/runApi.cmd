@@ -1,0 +1,1 @@
+cd ../services/api && set NODE_ENV=develop && npm start

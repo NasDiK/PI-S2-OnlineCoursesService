@@ -1,4 +1,4 @@
-describe('should be tests', ()=>{
+describe('should be tests', () => {
   test('test', () => {
     expect(1).toBe(1);
   });
