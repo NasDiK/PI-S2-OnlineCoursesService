@@ -1,6 +1,6 @@
 import React from 'react';
 import {Typography} from '../components/shared';
-import {Select, MenuItem} from '@mui/material';
+import {Select, MenuItem, CircularProgress} from '@mui/material';
 import s from './styles.module.scss';
 
 const MenuItemsForSelect = [
@@ -17,16 +17,28 @@ const SharedPage = () => (
     </div>
     <div className={s.select}>
       <h2>{'Селект'}</h2>
-      <Select multiple={false} variant={'standard'}>
+      <Select multiple={false} variant={'standard'} size={'small'}>
+        {MenuItemsForSelect}
+      </Select>&nbsp;&nbsp;&nbsp;
+      <Select multiple={false} variant={'standard'} size={'medium'}>
         {MenuItemsForSelect}
       </Select><br />
-      <Select multiple={false} variant={'outlined'}>
+      <Select multiple={false} variant={'outlined'} size={'small'}>
         {MenuItemsForSelect}
-
-      </Select><br />
-      <Select multiple={false} variant={'filled'}>
+      </Select>&nbsp;&nbsp;&nbsp;
+      <Select multiple={false} variant={'outlined'} size={'medium'}>
         {MenuItemsForSelect}
       </Select><br />
+      <Select multiple={false} variant={'filled'} size={'small'}>
+        {MenuItemsForSelect}
+      </Select>&nbsp;&nbsp;&nbsp;
+      <Select multiple={false} variant={'filled'} size={'medium'}>
+        {MenuItemsForSelect}
+      </Select><br />
+    </div>
+    <div className={s.loader}>
+      <h2>{'Лоадер'}</h2>
+      <CircularProgress size={32} thickness={7} />
     </div>
   </div>
 );
