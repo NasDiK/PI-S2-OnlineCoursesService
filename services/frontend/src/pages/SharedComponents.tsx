@@ -1,5 +1,5 @@
 import React from 'react';
-import {Typography} from '../components/shared';
+import {DirectoryField, Typography} from '../components/shared';
 import {Select, MenuItem, CircularProgress, LinearProgress} from '@mui/material';
 import s from './styles.module.scss';
 
@@ -46,7 +46,12 @@ const SharedPage = () => (
       </div>
     </div>
     <div>
-      {'test'}
+      <h2>{`Инпут (DirectoryField)`}</h2>
+      <div>
+        <p>{'type: 2 (text)'}</p>
+        <DirectoryField type={2} placeholder={'Плейсхолдер...'} size={'small'} />&nbsp;&nbsp;&nbsp;
+        <DirectoryField type={2} placeholder={'Плейсхолдер...'} size={'medium'} />
+      </div>
     </div>
   </div>
 );
