@@ -2,6 +2,7 @@ import React from 'react';
 import {Select, MenuItem} from '@mui/material';
 
 interface IOption {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   'value': any,
   label: string
 }
@@ -12,6 +13,8 @@ interface SelectProps {
 }
 
 const getSelectByType = (variant: string, props: SelectProps) => {
+  //TODO доработать options
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {options, size} = props;
 
   switch (variant) {

@@ -16,6 +16,8 @@ const useStyles = makeStyles(() => {
   };
 });
 
+//TODO: Доработать
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const primary = (props: any) => {
   const {children, size = 'small'} = props;
 
