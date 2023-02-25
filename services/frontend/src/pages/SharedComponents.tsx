@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Typography} from '../components/shared';
+import {Typography} from '../components/shared';
 import {Select, MenuItem} from '@mui/material';
 import s from './styles.module.scss';
 
