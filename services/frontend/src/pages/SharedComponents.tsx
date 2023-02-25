@@ -1,6 +1,6 @@
 import React from 'react';
 import {Typography} from '../components/shared';
-import {Select, MenuItem, CircularProgress} from '@mui/material';
+import {Select, MenuItem, CircularProgress, LinearProgress} from '@mui/material';
 import s from './styles.module.scss';
 
 const MenuItemsForSelect = [
@@ -9,6 +9,8 @@ const MenuItemsForSelect = [
   <MenuItem value={30} key={3}>{'Thirty'}</MenuItem>
 ];
 
+const SynchLabel = '(SYNCH - будет вынесен в компоненту, пока для глазиков пристрелка)';
+
 const SharedPage = () => (
   <div className={s.sharedPage}>
     <div>
@@ -16,7 +18,7 @@ const SharedPage = () => (
       <div><Typography variant={'body20'} weight={'regular'}>{'Test'}</Typography></div>
     </div>
     <div className={s.select}>
-      <h2>{'Селект'}</h2>
+      <h2>{`Селект ${SynchLabel}`}</h2>
       <Select multiple={false} variant={'standard'} size={'small'}>
         {MenuItemsForSelect}
       </Select>&nbsp;&nbsp;&nbsp;
@@ -37,8 +39,14 @@ const SharedPage = () => (
       </Select><br />
     </div>
     <div className={s.loader}>
-      <h2>{'Лоадер (SYNCH - будет вынесен в компоненту, пока для глазиков пристрелка)'}</h2>
-      <CircularProgress size={32} thickness={7} />
+      <h2>{`Лоадер ${SynchLabel}`}</h2>
+      <div className={s.container}>
+        <div><CircularProgress size={32} thickness={7} /></div>
+        <div><LinearProgress sx={{width: 250}} /></div>
+      </div>
+    </div>
+    <div>
+      {'test'}
     </div>
   </div>
 );

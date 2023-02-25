@@ -11,4 +11,15 @@
   .select >:not(:last-child) {
     margin-bottom: 16px;
   }
+
+  .loader {
+    .container {
+      display: flex;
+      align-items: center;
+
+      >:not(:last-child) {
+        margin-right: 8px;
+      }
+    }
+  }
 };
