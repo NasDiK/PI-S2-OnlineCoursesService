@@ -11,3 +11,6 @@
 > Линтеры: 
   - frontend: `npm run tslint`
   - api: `npm run lint` && `npm run test`
+
+> Общий линтер на деплой:
+  - В папке deploy: `npm run pipeline` - для удобства=)

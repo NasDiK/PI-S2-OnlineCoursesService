@@ -1,0 +1,20 @@
+{
+  "name": "deploy",
+  "version": "1.0.0",
+  "description": "Правила именования веток:",
+  "main": "index.js",
+  "scripts": {
+    "pipeline": "npm run --prefix services/frontend tslint & npm run --prefix services/api test & npm run --prefix services/api lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NasDiK/PI-S2-OnlineCoursesService.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NasDiK/PI-S2-OnlineCoursesService/issues"
+  },
+  "homepage": "https://github.com/NasDiK/PI-S2-OnlineCoursesService#readme"
+}
