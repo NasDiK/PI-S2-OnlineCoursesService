@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => {
 const TextField = (props: TextFieldProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const {placeholder, value: fieldValue, variant, size = 'small'} = props;
+  //пока не понимаю предназначение variant
   const classes = useStyles();
 
   return (
