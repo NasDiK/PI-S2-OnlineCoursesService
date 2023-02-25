@@ -1,0 +1,14 @@
+.sharedPage {
+  >:not(:last-child) {
+    border:1px solid black;
+    margin-bottom: 16px;
+  }
+
+  >:last-child {
+    border:1px solid black;
+  }
+
+  .select >:not(:last-child) {
+    margin-bottom: 16px;
+  }
+};
