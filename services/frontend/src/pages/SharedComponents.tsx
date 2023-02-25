@@ -37,7 +37,7 @@ const SharedPage = () => (
       </Select><br />
     </div>
     <div className={s.loader}>
-      <h2>{'Лоадер'}</h2>
+      <h2>{'Лоадер (SYNCH - будет вынесен в компоненту, пока для глазиков пристрелка)'}</h2>
       <CircularProgress size={32} thickness={7} />
     </div>
   </div>
