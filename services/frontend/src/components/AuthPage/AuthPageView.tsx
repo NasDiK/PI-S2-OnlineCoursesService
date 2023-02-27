@@ -24,6 +24,7 @@ const AuthPageView = () => (
               type={2}
               placeholder={'Плейсхолдер...'}
               size={'small'}
+              fullWidth={true}
             />
           </div>
         </div>
@@ -37,11 +38,12 @@ const AuthPageView = () => (
               type={2}
               placeholder={'Плейсхолдер...'}
               size={'small'}
+              fullWidth={true}
             />
           </div>
         </div>
         <div className={s.button}>
-          <Button variant={'primary'}>{'Войти'}</Button>
+          <Button variant={'primary'} fullWidth={true}>{'Войти'}</Button>
         </div>
       </div>
     </div>

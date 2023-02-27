@@ -20,14 +20,15 @@ const useStyles = makeStyles(() => {
       fontSize: 20
     },
     fullWidth: {
-      width: '100%'
+      width: '100%',
+      position: 'relative'
     }
   };
 });
 
 const TextField = (props: TextFieldProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {placeholder, value: fieldValue, variant, size = 'small', fullWidth = true} = props;
+  const {placeholder, value: fieldValue, variant, size = 'small', fullWidth} = props;
   //пока не понимаю предназначение variant
   const classes = useStyles();
 
