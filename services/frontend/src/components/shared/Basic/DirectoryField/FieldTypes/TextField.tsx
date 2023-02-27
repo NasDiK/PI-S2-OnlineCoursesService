@@ -8,7 +8,7 @@ interface TextFieldProps {
   'value'?: string | number,
   variant?: 'normal' | null,
   size?: 'small' | 'medium' | null
-  width?: 'full'
+  fullWidth?: boolean
 }
 
 const useStyles = makeStyles(() => {
@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => {
     medium: {
       fontSize: 20
     },
-    full: {
+    fullWidth: {
       width: '100%'
     }
   };
@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => {
 
 const TextField = (props: TextFieldProps) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {placeholder, value: fieldValue, variant, size = 'small', width = 'full'} = props;
+  const {placeholder, value: fieldValue, variant, size = 'small', fullWidth = true} = props;
   //пока не понимаю предназначение variant
   const classes = useStyles();
 
@@ -42,7 +42,7 @@ const TextField = (props: TextFieldProps) => {
           {
             [classes.small]: size === 'small',
             [classes.medium]: size === 'medium',
-            [classes.full]: width === 'full'
+            [classes.fullWidth]: fullWidth
           }
         )
       }
