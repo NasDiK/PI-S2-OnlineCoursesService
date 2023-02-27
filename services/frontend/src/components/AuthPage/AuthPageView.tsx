@@ -43,7 +43,7 @@ const AuthPageView = () => (
           </div>
         </div>
         <div className={s.button}>
-          <Button variant={'primary'} fullWidth={true}>{'Войти'}</Button>
+          <Button variant={'primary'}>{'Войти'}</Button>
         </div>
       </div>
     </div>
