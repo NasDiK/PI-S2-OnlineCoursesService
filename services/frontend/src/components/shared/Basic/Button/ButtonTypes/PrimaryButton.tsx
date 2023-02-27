@@ -1,13 +1,11 @@
 import {makeStyles} from '@mui/styles';
 import React from 'react';
+import s from '../Button.module.scss';
 import cn from 'classnames';
-
-const defaultColor = '#C5D1FF';
 
 const useStyles = makeStyles(() => {
   return {
     button: {
-      background: defaultColor,
       padding: '2px 4px'
     },
     small: {
@@ -29,7 +27,8 @@ const primary = (props: any) => {
         classes.button,
         {
           [classes.small]: size === 'small'
-        }
+        },
+        s.primary
       )
     }
     >

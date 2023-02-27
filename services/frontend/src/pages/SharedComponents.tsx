@@ -3,7 +3,7 @@ import {DirectoryField, Typography, Button} from '../components/shared';
 import {CircularProgress, LinearProgress} from '@mui/material';
 import s from './styles.module.scss';
 
-const SynchLabel = '(SYNCH - будет вынесен в компоненту, пока для глазиков пристрелка)';
+const SynchLabel = '(SYNCH - будет изменена)';
 const InWorkLabel = '(InWork - нельзя использовать пока-что)';
 
 const SharedPage = () => (
@@ -37,11 +37,30 @@ const SharedPage = () => (
       </div>
     </div>
     <div>
-      <h2>{`Кнопка (Button) ${InWorkLabel}`}</h2>
-      <Button variant={'primary'}>{'test'}</Button>
-      <Button variant={'primary'} padding={'25px 25px'}>
-        <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
-      </Button>
+      <h2>{`Кнопка (Button) `}</h2>
+      <div>
+        <h3>{`primary (default) ${SynchLabel}`}</h3>
+        <Button variant={'primary'}>{'test'}</Button>
+        <Button variant={'primary'} padding={'25px 25px'}>
+          <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
+        </Button>
+      </div>
+      <div>
+        <h3>{`thin ${SynchLabel}`}</h3>
+        <Button variant={'thin'} size={'small'}>{'test'}</Button>
+        <Button variant={'thin'} size={'normal'}>{'test2'}</Button>
+        <Button variant={'thin'} size={'normal'}>
+          <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
+        </Button>
+      </div>
+      <div>
+        <h3>{'roundThin'}</h3>
+        <Button variant={'roundThin'} size={'small'}>{'test'}</Button>
+        <Button variant={'roundThin'} size={'normal'}>{'test2'}</Button>
+        <Button variant={'roundThin'} size={'normal'}>
+          <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
+        </Button>
+      </div>
     </div>
   </div>
 );

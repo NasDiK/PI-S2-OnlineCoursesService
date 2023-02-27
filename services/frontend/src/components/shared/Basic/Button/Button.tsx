@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-no-useless-fragment */
 import React from 'react';
 import primary from './ButtonTypes/PrimaryButton';
+import thin from './ButtonTypes/ThinButton';
 
 type ButtonProps = {
   variant?: 'thin' | 'primary' | 'roundThin',
@@ -14,7 +15,7 @@ const Button = (props: ButtonProps) => {
 
   switch (variant) {
     case 'thin':
-      return <React.Fragment>{'thin'}</React.Fragment>;
+      return thin(otherProps);
     case 'primary':
       return primary(otherProps);
     case 'roundThin':

@@ -1,0 +1,39 @@
+@import '../../../../globals/variables.module.scss';
+
+.primary {
+  transition: 0.05s all ease-in-out;
+  background-color: #C5D1FF;
+  cursor: pointer;
+  min-height: 20px;
+
+  &:active {
+    background-color: $cornflower-80;
+    cursor: pointer;
+  }
+}
+
+.thin {
+  border: none;
+  background: rgba(0,0,0,0);
+  cursor: pointer;
+  transition: 0.1s all ease-in-out;
+  padding: 2px 4px;
+  border-radius: 2px;
+
+  &:active {
+    background: rgba(0,0,0,0.05);
+    cursor: default;
+  }
+}
+
+.small {
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  min-height: 20px;
+}
+
+.normal {
+  font-size: 20px !important;
+  font-weight: 400 !important;
+  min-height: 40px;
+}
