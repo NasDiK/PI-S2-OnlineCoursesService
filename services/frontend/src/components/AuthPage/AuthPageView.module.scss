@@ -11,13 +11,13 @@
     height: 204px;
     box-sizing: border-box;
     background: #FFFFFF;
-    border: 1px solid #000000;
+    border: 1px solid black;
     display: flex;
     flex-direction: column;
 
     .top{
       height: 51px;
-      background: #000000;
+      background: black;
       display: flex;
       flex-direction: row;
       align-content: center;
