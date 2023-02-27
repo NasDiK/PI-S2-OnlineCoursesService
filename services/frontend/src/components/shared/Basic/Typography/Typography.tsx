@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 type TypographyProps = {
   children?: React.ReactNode,
-  variant?: 'body14' | 'body24' | 'body20',
+  variant?: 'body14' | 'body24' | 'body20' | 'body32',
   weight?: 'regular' | 'medium' | 'bold',
   className?: string
 };
