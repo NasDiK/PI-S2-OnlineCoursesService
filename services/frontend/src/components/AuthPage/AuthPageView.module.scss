@@ -10,25 +10,26 @@
     width: 374px;
     height: 204px;
     box-sizing: border-box;
-    background: #FFFFFF;
+    background: white;
     border: 1px solid black;
     display: flex;
     flex-direction: column;
 
     .top{
-      height: 51px;
       background: black;
       display: flex;
       flex-direction: row;
       align-content: center;
       align-items: center;
       justify-content: center;
+      padding-bottom: 6px;
     }
 
     .bot{
       margin-top: 9px;
       display: flex;
       flex-direction: column;
+
       .field{
         width: 335px;
         margin-top: 4px;
@@ -51,14 +52,14 @@
     }
 
     .text{
-      color: #FFFFFF;
+      color: white;
       margin-left: 8px;
     }
 
     .button {
-      width: 64px;
       margin-top: 10px;
       margin-left: 298px;
+      margin-right: 12px;
     }
   }
 }
