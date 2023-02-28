@@ -1,3 +1,8 @@
 import React from 'react';
+import AuthPageView from '../components/AuthPage/AuthPageView';
 
-export {};
+const AuthPage = () => (
+  <AuthPageView />
+);
+
+export default AuthPage;

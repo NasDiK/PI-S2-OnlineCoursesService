@@ -1,0 +1,65 @@
+.authPage {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('UTMN-Logo.png');
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .form{
+    width: 374px;
+    height: 204px;
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+
+    .top{
+      background: black;
+      display: flex;
+      flex-direction: row;
+      align-content: center;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 6px;
+    }
+
+    .bot{
+      margin-top: 9px;
+      display: flex;
+      flex-direction: column;
+
+      .field{
+        width: 335px;
+        margin-top: 4px;
+      }
+
+      .login{
+        margin-left: 12px;
+      }
+
+      .password{
+        margin-left: 12px;
+      }
+    }
+
+    .image{
+      background: url('cat.png');
+      width: 113px;
+      height: 40px;
+      margin-top: 5px;
+    }
+
+    .text{
+      color: white;
+      margin-left: 8px;
+    }
+
+    .button {
+      margin-top: 10px;
+      margin-left: auto;
+      margin-right: 12px;
+    }
+  }
+}
