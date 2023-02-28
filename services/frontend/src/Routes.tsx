@@ -6,6 +6,7 @@ import {
 
 import MainPage from './pages/MainPage';
 import SharedPage from './pages/SharedComponents';
+import AuthPage from './pages/AuthPage';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,10 @@ const router = createBrowserRouter([
   {
     path: '/shared',
     element: <SharedPage />
+  },
+  {
+    path: '/auth',
+    element: <AuthPage />
   }
 ]);
 

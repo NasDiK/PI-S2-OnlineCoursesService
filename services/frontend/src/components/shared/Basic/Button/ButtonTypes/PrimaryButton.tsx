@@ -10,6 +10,9 @@ const useStyles = makeStyles(() => {
     },
     small: {
       borderRadius: 2
+    },
+    fullWidth: {
+      width: '100%'
     }
   };
 });
@@ -17,7 +20,7 @@ const useStyles = makeStyles(() => {
 //TODO: Доработать
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const primary = (props: any) => {
-  const {children, size = 'small'} = props;
+  const {children, size = 'small', fullWidth} = props;
 
   const classes = useStyles();
 
@@ -26,9 +29,11 @@ const primary = (props: any) => {
       cn(
         classes.button,
         {
-          [classes.small]: size === 'small'
+          [classes.small]: size === 'small',
+          [classes.fullWidth]: fullWidth
         },
         s.primary
+        }
       )
     }
     >

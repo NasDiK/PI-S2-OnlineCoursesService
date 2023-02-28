@@ -7,7 +7,8 @@ type ButtonProps = {
   variant?: 'thin' | 'primary' | 'roundThin',
   size?: 'small' | 'normal',
   children?: React.ReactNode,
-  padding?: string
+  padding?: string,
+  fullWidth?: boolean
 };
 
 const Button = (props: ButtonProps) => {
