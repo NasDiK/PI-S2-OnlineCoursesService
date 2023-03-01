@@ -3,20 +3,20 @@ import React from 'react';
 import s from '../Button.module.scss';
 import cn from 'classnames';
 
-type ThinButtonProps = {
+type RoundThinButtonProps = {
   size?: 'small' | 'normal',
   children?: React.ReactNode,
-  onClick?: any //функция обработчика
+  onClick?: any
 }
 
-const ThinButton = (props: ThinButtonProps) => {
+const RoundThinButton = (props: RoundThinButtonProps) => {
   const {children, size = 'normal', onClick} = props;
 
   return (
     <button
       className={
         cn(
-          s.thin,
+          s.roundThin,
           {
             [s.small]: size === 'small',
             [s.normal]: size === 'normal'
@@ -30,4 +30,4 @@ const ThinButton = (props: ThinButtonProps) => {
   );
 };
 
-export default ThinButton;
+export default RoundThinButton;

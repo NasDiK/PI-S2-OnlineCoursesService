@@ -15,9 +15,7 @@ const AuthPageView = () => (
       </div>
       <div className={s.bot}>
         <div className={s.login}>
-          <div className={s.logo}>
-            <Typography variant={'body14'}>{'Логин'}</Typography>
-          </div>
+          <Typography variant={'body14'} weight={'medium'}>{'Логин'}</Typography>
           <div className={s.field}>
             <DirectoryField
               fullwidth={true}
@@ -29,9 +27,7 @@ const AuthPageView = () => (
           </div>
         </div>
         <div className={s.password}>
-          <div className={s.logo}>
-            <Typography variant={'body14'}>{'Пароль'}</Typography>
-          </div>
+          <Typography variant={'body14'} weight={'medium'}>{'Пароль'}</Typography>
           <div className={s.field}>
             <DirectoryField
               fullwidth={true}

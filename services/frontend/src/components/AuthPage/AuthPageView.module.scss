@@ -1,14 +1,13 @@
 .authPage {
   width: 100vw;
   height: 100vh;
-  background-image: url('UTMN-Logo.png');
+  background-image: url('assets/UTMN-Logo.png');
   display: flex;
   align-items: center;
   justify-content: center;
 
   .form{
     width: 374px;
-    height: 204px;
     box-sizing: border-box;
     background: white;
     border: 1px solid black;
@@ -40,12 +39,13 @@
       }
 
       .password{
+        margin-top: 12px;
         margin-left: 12px;
       }
     }
 
     .image{
-      background: url('cat.png');
+      background: url('./assets/cat.png');
       width: 113px;
       height: 40px;
       margin-top: 5px;
@@ -57,9 +57,7 @@
     }
 
     .button {
-      margin-top: 10px;
-      margin-left: auto;
-      margin-right: 12px;
+      margin: 12px 12px 12px auto;
     }
   }
 }

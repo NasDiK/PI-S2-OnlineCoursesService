@@ -1,0 +1,43 @@
+@import '../../globals/variables.module.scss';
+
+.headerWrapper {
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+
+  .logoWrapper {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      height: 40px;
+      width: 113px;
+      margin-right: 12px;
+    }
+
+    span {
+      user-select: none;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    
+    & > button {
+      color: white;
+      user-select: none;
+      transition: 0s;
+
+      &:active {
+        color: $cornflower-80;
+      }
+    }
+
+    & > button:not(:last-child) {
+      margin-right: 12px;
+    }
+  }
+}

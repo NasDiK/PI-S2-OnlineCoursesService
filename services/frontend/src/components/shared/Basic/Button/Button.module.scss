@@ -26,6 +26,20 @@
   }
 }
 
+.roundThin {
+  border-radius: 90px;
+  padding: 2px 15px;
+  border: 1px solid black;
+  background: rgba(0,0,0,0);
+  cursor: pointer;
+  transition: 0.1s all ease-in-out;
+
+  &:active {
+    background-color: $cornflower-80;
+    cursor: default;
+  }
+}
+
 .small {
   font-size: 14px !important;
   font-weight: 400 !important;

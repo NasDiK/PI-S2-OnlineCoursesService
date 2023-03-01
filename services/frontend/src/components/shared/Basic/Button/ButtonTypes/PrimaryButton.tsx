@@ -20,22 +20,23 @@ const useStyles = makeStyles(() => {
 //TODO: Доработать
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const primary = (props: any) => {
-  const {children, size = 'small', fullWidth} = props;
+  const {children, size = 'small', fullWidth, onClick} = props;
 
   const classes = useStyles();
 
   return (
-    <button className={
-      cn(
-        classes.button,
-        {
-          [classes.small]: size === 'small',
-          [classes.fullWidth]: fullWidth
-        },
-        s.primary
-        }
-      )
-    }
+    <button
+      className={
+        cn(
+          classes.button,
+          {
+            [classes.small]: size === 'small',
+            [classes.fullWidth]: fullWidth
+          },
+          s.primary
+        )
+      }
+      onClick={onClick}
     >
       {children}
     </button>
