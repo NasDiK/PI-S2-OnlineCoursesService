@@ -8,3 +8,7 @@ await api.service('usersBusiness').params({
     test2: 'test2'
 }).executePost();
 ```
+
+# Использование enums
+
+`import {} from '@local/enums/*`, где * - нужная папочка. А в деструкторе нужный объект
