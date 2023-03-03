@@ -1,3 +1,5 @@
+import {API_PORT} from '@local/documentation';
+
 class Api {
   serviceName?: string;
   paramsInfo?: object;
@@ -27,14 +29,31 @@ class Api {
     // eslint-disable-next-line no-console
     console.log('Выполняю get');
 
-    return Promise.resolve();
+    return fetch(`localhost:${API_PORT}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'params': this.paramsInfo
+      })
+    });
   };
 
   executePost = () => {
     // eslint-disable-next-line no-console
     console.log('Выполняю post');
 
-    return Promise.resolve();
+    return fetch(`localhost:${API_PORT}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        'params': this.paramsInfo,
+        'body': this.bodyInfo
+      })
+    });
   };
 }
 

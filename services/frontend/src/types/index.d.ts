@@ -6,3 +6,5 @@ declare global {
     api?: any;
   }
 }
+
+declare module '@local/documentation';

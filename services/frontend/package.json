@@ -7,6 +7,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@local/enums": "file:../enums",
+    "@local/documentation": "file:../documentation",
     "@mui/material": "^5.11.9",
     "@mui/styles": "^5.11.9",
     "@reduxjs/toolkit": "^1.9.3",
