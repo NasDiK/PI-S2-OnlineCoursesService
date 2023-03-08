@@ -1,6 +1,9 @@
-const init = (): Promise<void> => {
+import Api from './models/Api';
 
-  window.api = 'test';
+const api = Api;
+
+const init = (): Promise<void> => {
+  window.api = api;
 
   return Promise.resolve();
 };

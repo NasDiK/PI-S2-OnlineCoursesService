@@ -4,3 +4,5 @@ webpack/
 external/
 build/
 src/reportWebVitals.ts
+src/react-app-env.d.ts
+tests/App.test.tsx
