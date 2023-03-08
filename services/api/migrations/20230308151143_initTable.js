@@ -91,8 +91,10 @@ exports.up = async(knex) => {
   });
   await knex.schema.createTable('logger', (table) => {
     table.increments('id');
-    table.integer('log_type').notNullable();
-    table.integer('service_id').notNullable();
+    table.integer('log_type').notNullable()
+      .comment('From enums');
+    table.integer('service_id').notNullable()
+      .comment('From enums');
     table.text('message').comment('Сообщение');
     table.timestamp('createdAt');
     table.integer('createdBy');
