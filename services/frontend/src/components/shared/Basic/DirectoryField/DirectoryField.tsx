@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-// import {type as fieldTypeEnum} from '../../../../../../enums/fields';
+import enums from '@local/enums';
 import TextField from './FieldTypes/TextField';
 import Select from './FieldTypes/Select';
 
 const getFieldByType = (type: number, props: any) => {
   switch (type) {
-    case 1://fieldTypeEnum.SELECT:
+    case enums.shared.fieldType.SELECT:
       return <Select {...props} />;
-    case 2://fieldTypeEnum.TEXT:
+    case enums.shared.fieldType.TEXT:
       return <TextField {...props} />;
     default:
       return null;

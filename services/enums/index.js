@@ -1,9 +1,9 @@
-import * as fields from './fields';
+import * as shared from './shared';
 import * as rights from './rights';
 import * as services from './services';
 
 const toExport = {
-  fields,
+  shared,
   rights,
   services
 };
