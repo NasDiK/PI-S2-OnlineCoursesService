@@ -3,6 +3,7 @@ import {
   createBrowserRouter,
   RouterProvider
 } from 'react-router-dom';
+import WrapComponent from './components/WrapComponent';
 
 import MainPage from './pages/MainPage';
 import SharedPage from './pages/SharedComponents';
@@ -11,15 +12,15 @@ import AuthPage from './pages/AuthPage';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <MainPage />
+    element: <WrapComponent component={<MainPage />} />
   },
   {
     path: '/shared',
-    element: <SharedPage />
+    element: <WrapComponent component={<SharedPage />} />
   },
   {
     path: '/auth',
-    element: <AuthPage />
+    element: <WrapComponent component={<AuthPage />} />
   }
 ]);
 
