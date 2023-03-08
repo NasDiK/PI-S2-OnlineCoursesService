@@ -3,6 +3,7 @@
 # dependencies
 services/frontend/node_modules
 services/api/node_modules
+services/api/.idea
 .pnp
 .pnp.js
 
@@ -12,6 +13,7 @@ services/api/coverage
 
 # production
 services/frontend/build
+services/frontend/.idea
 services/api/build
 
 # misc
