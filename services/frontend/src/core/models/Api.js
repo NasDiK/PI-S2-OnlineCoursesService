@@ -1,25 +1,25 @@
 import {API_PORT} from '@local/documentation';
 
 class Api {
-  serviceName?: string;
-  paramsInfo?: object;
-  bodyInfo?: object;
+  serviceName; //nullable->object
+  paramsInfo; //nullable->object
+  bodyInfo; //nullable->object
 
   //TODO Добавить мету пользователя
 
-  service = (name: string) => {
+  service = (name) => {
     this.serviceName = name;
 
     return this;
   };
 
-  params = (param: object) => {
+  params = (param) => {
     this.paramsInfo = param;
 
     return this;
   };
 
-  body = (body: object) => {
+  body = (body) => {
     this.bodyInfo = body;
 
     return this;
