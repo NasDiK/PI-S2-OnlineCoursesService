@@ -57,7 +57,8 @@ exports.up = async(knex) => {
     table.integer('role_id');
     table.foreign('role_id').references('id')
       .inTable('roles');
-    table.integer('service_id').notNullable();
+    table.integer('service_id').notNullable()
+      .comment('From enums');
     table.integer('rights').notNullable()
       .comment('Сумма прав');
   });
@@ -70,7 +71,8 @@ exports.up = async(knex) => {
       .notNullable();
     table.string('description').comment('Описание задачи');
     table.text('value').comment('Содержание задачи');
-    table.integer('type').notNullable();
+    table.integer('type').notNullable()
+      .comment('From enums');
     table.integer('max_note').comment('Максимальная оценка');
     table.integer('weight').comment('Порядок относительно курса');
   });
