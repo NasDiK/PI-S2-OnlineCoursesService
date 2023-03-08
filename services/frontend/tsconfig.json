@@ -23,9 +23,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
+    "noImplicitAny": false,
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
+    "declaration": true,
+    "declarationDir": "./types"
   },
   "include": [
     "src",
