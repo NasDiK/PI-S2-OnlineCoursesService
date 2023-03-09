@@ -2,7 +2,7 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import UserStoreReducer from 'src/stores/core/UserStoreReducer';
 
 const rootReducer = combineReducers({
-  toolkit: UserStoreReducer
+  userStore: UserStoreReducer
 });
 
 export const store = configureStore({
