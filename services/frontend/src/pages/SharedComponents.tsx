@@ -3,9 +3,12 @@ import React from 'react';
 import {DirectoryField, Typography, Button, Alert} from '../components/shared';
 import {AlertTitle, CircularProgress, LinearProgress} from '@mui/material';
 import s from './styles.module.scss';
+import enums from '@local/enums';
 
 const SynchLabel = '(SYNCH - будет изменена)';
 const InWorkLabel = '(InWork - нельзя использовать пока-что)';
+
+const {shared: {fieldType}} = enums;
 
 const SharedPage = () => (
   <div className={s.sharedPage}>
@@ -26,16 +29,16 @@ const SharedPage = () => (
       <div>
         <h3>{`type: 1 (select) ${InWorkLabel}`}</h3>
         <p>{`Вариант normal. size->['small','medium']`}</p>
-        <DirectoryField type={1} size={'small'} />&nbsp;&nbsp;&nbsp;
-        <DirectoryField type={1} size={'medium'} />&nbsp;&nbsp;&nbsp;
+        <DirectoryField type={fieldType.SELECT} size={'small'} />&nbsp;&nbsp;&nbsp;
+        <DirectoryField type={fieldType.SELECT} size={'medium'} />&nbsp;&nbsp;&nbsp;
         <p>{`Вариант outline. size->['small','medium']`}</p>
-        <DirectoryField type={1} size={'small'} variant={'outline'} />&nbsp;&nbsp;&nbsp;
-        <DirectoryField type={1} size={'medium'} variant={'outline'} />&nbsp;&nbsp;&nbsp;
+        <DirectoryField type={fieldType.SELECT} size={'small'} variant={'outline'} />&nbsp;&nbsp;&nbsp;
+        <DirectoryField type={fieldType.SELECT} size={'medium'} variant={'outline'} />&nbsp;&nbsp;&nbsp;
       </div>
       <div>
         <h3>{'type: 2 (text)'}</h3>
-        <DirectoryField type={2} placeholder={'Плейсхолдер...'} size={'small'} />&nbsp;&nbsp;&nbsp;
-        <DirectoryField type={2} placeholder={'Плейсхолдер...'} size={'medium'} />
+        <DirectoryField type={fieldType.TEXT} placeholder={'Плейсхолдер...'} size={'small'} />&nbsp;&nbsp;&nbsp;
+        <DirectoryField type={fieldType.TEXT} placeholder={'Плейсхолдер...'} size={'medium'} />
       </div>
     </div>
 
@@ -97,9 +100,9 @@ const SharedPage = () => (
       }
       </Alert>
       <p>{'withClose пропса'}</p>
-      <Alert variant={'success'} width={'fit-content'} withClose={true}>{'Говно залупа пенис хер'}</Alert>
+      <Alert variant={'success'} width={'fit-content'} withClose={true}>{'Тест тест тест'}</Alert>
       <p>{'debounceTime (в милисекундах) пропса 3000'}</p>
-      <Alert variant={'success'} width={'fit-content'} debounceTime={3000}>{'Говно залупа пенис хер'}</Alert>
+      <Alert variant={'success'} width={'fit-content'} debounceTime={3000}>{'Тест тест тест'}</Alert>
     </div>
 
     <div>

@@ -22,3 +22,9 @@ const DirectoryField = (props: any) => {
 };
 
 export default DirectoryField;
+
+/*
+  Типовые пропсы:
+
+  onChange = (val) => void;
+*/
