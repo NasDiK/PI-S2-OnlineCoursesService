@@ -9,13 +9,14 @@ interface IOption {
 interface SelectProps {
   variant?: 'outline' | 'normal',
   size?: 'small' | 'medium',
-  options?: ArrayLike<IOption>
+  options?: ArrayLike<IOption>,
+  onChange: (val) => VoidFunction;
 }
 
 const getSelectByType = (variant: string, props: SelectProps) => {
   //TODO доработать options
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {options, size} = props;
+  const {options, size, onChange} = props;
 
   switch (variant) {
     case 'outline':
@@ -23,6 +24,7 @@ const getSelectByType = (variant: string, props: SelectProps) => {
         <Select
           variant={'outlined'}
           size={size}
+          onChange={(ev) => onChange(ev.target.value)}
         >
           <MenuItem value={10}>{'Ten11'}</MenuItem>
           <MenuItem value={20}>{'Twenty22'}</MenuItem>

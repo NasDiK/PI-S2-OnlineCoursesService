@@ -18,6 +18,11 @@ const AuthPageView = () => {
   const logged = useSelector((state: iState) => state.toolkit.logged);
   const dispatch = useDispatch();
 
+  const onChangeLogin = (val) => {
+    // eslint-disable-next-line no-console
+    console.log(val);
+  };
+
   useEffect(() => {
     if (logged) {
       navigate('/');
@@ -43,6 +48,7 @@ const AuthPageView = () => {
                 placeholder={'Плейсхолдер...'}
                 size={'small'}
                 fullWidth={true}
+                onChange={onChangeLogin}
               />
             </div>
           </div>
