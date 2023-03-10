@@ -8,14 +8,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {logIn as loginFunc} from '../../stores/core/UserStoreReducer';
 
 interface iState {
-  toolkit: {
+  userStore: {
     logged: boolean
   }
 }
 
 const AuthPageView = () => {
   const navigate = useNavigate();
-  const logged = useSelector((state: iState) => state.toolkit.logged);
+  const logged = useSelector((state: iState) => state.userStore.logged);
   const dispatch = useDispatch();
 
   const onChangeLogin = (val) => {
