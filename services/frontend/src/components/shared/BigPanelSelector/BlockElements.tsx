@@ -1,17 +1,18 @@
 import React from 'react';
-import ColumnElement, {iColumn} from './Components/ColumnElement';
+import ColumnElement, {iElement} from './Components/ColumnElement';
+import s from './BigPanelSelector.module.scss';
 
 interface iProps {
-  columns: Array <iColumn>
+  elements: Array <iElement>
 }
 
-const BlockElements = ({columns}: iProps) => (
-  <React.Fragment>
+const BlockElements = ({elements}: iProps) => (
+  <div className={s.blockElements}>
     {
-      columns.map((element, index) =>
+      elements.map((element, index) =>
         <ColumnElement key={index} element={element} />)
     }
-  </React.Fragment>
+  </div>
 );
 
 export default BlockElements;

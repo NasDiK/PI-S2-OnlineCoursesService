@@ -1,10 +1,13 @@
 import React from 'react';
 import s from './BigPanelSelector.module.scss';
 
-const RightColumnView = () => (
+interface iProps {
+  component?: React.ReactNode
+}
+
+const RightColumnView = (props: iProps) => (
   <div className={s.rightColumn}>
-    {'RightColumn'}
-    {'RightColumn'}
+    {props.component}
   </div>
 );
 
