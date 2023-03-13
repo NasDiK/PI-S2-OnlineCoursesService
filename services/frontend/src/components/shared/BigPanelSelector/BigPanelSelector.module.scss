@@ -1,0 +1,15 @@
+.wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  
+  .leftColumn {
+    width: 365px;
+    display: flex;
+
+    flex-direction: column;
+  }
+
+  .rightColumn {
+    width: 100%;
+  }
+}
