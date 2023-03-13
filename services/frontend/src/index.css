@@ -9,6 +9,17 @@ body {
   padding: 0;
 }
 
+*::-webkit-scrollbar {
+  width: 8px;
+  border: 1px solid black;
+}
+
+*::-webkit-scrollbar-thumb {
+  height: 20px;
+  background-color: #CECECE;
+  border: 1px solid black;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
