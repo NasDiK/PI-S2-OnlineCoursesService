@@ -2,10 +2,15 @@ import React from 'react';
 import LeftColumnView from './LeftColumn/LeftColumnView';
 import RightColumnView from './RightColumnView';
 import s from './BigPanelSelector.module.scss';
+import {iElement} from './Components/ColumnElement';
 
-const BigPanelSelector = () => (
+interface iProps {
+  elements: iElement[]
+}
+
+const BigPanelSelector = (props: iProps) => (
   <div className={s.wrapper}>
-    <LeftColumnView />
+    <LeftColumnView elements={props.elements} />
     <RightColumnView />
   </div>
 );
