@@ -3,12 +3,17 @@ import s from '../BigPanelSelector.module.scss';
 import Typography from '../../../shared/Basic/Typography/Typography';
 import DoneIcon from '@mui/icons-material/Done';
 
+export interface iRenderable {
+  id: number
+  type: number //from enums/shared/targetField
+}
 export interface iElement {
   id: number,
+  type?: number //from enums/shared/targetFields TODO REQUIRED
   name?: string,
   isDone?: boolean,
   subGroup?: iElement[],
-  render?: React.ReactNode //required to last-child
+  render?: React.ReactNode | iRenderable //required to last-child
 }
 
 interface iProps {
