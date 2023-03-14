@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.10.6",
     "@local/documentation": "file:../documentation",
     "@local/enums": "file:../enums",
+    "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.9",
     "@mui/styles": "^5.11.9",
     "@reduxjs/toolkit": "^1.9.3",

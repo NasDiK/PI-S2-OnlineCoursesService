@@ -3,6 +3,7 @@ import Header from './Header.tsx';
 import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router';
 import PropTypes from 'prop-types';
+import s from './MainPage.module.scss';
 
 const WithHeader = (props) => {
   const {component} = props;
@@ -16,10 +17,10 @@ const WithHeader = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <div className={s.wrapper}>
       <Header />
       {component}
-    </React.Fragment>
+    </div>
   );
 };
 
