@@ -7,7 +7,7 @@ import roundThin from './ButtonTypes/RoundThinButton';
 import iconButton from './ButtonTypes/IconButton';
 
 export type ButtonProps = {
-  variant?: 'thin' | 'primary' | 'roundThin' | 'iconButton',
+  variant?: 'thin' | 'primary' | 'roundThin' | 'icon',
   size?: 'small' | 'normal',
   children?: React.ReactNode,
   padding?: string,
@@ -25,7 +25,7 @@ const Button = (props: ButtonProps) => {
       return primary(otherProps);
     case 'roundThin':
       return roundThin(otherProps);
-    case 'iconButton':
+    case 'icon':
       return iconButton(otherProps);
     default:
       return primary(otherProps);

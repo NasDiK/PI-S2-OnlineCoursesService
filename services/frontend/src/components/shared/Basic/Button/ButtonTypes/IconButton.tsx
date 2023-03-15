@@ -1,7 +1,14 @@
 import React from 'react';
 import {ButtonProps} from '../Button';
+import s from '../Button.module.scss';
+import cn from 'classnames';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const IconButton = (props: ButtonProps) => <button>{props.children}</button>;
+const IconButton = (props: ButtonProps) => (
+  <button className={
+    cn(s.iconButton)
+  }
+  >{props.children}
+  </button>
+);
 
 export default IconButton;

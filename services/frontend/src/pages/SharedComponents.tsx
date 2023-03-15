@@ -2,6 +2,7 @@
 import React from 'react';
 import {DirectoryField, Typography, Button, Alert} from '../components/shared';
 import {AlertTitle, CircularProgress, LinearProgress} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import s from './styles.module.scss';
 import enums from '@local/enums';
 
@@ -64,6 +65,14 @@ const SharedPage = () => (
         <Button variant={'roundThin'} size={'small'}>{'test'}</Button>
         <Button variant={'roundThin'} size={'normal'}>{'test2'}</Button>
         <Button variant={'roundThin'} size={'normal'}>
+          <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
+        </Button>
+      </div>
+      <div>
+        <h3>{'icon'}</h3>
+        <Button variant={'icon'}><ArrowBackIcon sx={{width: 16, height: 16}} /></Button>
+        <Button variant={'icon'}><ArrowBackIcon sx={{width: 24, height: 24}} /></Button>
+        <Button variant={'icon'} size={'normal'}>
           <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
         </Button>
       </div>

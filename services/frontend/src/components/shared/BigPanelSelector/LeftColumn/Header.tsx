@@ -12,12 +12,11 @@ interface iProps {
 const Header = (props: iProps) => (
   <div className={s.header}>
     <div className={s.title}>
-      <Button variant={'roundThin'}>
+      <Button variant={'icon'}>
         <ArrowBackIcon
-          sx={{width: '16px', height: '16px', marginRight: '8px', cursor: 'pointer'}}
+          sx={{width: '16px', height: '16px', cursor: 'pointer'}}
         />
       </Button>
-
       <TypographyShared variant={'body20'} weight={'bold'}>{props.title}</TypographyShared>
     </div>
     {

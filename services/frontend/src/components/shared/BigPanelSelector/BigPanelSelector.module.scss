@@ -17,6 +17,10 @@
 
       .title {
         margin-top: 24px;
+
+        & >:not(:last-child) {
+          margin-right: 8px;
+        }
       }
 
       .progress {
