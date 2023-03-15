@@ -55,7 +55,8 @@ class authController {
   async login(reg, res) {
     try {
       const {username, password} = reg.body;
-      const [user] = await knex('users').where('nickname', username);
+      const [user] = await knex('users').where('nickname', username)
+        .select('id', 'password');
 
       if (!user) {
         return res.status(400).json({message: `Пользователь ${username} не найден`});
@@ -65,10 +66,11 @@ class authController {
       if (!validPassword) {
         return res.status(400).json({message: `Введен неверный пароль`});
       }
-      const [userRole] = await knex('users_roles').where('user_id', user.id);
-      const token = generateAccessToken(user.id, userRole.role_id);
+      const userRolesIds = await knex('users_roles').where('user_id', user.id)
+        .pluck('id');
+      const token = generateAccessToken(user, [userRolesIds]);
 
-      return res.json({token});
+      return res.json({token, userRolesIds, userId: user.id});
     } catch(exception) {
       res.status(400).json({message: 'Login error'});
 

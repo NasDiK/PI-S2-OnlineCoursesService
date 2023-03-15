@@ -21,14 +21,10 @@ const AuthPageView = () => {
   let password;
 
   const onChangeLogin = (val) => {
-    // eslint-disable-next-line no-console
-    console.log(val);
     login = val;
   };
 
   const onChangePass = (val) => {
-    // eslint-disable-next-line no-console
-    console.log(val);
     password = val;
   };
 
@@ -52,8 +48,7 @@ const AuthPageView = () => {
     });
     const result = await res.json();
 
-    // eslint-disable-next-line no-console
-    console.log(result.message());
+    dispatch(loginFunc({result}));
   };
 
   return (
@@ -93,8 +88,13 @@ const AuthPageView = () => {
             </div>
           </div>
           <div className={s.button}>
-            {/*<Button variant={'primary'} onClick={()=>dispatch(loginFunc())}>{'Войти'}</Button>*/}
-            <Button variant={'primary'} onClick={() => fetchUser()}>{'Войти'}</Button>
+            <Button
+              variant={'primary'}
+              onClick={
+                () => fetchUser()
+              }
+            >{'Войти'}
+            </Button>
           </div>
         </div>
       </div>
