@@ -25,7 +25,8 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "paths": {
-      "*": ["node_modules/*"]
+      "*": ["node_modules/*"],
+      "@local/enums/*": ["node_modules/@local/enums/*"]
     },
     "declaration": true,
     "declarationDir": "./types"

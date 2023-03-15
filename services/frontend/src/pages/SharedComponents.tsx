@@ -72,6 +72,8 @@ const SharedPage = () => (
         <h3>{'icon'}</h3>
         <Button variant={'icon'}><ArrowBackIcon sx={{width: 16, height: 16}} /></Button>
         <Button variant={'icon'}><ArrowBackIcon sx={{width: 24, height: 24}} /></Button>
+        <p>{'Размеры прокидываем sx пропсой в иконки @mui'}</p>
+        <p>{'Анти-пример - как делать не надо'}</p>
         <Button variant={'icon'} size={'normal'}>
           <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
         </Button>

@@ -9,7 +9,7 @@ export interface iRenderable {
 }
 export interface iElement {
   id: number,
-  type?: number //from enums/shared/targetFields TODO REQUIRED
+  type: number //from enums/shared/targetFields TODO REQUIRED
   name?: string,
   isDone?: boolean,
   subGroup?: iElement[],

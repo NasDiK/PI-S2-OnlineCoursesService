@@ -4,5 +4,6 @@ export const fieldType = {
 };
 
 export const targetFields = {
-  TASK: 1 //Задача
+  TASK: 1, //Задача,
+  COURSE: 2 //Курс
 }
