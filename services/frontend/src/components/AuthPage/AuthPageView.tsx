@@ -46,9 +46,9 @@ const AuthPageView = () => {
       },
       body: JSON.stringify(user)
     });
-    const result = await res.json();
+    const payload = await res.json();
 
-    dispatch(loginFunc({result}));
+    dispatch(loginFunc({payload}));
   };
 
   return (
