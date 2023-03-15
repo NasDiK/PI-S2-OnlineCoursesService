@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const conf = require('../knexfile');
-const knex = require('knex')(conf['development']);
+const knex = require('knex')(conf.development);
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const {secret} = require('../config');
@@ -68,10 +68,8 @@ class authController {
       const [userRole] = await knex('users_roles').where('user_id', user.id);
       const token = generateAccessToken(user.id, userRole.role_id);
 
-
       return res.json({token});
     } catch(exception) {
-      //console.log(exception);
       res.status(400).json({message: 'Login error'});
 
       return res;
