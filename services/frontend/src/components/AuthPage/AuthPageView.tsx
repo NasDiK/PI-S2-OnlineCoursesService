@@ -17,10 +17,19 @@ const AuthPageView = () => {
   const navigate = useNavigate();
   const logged = useSelector((state: iState) => state.userStore.logged);
   const dispatch = useDispatch();
+  let login;
+  let password;
 
   const onChangeLogin = (val) => {
     // eslint-disable-next-line no-console
     console.log(val);
+    login = val;
+  };
+
+  const onChangePass = (val) => {
+    // eslint-disable-next-line no-console
+    console.log(val);
+    password = val;
   };
 
   useEffect(() => {
@@ -28,6 +37,24 @@ const AuthPageView = () => {
       navigate('/');
     }
   }, [logged]);
+
+  const fetchUser = async() => {
+    const user = {
+      username: login,
+      password
+    };
+    const res = await fetch('http://localhost:3001/auth/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      },
+      body: JSON.stringify(user)
+    });
+    const result = await res.json();
+
+    // eslint-disable-next-line no-console
+    console.log(result.message());
+  };
 
   return (
     <div className={s.authPage}>
@@ -45,7 +72,7 @@ const AuthPageView = () => {
               <DirectoryField
                 fullwidth={true}
                 type={2}
-                placeholder={'Плейсхолдер...'}
+                placeholder={'Логин...'}
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangeLogin}
@@ -61,11 +88,13 @@ const AuthPageView = () => {
                 placeholder={'Плейсхолдер...'}
                 size={'small'}
                 fullWidth={true}
+                onChange={onChangePass}
               />
             </div>
           </div>
           <div className={s.button}>
-            <Button variant={'primary'} onClick={() => dispatch(loginFunc())}>{'Войти'}</Button>
+            {/*<Button variant={'primary'} onClick={()=>dispatch(loginFunc())}>{'Войти'}</Button>*/}
+            <Button variant={'primary'} onClick={() => fetchUser()}>{'Войти'}</Button>
           </div>
         </div>
       </div>
