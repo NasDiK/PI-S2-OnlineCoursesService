@@ -1,8 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useMatches} from 'react-router';
 
+interface iValueField {
+  type: number; //from enum/task/fieldType,
+  options: Array<{id: string; title: string;}>
+}
+
 export interface iTask {
-  id: number
+  id: number;
+  title?: string;
+  description?: string;
+  'value'?: Array<iValueField>;
+  type?: number; //from enum/task
+  max_note?: number;
+  weight?: number; //todo вынести в панель, отсюда убрать
 }
 
 const Task = () => {
@@ -11,9 +22,6 @@ const Task = () => {
 
   useEffect(() => {
     const taskId = Number(match.params.taskId);
-
-    // eslint-disable-next-line no-console
-    console.log(taskId);
 
     setTask({id: taskId});
   }, [match.pathname]);
