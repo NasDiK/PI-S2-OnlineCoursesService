@@ -11,9 +11,9 @@ export const logOut = createAction('LOG_OUT');
 
 export default createReducer(initialState, {
   [logIn]: (state, action) => {
-    state.logged = true;
-    // eslint-disable-next-line no-console
-    console.log(action);
+    if (action.payload.userId) {
+      state.logged = true;
+    }
   },
   [logOut]: (state, action) => {
     state.logged = false;

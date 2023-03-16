@@ -39,6 +39,7 @@ const AuthPageView = () => {
       username: login,
       password
     };
+    let payload;
     const res = await fetch('http://localhost:3001/auth/auth', {
       method: 'POST',
       headers: {
@@ -46,7 +47,20 @@ const AuthPageView = () => {
       },
       body: JSON.stringify(user)
     });
-    const payload = await res.json();
+
+    payload = await res.json();
+
+    if (!payload.userId) {
+      const resReg = await fetch('http://localhost:3001/auth/registration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+      });
+
+      payload = await resReg.json();
+    }
 
     dispatch(loginFunc({payload}));
   };

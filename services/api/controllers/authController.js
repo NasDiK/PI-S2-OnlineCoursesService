@@ -17,37 +17,40 @@ const generateAccessToken = (id, roleid) => {
 class authController {
   async registration(reg, res) {
     try {
-      const errors = validationResult(req);
+      const errors = validationResult(reg);
 
       if (!errors.isEmpty()) {
         return res.status(400).json({message: 'Ошибка при регистрации'});
       }
       const {username, password} = reg.body;
-      const [candidate] = await knex('users').where('nickname', username);
+
+      const [candidate] = await knex('users').where('nickname', username)
+        .select('id', 'password');
 
       if (candidate) {
         return res.status(400).json({message: 'Такой пользователь существует'});
       }
       const hashPassword = bcrypt.hashSync(password, 7);
 
-      await knex('users').insert(
-        {nickname: username},
-        {password: hashPassword},
-        ['id']
-      );
+      await knex('users').insert({
+        nickname: username,
+        password: hashPassword
+      });
 
-      const userId = await knex('users').where('nickname', username).id;
+      const userId = await knex('users').where('nickname', username)
+        .pluck('id');
 
-      await knex('users_roles').insert(
+      await knex('users_roles').insert({
         // eslint-disable-next-line camelcase
-        {user_id: userId},
+        user_id: Number(userId),
         // eslint-disable-next-line camelcase
-        {role_id: 3},
-        ['id']
-      );
+        role_id: 3 //enum
+      });
 
       return res.json({message: 'Пользователь зарегестрирован'});
     } catch(exception) {
+      // eslint-disable-next-line no-console
+      console.log(exception);
       res.status(400).json({message: 'Registration error'});
     }
   }
