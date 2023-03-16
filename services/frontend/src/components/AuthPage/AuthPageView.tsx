@@ -34,12 +34,7 @@ const AuthPageView = () => {
     }
   }, [logged]);
 
-  const fetchUser = async() => {
-    const user = {
-      username: login,
-      password
-    };
-    let payload;
+  const authorization = async(user) => {
     const res = await fetch('http://localhost:3001/auth/auth', {
       method: 'POST',
       headers: {
@@ -47,20 +42,34 @@ const AuthPageView = () => {
       },
       body: JSON.stringify(user)
     });
+    const payload = await res;
 
-    payload = await res.json();
+    return payload.json();
+  };
 
-    if (!payload.userId) {
-      const resReg = await fetch('http://localhost:3001/auth/registration', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(user)
-      });
+  const fetchUser = () => {
+    const user = {
+      username: login,
+      password
+    };
+    let payload;
 
-      payload = await resReg.json();
-    }
+    payload = authorization(user);
+
+    const myPromise = Promise.resolve(payload);
+
+    myPromise.then(async(promise) => {
+      if (!promise.userId) {
+        await fetch('http://localhost:3001/auth/registration', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: JSON.stringify(user)
+        });
+        payload = authorization(user);
+      }
+    });
 
     dispatch(loginFunc({payload}));
   };

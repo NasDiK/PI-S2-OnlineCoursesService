@@ -75,6 +75,8 @@ class authController {
 
       return res.json({token, userRolesIds, userId: user.id});
     } catch(exception) {
+      // eslint-disable-next-line no-console
+      console.log(exception);
       res.status(400).json({message: 'Login error'});
 
       return res;

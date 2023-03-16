@@ -13,6 +13,8 @@ export default createReducer(initialState, {
   [logIn]: (state, action) => {
     if (action.payload.userId) {
       state.logged = true;
+      // eslint-disable-next-line no-console
+      console.log(action.payload.userId);
     }
   },
   [logOut]: (state, action) => {
