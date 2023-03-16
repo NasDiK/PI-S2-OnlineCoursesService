@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import s from '../BigPanelSelector.module.scss';
 import Typography from '../../../shared/Basic/Typography/Typography';
 import DoneIcon from '@mui/icons-material/Done';
+import cn from 'classnames';
+import {useMatches} from 'react-router';
 
 export interface iRenderable {
   id: number
@@ -13,17 +16,35 @@ export interface iElement {
   name?: string,
   isDone?: boolean,
   subGroup?: iElement[],
-  render?: React.ReactNode | iRenderable //required to last-child
+  progress?: number
 }
 
 interface iProps {
-  element: iElement
+  element: iElement,
+  onClickElement: () => void
 }
-const ColumnElement = (props: iProps) => (
-  <div className={s.element}>
-    {props.element.isDone && <DoneIcon sx={{width: '17px', height: '17px', marginRight: '8px'}} />}
-    <Typography variant={'body14'} weight={'regular'}>{props.element.name}</Typography>
-  </div>
-);
+
+const ColumnElement = (props: iProps) => {
+  const {element, onClickElement} = props;
+  const [match] = useMatches();
+  const {courseId, taskId}: any = match.params;
+
+  return (
+    <div
+      className={
+        cn(s.element, {
+          [s.active]: !element.subGroup?.length && Number(taskId) === element.id
+        })
+      }
+      onClick={onClickElement}
+    >
+      {
+        props.element.isDone &&
+        <DoneIcon sx={{width: '17px', height: '17px', marginRight: '8px'}} />
+      }
+      <Typography variant={'body14'} weight={'regular'}>{props.element.name}</Typography>
+    </div>
+  );
+};
 
 export default ColumnElement;

@@ -4,9 +4,11 @@ import s from '../Button.module.scss';
 import cn from 'classnames';
 
 const IconButton = (props: ButtonProps) => (
-  <button className={
-    cn(s.iconButton)
-  }
+  <button
+    className={
+      cn(s.iconButton)
+    }
+    onClick={props.onClick}
   >{props.children}
   </button>
 );

@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     element: <WrapComponent component={<WithHeader component={<ReviewPage />} />} />
   },
   {
-    path: '/course/:course_id?/:task_id?',
+    path: '/course/:courseId?/:taskId?',
     element: <WrapComponent component={<WithHeader component={<CoursePage />} />} />
   },
   {

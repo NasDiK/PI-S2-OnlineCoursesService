@@ -6,17 +6,23 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 interface iProps {
   title?: string,
   withLinear?: boolean,
-  'value'?: number
+  'value'?: number,
+  parentId?: number,
+  gotoFunc?: () => void
 }
 
 const Header = (props: iProps) => (
   <div className={s.header}>
     <div className={s.title}>
-      <Button variant={'icon'}>
-        <ArrowBackIcon
-          sx={{width: '16px', height: '16px', cursor: 'pointer'}}
-        />
-      </Button>
+      {
+        props.parentId && (
+          <Button variant={'icon'} onClick={props.gotoFunc}>
+            <ArrowBackIcon
+              sx={{width: '16px', height: '16px', cursor: 'pointer'}}
+            />
+          </Button>
+        )
+      }
       <TypographyShared variant={'body20'} weight={'bold'}>{props.title}</TypographyShared>
     </div>
     {
