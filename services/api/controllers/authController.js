@@ -3,15 +3,23 @@ const conf = require('../knexfile');
 const knex = require('knex')(conf.development);
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
-const {secret} = require('../config');
+const secret = require('../config');
+const cookie = require('cookie');
 
-const generateAccessToken = (id, roleid) => {
+const generateTokens = (id, roleid) => {
   payload = {
     id,
     roleid
   };
+  tokens = {
+    accessToken: null,
+    refreshToken: null
+  };
 
-  return jwt.sign(payload, secret);
+  tokens.accessToken = jwt.sign(payload, secret.accessToken);
+  tokens.refreshToken = jwt.sign(payload, secret.refreshToken, {expiresIn: '30d'});
+
+  return tokens;
 };
 
 class authController {
@@ -70,10 +78,18 @@ class authController {
         return res.status(400).json({message: `Введен неверный пароль`});
       }
       const userRolesIds = await knex('users_roles').where('user_id', user.id)
-        .pluck('id');
-      const token = generateAccessToken(user, [userRolesIds]);
+        .pluck('role_id');
+      const tokens = generateTokens(user, [userRolesIds]);
 
-      return res.json({token, userRolesIds, userId: user.id});
+      res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('refreshToken', tokens.refreshToken, {
+          httpOnly: true,
+          maxAge: 1000 * 60 * 60 * 30
+        })
+      );
+
+      return res.json({tokens, userRolesIds, userId: user.id});
     } catch(exception) {
       // eslint-disable-next-line no-console
       console.log(exception);

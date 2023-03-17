@@ -5,18 +5,13 @@ import DirectoryField from '../shared/Basic/DirectoryField/DirectoryField';
 import Button from '../shared/Basic/Button/Button';
 import {useNavigate} from 'react-router';
 import {useDispatch, useSelector} from 'react-redux';
-import {logIn as loginFunc} from '../../stores/core/UserStoreReducer';
-
-interface iState {
-  userStore: {
-    logged: boolean
-  }
-}
+import {logIn as loginFunc, AuthState} from '../../stores/core/UserStoreReducer';
 
 const AuthPageView = () => {
   const navigate = useNavigate();
-  const logged = useSelector((state: iState) => state.userStore.logged);
   const dispatch = useDispatch();
+  const token = useSelector((state: AuthState) => state.userData.accessToken);
+  const logged = useSelector((state: AuthState) => state.userData.logged);
   let login;
   let password;
 
@@ -29,10 +24,10 @@ const AuthPageView = () => {
   };
 
   useEffect(() => {
-    if (logged) {
+    if (token) {
       navigate('/');
     }
-  }, [logged]);
+  }, [token]);
 
   const authorization = async(user) => {
     const res = await fetch('http://localhost:3001/auth/auth', {
@@ -47,31 +42,31 @@ const AuthPageView = () => {
     return payload.json();
   };
 
-  const fetchUser = () => {
+  const fetchUser = async() => {
     const user = {
       username: login,
       password
     };
     let payload;
 
-    payload = authorization(user);
+    payload = await authorization(user);
 
-    const myPromise = Promise.resolve(payload);
-
-    myPromise.then(async(promise) => {
-      if (!promise.userId) {
-        await fetch('http://localhost:3001/auth/registration', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json;charset=utf-8'
-          },
-          body: JSON.stringify(user)
-        });
-        payload = authorization(user);
-      }
-    });
+    if (!payload.userId) {
+      await fetch('http://localhost:3001/auth/registration', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(user)
+      });
+      payload = await authorization(user);
+    }
 
     dispatch(loginFunc({payload}));
+    // eslint-disable-next-line no-console
+    console.log(`token: ${token}`);
+    // eslint-disable-next-line no-console
+    console.log(`logged: ${logged}`);
   };
 
   return (
