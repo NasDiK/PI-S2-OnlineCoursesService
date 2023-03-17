@@ -34,5 +34,6 @@ export default createReducer(initialState, {
     state.userData.logged = false;
     // eslint-disable-next-line no-console
     console.log(action);
-  }
+  },
+  default: (state: AuthState) => state
 });

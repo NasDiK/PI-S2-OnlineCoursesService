@@ -10,8 +10,8 @@ import {logIn as loginFunc, AuthState} from '../../stores/core/UserStoreReducer'
 const AuthPageView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = useSelector((state: AuthState) => state.userData.accessToken);
-  const logged = useSelector((state: AuthState) => state.userData.logged);
+  const token = useSelector((state: AuthState) => state.userData);
+  const logged = useSelector((state: AuthState) => state.userData);
   let login;
   let password;
 
