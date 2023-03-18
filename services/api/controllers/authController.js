@@ -16,8 +16,8 @@ const generateTokens = (id, roleid) => {
     refreshToken: null
   };
 
-  tokens.accessToken = jwt.sign(payload, secret.accessToken);
-  tokens.refreshToken = jwt.sign(payload, secret.refreshToken, {expiresIn: '30d'});
+  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: '10s'});
+  tokens.refreshToken = jwt.sign(payload, secret.refreshTokenKey, {expiresIn: '30d'});
 
   return tokens;
 };
@@ -88,8 +88,9 @@ class authController {
           maxAge: 1000 * 60 * 60 * 30
         })
       );
+      const {accessToken} = tokens;
 
-      return res.json({tokens, userRolesIds, userId: user.id});
+      return res.json({accessToken, userRolesIds, userId: user.id});
     } catch(exception) {
       // eslint-disable-next-line no-console
       console.log(exception);
@@ -107,6 +108,29 @@ class authController {
     } catch(exception) {
 
       res.status(400).json({message: 'getUsers error'});
+    }
+  }
+
+  logout(reg, res) {
+    try {
+      res.setHeader(
+        'Set-Cookie',
+        cookie.serialize('refreshToken', '', {
+          httpOnly: true,
+          maxAge: 0
+        })
+      );
+      res.sendStatus(200);
+    } catch(exception) {
+      res.status(400).json({message: 'logout error'});
+    }
+  }
+
+  check(reg, res) {
+    try {
+      res.send('admin');
+    } catch(exception) {
+      res.status(401);
     }
   }
 }

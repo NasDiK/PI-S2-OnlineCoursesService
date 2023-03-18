@@ -10,7 +10,16 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const executeLogOut = () => {
+  const executeLogOut = async() => {
+    const logout = await fetch('http://localhost:3001/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    });
+    const res = await logout;
+
     dispatch(logoutFunc());
     navigate('/auth');
   };

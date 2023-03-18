@@ -6,14 +6,18 @@ import Button from '../shared/Basic/Button/Button';
 import {useNavigate} from 'react-router';
 import {useDispatch, useSelector} from 'react-redux';
 import {logIn as loginFunc, AuthState} from '../../stores/core/UserStoreReducer';
+import {iState} from '../MainPage/WithHeader';
 
 const AuthPageView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = useSelector((state: AuthState) => state.userData);
-  const logged = useSelector((state: AuthState) => state.userData);
+  const token = useSelector((state: iState) => state.userStore.userData.accessToken);
   let login;
   let password;
+
+  /*  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch()]);*/
 
   const onChangeLogin = (val) => {
     login = val;
@@ -23,15 +27,10 @@ const AuthPageView = () => {
     password = val;
   };
 
-  useEffect(() => {
-    if (token) {
-      navigate('/');
-    }
-  }, [token]);
-
   const authorization = async(user) => {
     const res = await fetch('http://localhost:3001/auth/auth', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
@@ -61,12 +60,18 @@ const AuthPageView = () => {
       });
       payload = await authorization(user);
     }
-
     dispatch(loginFunc({payload}));
-    // eslint-disable-next-line no-console
-    console.log(`token: ${token}`);
-    // eslint-disable-next-line no-console
-    console.log(`logged: ${logged}`);
+
+    await fetch('http://localhost:3001/auth/check', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+      }
+    });
+
+    if (payload.userId) {
+      navigate('/');
+    }
   };
 
   return (

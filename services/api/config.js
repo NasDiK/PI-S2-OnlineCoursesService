@@ -1,4 +1,4 @@
 module.exports = {
-  accessToken: 'ACCESS_KEY ',
-  refreshToken: 'REFRESH_KEY '
+  accessTokenKey: 'ACCESS_KEY ',
+  refreshTokenKey: 'REFRESH_KEY '
 };

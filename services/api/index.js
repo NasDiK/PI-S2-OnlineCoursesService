@@ -6,8 +6,12 @@ const _PORT = 3001;
 const app = express();
 
 //TODO:Pipeline -  проверка токена авторизации
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth', authRouter);
 
