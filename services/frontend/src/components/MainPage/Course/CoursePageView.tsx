@@ -32,6 +32,21 @@ const elementMock: iElement = {
       id: 3,
       name: 'kek2',
       type: enums.shared.targetFields.ELEMENT
+    },
+    {
+      id: 6,
+      name: 'kek3',
+      type: enums.shared.targetFields.ELEMENT
+    },
+    {
+      id: 7,
+      name: 'kek4',
+      type: enums.shared.targetFields.ELEMENT
+    },
+    {
+      id: 8,
+      name: 'kek5',
+      type: enums.shared.targetFields.ELEMENT
     }
   ]
 };

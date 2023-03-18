@@ -43,7 +43,6 @@ const AuthPageView = () => {
             <Typography variant={'body14'} weight={'medium'}>{'Логин'}</Typography>
             <div className={s.field}>
               <DirectoryField
-                fullwidth={true}
                 type={2}
                 placeholder={'Плейсхолдер...'}
                 size={'small'}
@@ -56,7 +55,6 @@ const AuthPageView = () => {
             <Typography variant={'body14'} weight={'medium'}>{'Пароль'}</Typography>
             <div className={s.field}>
               <DirectoryField
-                fullwidth={true}
                 type={2}
                 placeholder={'Плейсхолдер...'}
                 size={'small'}

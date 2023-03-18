@@ -13,7 +13,7 @@ export interface iTask {
   title?: string;
   description?: string;
   'value'?: Array<iValueField>;
-  type?: number; //from enum/task/fieldType //а надо ли, если у нас value есть
+  type?: number; //from enum/task/fieldType
   max_note?: number;
   weight?: number; //todo вынести в панель, отсюда убрать
 }

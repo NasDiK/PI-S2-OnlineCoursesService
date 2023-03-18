@@ -6,8 +6,8 @@ import cn from 'classnames';
 interface TextFieldProps {
   placeholder?: string,
   'value'?: string | number,
-  variant?: 'normal' | null,
-  size?: 'small' | 'medium' | null
+  variant?: 'normal',
+  size?: 'small' | 'medium'
   fullWidth?: boolean,
   onChange: (val) => VoidFunction;
 }

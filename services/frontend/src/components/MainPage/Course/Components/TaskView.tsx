@@ -4,34 +4,45 @@ import {iTask, iValueField} from './Task';
 import {useSelector, useDispatch, useStore} from 'react-redux';
 import s from './Task.module.scss';
 import cn from 'classnames';
-import {Typography} from '../../../shared';
-import {fieldType} from '@local/enums/tasks';
+import {Typography, DirectoryField, Button} from '../../../shared';
+import {fieldType as taskType} from '@local/enums/tasks';
+import {fieldType as directoryFieldEnum} from '@local/enums/shared';
 
-const isTeacher = false; //Вынести в стору
+const isTeacher = true; //Вынести в стору
 const mockTask: iTask = {
   id: 1,
   title: 'Веселюся',
   description: 'Мы писали, мы писали, наши пальчики устали',
-  'value': [
-    {
-      type: 2 //SINGLE_ANSWER
-    }
-  ],
+  'value': undefined,
+  type: taskType.SINGLE_ANSWER,
   'max_note': 8
 };
 
-const renderTasks = (val: Array<iValueField>) => val.map((option: iValueField, index) => {
-  const t = 1;
-
-  switch (option.type) {
-    case fieldType.SINGLE_ANSWER:
-      return <input type={'text'} />;
+const renderTasks = (
+  type: number | undefined,
+  val: Array<iValueField> | undefined,
+  setVal: (_val: string) => void | undefined
+) => {
+  switch (type) {
+    case taskType.SINGLE_ANSWER:
+      return (
+        <DirectoryField
+          type={directoryFieldEnum.TEXT}
+          onChange={(_val) => setVal(_val)}
+          fullWidth={true}
+        />
+      );
   }
 
-  return <div key={index}>{'test'}</div>;
-});
+  return null;
+};
 
-const renderSubmitButton = () => <button>{'test'}</button>;
+const renderSubmitButton = () => (
+  <React.Fragment>
+    {true && <Button>{'Список решений студентов'}</Button>}
+    {true && <Button>{'Отправить'}</Button>} {/* Положить условие в кнопки */}
+  </React.Fragment>
+);
 
 const TaskView = () => {
   const [task, setTask] = useState<iTask>();
@@ -54,20 +65,36 @@ const TaskView = () => {
   return (
     <div className={s.taskWrapper}>
       <div className={s.title}>
-        {task?.title}
+        <Typography weight={'bold'} variant={'body24'}>{task?.title}</Typography>
       </div>
-      <div className={s.task}>
+      <div className={cn(s.task, s.island)}>
         {
           task?.max_note && (
             <div className={s.maxNote}>
-              <Typography variant={'body14'}>{`Максимум ${task.max_note} баллов`}</Typography>
+              <Typography variant={'body14'} weight={'bold'}>
+                {`Максимум ${task.max_note} баллов`}
+              </Typography>
             </div>
           )
         }
         <div className={s.description}>{task?.description}</div>
-        {task?.value && [renderTasks(task.value), renderSubmitButton()]}
+        {
+          task?.type && (
+            <React.Fragment>
+              <div className={s.inputFields}>{
+                renderTasks(
+                  task?.type, task?.value, (_t) => {
+                    const t = 1;
+                  }
+                )
+              }
+              </div>
+              <div className={s.confirmButtons}>{renderSubmitButton()}</div>
+            </React.Fragment>
+          )
+        }
       </div>
-      {isTeacher ? <div className={s.studentsContainer}>{'test'}</div> : null}
+      {isTeacher ? <div className={cn(s.studentsContainer, s.island)}>{'test'}</div> : null}
     </div>
   );
 };

@@ -14,7 +14,7 @@ const CoursePage = () => {
 
   return (
     <React.Fragment>
-      {/* {'Тут будет провайдер сторы'} */}
+      {/* {'Тут будет провайдер сторы'}  hueta напиздел*/}
       <CoursePageView courseId={Number(courseId)} />
     </React.Fragment>
   );

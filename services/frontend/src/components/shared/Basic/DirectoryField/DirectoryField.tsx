@@ -2,7 +2,18 @@
 import React from 'react';
 import enums from '@local/enums';
 import TextField from './FieldTypes/TextField';
-import Select from './FieldTypes/Select';
+import Select, {IOption} from './FieldTypes/Select';
+
+interface iPossibleProps {
+  onChange?: (val: string) => void,
+  type: number,
+  'value'?: string | number,
+  placeholder?: string,
+  fullWidth?: boolean,
+  size?: 'small' | 'medium',
+  variant?: 'outline' | 'standart',
+  options?: ArrayLike<IOption>
+}
 
 const getFieldByType = (type: number, props: any) => {
   switch (type) {
@@ -15,7 +26,7 @@ const getFieldByType = (type: number, props: any) => {
   }
 };
 
-const DirectoryField = (props: any) => {
+const DirectoryField = (props: iPossibleProps) => {
   const {type, ...otherProps} = props;
 
   return getFieldByType(type, otherProps);
