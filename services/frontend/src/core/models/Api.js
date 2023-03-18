@@ -7,8 +7,8 @@ class Api {
 
   //TODO Добавить мету пользователя
 
-  service = (name) => {
-    this.serviceName = name;
+  path = (name) => {
+    this.pathName = name;
 
     return this;
   };
@@ -25,36 +25,24 @@ class Api {
     return this;
   };
 
-  executeGet = () => {
-    // eslint-disable-next-line no-console
-    console.log('Выполняю get');
+  executeGet = () => fetch(`http://localhost:${API_PORT}${this.pathName}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      ...this.paramsInfo
+    }
+  });
 
-    return fetch(`localhost:${API_PORT}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'params': this.paramsInfo
-      })
-    });
-  };
-
-  executePost = () => {
-    // eslint-disable-next-line no-console
-    console.log('Выполняю post');
-
-    return fetch(`localhost:${API_PORT}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        'params': this.paramsInfo,
-        'body': this.bodyInfo
-      })
-    });
-  };
+  executePost = () => fetch(`http://localhost:${API_PORT}${this.pathName}`, {
+    method: 'POST',
+    body: JSON.stringify(this.bodyInfo),
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      ...this.paramsInfo
+    }
+  });
 }
 
 export default new Api();
