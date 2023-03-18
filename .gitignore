@@ -4,6 +4,8 @@
 services/frontend/node_modules
 services/api/node_modules
 services/api/.idea
+services/enums/.idea
+services/enums/node_modules
 .pnp
 .pnp.js
 

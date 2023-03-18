@@ -8,5 +8,5 @@ export const targetFields = {
   COURSE: 2, //Курс,
   TASK_GROUP: 3, //Группа задач,
   ELEMENT_GROUP: 4, //Группа элементов
-  ELEMENT: 5
+  ELEMENT: 5 //Элемент
 }
