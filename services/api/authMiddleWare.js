@@ -7,7 +7,7 @@ module.exports = function(req, res, next) {
     '';
 
   // eslint-disable-next-line no-console
-  console.log(req.headers);
+  console.log(req.headers.authorization);
   if (!token) {
     return res.sendStatus(401);
   }

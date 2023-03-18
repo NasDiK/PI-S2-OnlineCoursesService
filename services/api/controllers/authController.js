@@ -16,7 +16,7 @@ const generateTokens = (id, roleid) => {
     refreshToken: null
   };
 
-  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: '10s'});
+  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: '30d'});
   tokens.refreshToken = jwt.sign(payload, secret.refreshTokenKey, {expiresIn: '30d'});
 
   return tokens;
@@ -88,6 +88,7 @@ class authController {
           maxAge: 1000 * 60 * 60 * 30
         })
       );
+
       const {accessToken} = tokens;
 
       return res.json({accessToken, userRolesIds, userId: user.id});
@@ -100,17 +101,6 @@ class authController {
     }
   }
 
-  async getUsers(reg, res) {
-    try {
-      const users = await knex('users').where('id');
-
-      res.json(users);
-    } catch(exception) {
-
-      res.status(400).json({message: 'getUsers error'});
-    }
-  }
-
   logout(reg, res) {
     try {
       res.setHeader(
@@ -120,7 +110,7 @@ class authController {
           maxAge: 0
         })
       );
-      res.sendStatus(200);
+      res.status(200).json({message: 'Пользователь логаут'});
     } catch(exception) {
       res.status(400).json({message: 'logout error'});
     }
@@ -128,9 +118,14 @@ class authController {
 
   check(reg, res) {
     try {
-      res.send('admin');
+      const {token} = reg.body;
+      const userData = jwt.verify(token, secret.accessTokenKey);
+
+      return res.status(200).json({userData});
     } catch(exception) {
-      res.status(401);
+      // eslint-disable-next-line no-console
+      console.log(exception);
+      res.sendStatus(401);
     }
   }
 }

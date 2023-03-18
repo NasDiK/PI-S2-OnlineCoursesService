@@ -32,7 +32,7 @@ class Api {
       'Content-Type': 'application/json;charset=utf-8',
       ...this.paramsInfo
     }
-  });
+  }).then((x) => x.json());
 
   executePost = () => fetch(`http://localhost:${API_PORT}${this.pathName}`, {
     method: 'POST',
@@ -42,7 +42,7 @@ class Api {
       'Content-Type': 'application/json;charset=utf-8',
       ...this.paramsInfo
     }
-  });
+  }).then((x) => x.json());
 }
 
 export default Api;

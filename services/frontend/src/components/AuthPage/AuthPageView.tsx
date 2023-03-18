@@ -4,20 +4,43 @@ import Typography from '../shared/Basic/Typography/Typography';
 import DirectoryField from '../shared/Basic/DirectoryField/DirectoryField';
 import Button from '../shared/Basic/Button/Button';
 import {useNavigate} from 'react-router';
-import {useDispatch, useSelector} from 'react-redux';
-import {logIn as loginFunc, AuthState} from '../../stores/core/UserStoreReducer';
-import {iState} from '../MainPage/WithHeader';
+import {useDispatch} from 'react-redux';
+import {logIn as loginFunc} from '../../stores/core/UserStoreReducer';
 
+export const tryAuth = (dispatch, navigate, token) => {
+  const userData = window.api().path('/auth/check')
+    .body({token})
+    .executePost();
+
+  userData.then((_data) => {
+    if (_data) {
+      const {userData: ud} = _data;
+
+      // eslint-disable-next-line no-console
+      console.log(ud);
+
+      dispatch(loginFunc({payload: {userId: ud.id.id,
+        roleId: ud.roleId,
+        accessToken: token}}));
+    }
+    navigate('/');
+  });
+
+  return userData;
+};
 const AuthPageView = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = useSelector((state: iState) => state.userStore.userData.accessToken);
+  const token = localStorage.getItem('access');
   let login;
   let password;
 
-  /*  useEffect(() => {
-    dispatch(getProfile());
-  }, [dispatch()]);*/
+  useEffect(() => {
+    if (token) {
+      tryAuth(dispatch, navigate, token);
+    }
+
+  }, []);
 
   const onChangeLogin = (val) => {
     login = val;
@@ -27,25 +50,13 @@ const AuthPageView = () => {
     password = val;
   };
 
-  const authorization = (user) => {
-    const resapi = window.api().path('/auth/auth')
-      .body(JSON.stringify(user))
-      .executePost()
-      .then((x) => x.json());
-    /*    const res = await fetch('http://localhost:3001/auth/auth', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      },
-      body: JSON.stringify(user)
-    });
-    const payload = await res;*/
+  const authorization = async(user) => {
+    const res = await window.api().path('/auth/auth')
+      .body(user)
+      .executePost();
 
-    //return payload.json();
-    return resapi;
+    return res;
   };
-
   const fetchUser = async() => {
     const user = {
       username: login,
@@ -56,27 +67,15 @@ const AuthPageView = () => {
     payload = await authorization(user);
 
     if (!payload.userId) {
-      await fetch('http://localhost:3001/auth/registration', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify(user)
-      });
+      const res = await window.api().path('/auth/registration')
+        .body(user)
+        .executePost();
+
       payload = await authorization(user);
     }
+
+    localStorage.setItem('access', payload.accessToken);
     dispatch(loginFunc({payload}));
-
-    await fetch('http://localhost:3001/auth/check', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json;charset=utf-8'
-      }
-    });
-
-    // eslint-disable-next-line no-console
-    console.log(`tokeen ${token}`);
 
     if (payload.userId) {
       navigate('/');

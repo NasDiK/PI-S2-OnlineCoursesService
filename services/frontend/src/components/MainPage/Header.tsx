@@ -11,15 +11,11 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const executeLogOut = async() => {
-    const logout = await fetch('http://localhost:3001/auth/logout', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      }
-    });
+    const logout = await window.api().path('/auth/logout')
+      .executePost();
     const res = await logout;
 
+    localStorage.removeItem('access');
     dispatch(logoutFunc());
     navigate('/auth');
   };

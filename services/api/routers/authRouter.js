@@ -2,7 +2,6 @@ const express = require('express');
 const authRouter = express.Router();
 const controller = require('../controllers/authController');
 const {check} = require('express-validator');
-const authMiddleWare = require('../authMiddleWare');
 
 authRouter.post('/registration', [
   check('username', 'Имя пользователя не может быть пустым и должно быть длиннее 3 символов')
@@ -14,6 +13,6 @@ authRouter.post('/registration', [
 ], controller.registration);
 authRouter.post('/auth', controller.login);
 authRouter.post('/logout', controller.logout);
-authRouter.get('/check', authMiddleWare, controller.check);
+authRouter.post('/check', controller.check);
 
 module.exports = authRouter;

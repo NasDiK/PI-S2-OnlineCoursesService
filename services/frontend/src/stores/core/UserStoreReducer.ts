@@ -18,9 +18,12 @@ const initialState: AuthState = {
 
 export const logIn = createAction('LOG_IN', (payload) => payload);
 export const logOut = createAction('LOG_OUT');
+export const check = createAction('CHECK');
 
 export default createReducer(initialState, {
   [logIn.type]: (state: AuthState, action) => {
+    // eslint-disable-next-line no-console
+    console.log(action.payload);
     if (action.payload.userId) {
       state.userData.userId = action.payload.userId;
       state.userData.roleId = action.payload.roleId;
@@ -31,6 +34,12 @@ export default createReducer(initialState, {
     state.userData.userId = null;
     state.userData.roleId = [];
     state.userData.accessToken = null;
+  },
+  [check.type]: (state) => {
+    const res = window.api().path('/auth/check')
+      .executePost();
+
+    state.userData.accessToken = res.accessToken;
   },
   default: (state: AuthState) => state
 });
