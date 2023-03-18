@@ -27,8 +27,12 @@ const AuthPageView = () => {
     password = val;
   };
 
-  const authorization = async(user) => {
-    const res = await fetch('http://localhost:3001/auth/auth', {
+  const authorization = (user) => {
+    const resapi = window.api().path('/auth/auth')
+      .body(JSON.stringify(user))
+      .executePost()
+      .then((x) => x.json());
+    /*    const res = await fetch('http://localhost:3001/auth/auth', {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -36,9 +40,10 @@ const AuthPageView = () => {
       },
       body: JSON.stringify(user)
     });
-    const payload = await res;
+    const payload = await res;*/
 
-    return payload.json();
+    //return payload.json();
+    return resapi;
   };
 
   const fetchUser = async() => {
@@ -65,9 +70,13 @@ const AuthPageView = () => {
     await fetch('http://localhost:3001/auth/check', {
       method: 'GET',
       headers: {
+        'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json;charset=utf-8'
       }
     });
+
+    // eslint-disable-next-line no-console
+    console.log(`tokeen ${token}`);
 
     if (payload.userId) {
       navigate('/');

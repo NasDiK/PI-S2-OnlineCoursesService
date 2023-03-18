@@ -45,4 +45,4 @@ class Api {
   });
 }
 
-export default new Api();
+export default Api;
