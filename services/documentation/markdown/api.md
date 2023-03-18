@@ -2,11 +2,26 @@
 
 **С фронта:**
 ```ts
-await api.service('usersBusiness').params({
-    test: 'test'
-}).body({
-    test2: 'test2'
-}).executePost();
+api().path('/tasks/getTaskById')
+.body({
+    taskId: 1
+})
+.params({test: 'test'})
+.executePost()
+.executeGet()
+.then(x=>x.json()).then(x=>console.log(x));
+```
+
+Использование на фронте (если просто api() не сработает у TSX)
+```ts
+window.api().path('/tasks/getTaskById')
+.body({
+    taskId: 1
+})
+.params({test: 'test'})
+.executePost()
+.executeGet()
+.then(x=>x.json()).then(x=>console.log(x));
 ```
 
 # Использование enums

@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import Api from '../core/models/Api';
+
 export {};
 
 declare global {
   interface Window {
-    api?: any;
+    api: () => Api;
   }
 }
