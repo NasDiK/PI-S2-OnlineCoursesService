@@ -1,9 +1,7 @@
 import Api from './models/Api';
 
-const api = Api;
-
 const init = (): Promise<void> => {
-  window.api = api;
+  window.api = () => new Api();
 
   return Promise.resolve();
 };
