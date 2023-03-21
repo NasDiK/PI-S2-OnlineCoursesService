@@ -22,8 +22,6 @@ export const check = createAction('CHECK');
 
 export default createReducer(initialState, {
   [logIn.type]: (state: AuthState, action) => {
-    // eslint-disable-next-line no-console
-    console.log(action.payload);
     if (action.payload.userId) {
       state.userData.userId = action.payload.userId;
       state.userData.roleId = action.payload.roleId;

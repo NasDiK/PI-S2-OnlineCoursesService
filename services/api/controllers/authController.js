@@ -57,8 +57,6 @@ class authController {
 
       return res.json({message: 'Пользователь зарегестрирован'});
     } catch(exception) {
-      // eslint-disable-next-line no-console
-      console.log(exception);
       res.status(400).json({message: 'Registration error'});
     }
   }
@@ -93,8 +91,6 @@ class authController {
 
       return res.json({accessToken, userRolesIds, userId: user.id});
     } catch(exception) {
-      // eslint-disable-next-line no-console
-      console.log(exception);
       res.status(400).json({message: 'Login error'});
 
       return res;
@@ -123,8 +119,6 @@ class authController {
 
       return res.status(200).json({userData});
     } catch(exception) {
-      // eslint-disable-next-line no-console
-      console.log(exception);
       res.sendStatus(401);
     }
   }

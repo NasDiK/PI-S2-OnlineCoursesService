@@ -11,9 +11,8 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const executeLogOut = async() => {
-    const logout = await window.api().path('/auth/logout')
+    await window.api().path('/auth/logout')
       .executePost();
-    const res = await logout;
 
     localStorage.removeItem('access');
     dispatch(logoutFunc());

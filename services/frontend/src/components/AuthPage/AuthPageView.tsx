@@ -16,9 +16,6 @@ export const tryAuth = (dispatch, navigate, token) => {
     if (_data) {
       const {userData: ud} = _data;
 
-      // eslint-disable-next-line no-console
-      console.log(ud);
-
       dispatch(loginFunc({payload: {userId: ud.id.id,
         roleId: ud.roleId,
         accessToken: token}}));
@@ -67,7 +64,7 @@ const AuthPageView = () => {
     payload = await authorization(user);
 
     if (!payload.userId) {
-      const res = await window.api().path('/auth/registration')
+      await window.api().path('/auth/registration')
         .body(user)
         .executePost();
 
