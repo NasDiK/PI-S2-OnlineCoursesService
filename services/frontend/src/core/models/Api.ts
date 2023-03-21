@@ -27,22 +27,22 @@ class Api {
 
   executeGet = () => fetch(`http://localhost:${API_PORT}${this._pathName}`, {
     method: 'GET',
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       ...this._paramsInfo
     }
-  });
+  }).then((x) => x.json());
 
   executePost = () => fetch(`http://localhost:${API_PORT}${this._pathName}`, {
     method: 'POST',
     body: JSON.stringify(this._bodyInfo),
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       ...this._paramsInfo
     }
-  });
+  }).then((x) => x.json());
 }
 
 export default Api;

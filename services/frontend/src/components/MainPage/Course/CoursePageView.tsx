@@ -1,72 +1,48 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {BigPanelSelector} from '../../shared';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
-import enums from '@local/enums';
+import {shared} from '@local/enums';
 import Task from './Components/Task';
+import {useMatches} from 'react-router';
+import {searchTasks, tasksFieldsNamesEnum} from '../../../api/tasks';
+import {groupTasksForSidebar} from './Components/Methods/TaskMethods';
 
-const elementMock: iElement = {
-  id: 1,
-  name: 'kek1',
-  isDone: true,
-  type: enums.shared.targetFields.ELEMENT_GROUP,
-  progress: 10,
-  subGroup: [
-    {
-      id: 2,
-      name: 'kek1.1',
-      type: enums.shared.targetFields.ELEMENT_GROUP,
-      subGroup: [
-        {
-          id: 4,
-          name: 'kek1.1.1',
-          type: enums.shared.targetFields.ELEMENT
-        },
-        {
-          id: 5,
-          name: 'kek1.1.2',
-          type: enums.shared.targetFields.ELEMENT
-        }
-      ]
-    },
-    {
-      id: 3,
-      name: 'kek2',
-      type: enums.shared.targetFields.ELEMENT
-    },
-    {
-      id: 6,
-      name: 'kek3',
-      type: enums.shared.targetFields.ELEMENT
-    },
-    {
-      id: 7,
-      name: 'kek4',
-      type: enums.shared.targetFields.ELEMENT
-    },
-    {
-      id: 8,
-      name: 'kek5',
-      type: enums.shared.targetFields.ELEMENT
-    }
-  ]
+const minimalElement: iElement = {
+  id: -1,
+  type: shared.targetFields.ELEMENT_GROUP,
+  name: 'undefined'
 };
 
-// eslint-disable-next-line no-console
-console.log(elementMock);
+const CoursePageView = () => {
+  const [mainElement, setMainElement] = useState<iElement>();
+  const [match] = useMatches();
+  const {courseId, taskId}: any = match.params;
 
-interface iProps {
-  courseId: number;
-}
+  useEffect(() => {
+    searchTasks({
+      coursesIds: [Number(courseId)],
+      fields: [
+        tasksFieldsNamesEnum.ID,
+        tasksFieldsNamesEnum.TITLE,
+        tasksFieldsNamesEnum.WEIGHT,
+        tasksFieldsNamesEnum.COURSE_ID,
+        tasksFieldsNamesEnum.MAX_NOTE
+      ]
+    }).then((x) => {
+      const {tasks} = x;
+      const groupedElement = groupTasksForSidebar(tasks);
 
-const CoursePageView = (props: iProps) => (
-  // eslint-disable-next-line react/jsx-no-useless-fragment
-  <React.Fragment>
+      setMainElement(groupedElement);
+    });
+  }, []);
+
+  return (
     <BigPanelSelector
-      element={elementMock}
+      element={mainElement || minimalElement}
       renderableComponent={<Task />}
-      elementLink={`/course/${props.courseId}/`}
+      elementLink={`/course/${courseId}/`}
     />
-  </React.Fragment>
-);
+  );
+};
 
 export default CoursePageView;

@@ -1,9 +1,9 @@
 import s from '../BigPanelSelector.module.scss';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import BlockElements from '../BlockElements';
 import Header from './Header';
 import {iElement} from '../Components/ColumnElement';
-import enums from '@local/enums';
+import {shared} from '@local/enums';
 import {useNavigate} from 'react-router';
 interface iProps {
   element: iElement,
@@ -16,20 +16,20 @@ type iElementExtended = {
 }
 
 const onClickElement = (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  elem: iElement, elemIdx: number, setFunc: any, elementLink: string | undefined, navigator
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, max-len
+  elem: iElement | undefined, elemIdx: number, setFunc: any, elementLink: string | undefined, navigator
 ) => {
-  const targetElement = elem.subGroup?.[elemIdx];
+  const targetElement = elem?.subGroup?.[elemIdx];
 
-  if (targetElement?.type === enums.shared.targetFields.ELEMENT) {
+  if (targetElement?.type === shared.targetFields.ELEMENT) {
     navigator(`${elementLink}${targetElement?.id}`);
     // alert(`Открыли элемент такой то ${targetElement?.id}`);
   } else {
-    setFunc({element: targetElement, parentId: elem.id});
+    setFunc({element: targetElement, parentId: elem?.id});
   }
 };
 
-const searchElementById = (rootElement: iElement, searchableId: number | undefined) => {
+const searchElementById = (rootElement: iElement | undefined, searchableId: number | undefined) => {
   searchableId; //?
   const searchedParentId = undefined;
 
@@ -37,7 +37,9 @@ const searchElementById = (rootElement: iElement, searchableId: number | undefin
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const goToParentFunc = (rootElement: iElement, parentId: number | undefined, setFunc: any) => {
+const goToParentFunc = (
+  rootElement: iElement | undefined, parentId: number | undefined, setFunc: any
+) => {
   const [parentElement, parentParentId] = searchElementById(rootElement, parentId);
 
   setFunc({element: parentElement, parentId: parentParentId});
@@ -48,21 +50,25 @@ const LeftColumnView = (props: iProps) => {
   const [curElem, setCurElem] = useState<iElementExtended>({element, parentId: undefined});
   const navigator = useNavigate();
 
+  useEffect(() => {
+    setCurElem({element});
+  }, [element]);
+
   return (
     <div className={s.leftColumn}>
       <Header
-        title={curElem.element.name}
+        title={curElem?.element?.name}
         withLinear={true}
-        value={curElem.element.progress || 0}
+        value={curElem?.element?.progress || 0}
         gotoFunc={() => goToParentFunc(element, curElem.parentId, setCurElem)}
         parentId={curElem.parentId}
       />
       <div className={s.blockWrapper}>
         <BlockElements
-          elements={curElem.element.subGroup}
+          elements={curElem?.element?.subGroup}
           onClickElement={
             (idx: number) =>
-              onClickElement(curElem.element, idx, setCurElem, elementLink, navigator)
+              onClickElement(curElem?.element, idx, setCurElem, elementLink, navigator)
           }
         />
       </div>

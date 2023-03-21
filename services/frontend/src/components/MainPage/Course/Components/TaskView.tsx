@@ -1,29 +1,27 @@
+/* eslint-disable no-case-declarations */
 import React, {useEffect, useState} from 'react';
 import {useMatches} from 'react-router';
 import {iTask, iValueField} from './Task';
 import {useSelector, useDispatch, useStore} from 'react-redux';
+import {searchTaskWithId} from './Methods/TaskMethods';
 import s from './Task.module.scss';
 import cn from 'classnames';
 import {Typography, DirectoryField, Button} from '../../../shared';
 import {fieldType as taskType} from '@local/enums/tasks';
 import {fieldType as directoryFieldEnum} from '@local/enums/shared';
+import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
+
+interface iStore {
+  taskStore: iTaskStoreState
+}
 
 const isTeacher = true; //Вынести в стору
-const mockTask: iTask = {
-  id: 1,
-  title: 'Веселюся',
-  description: 'Мы писали, мы писали, наши пальчики устали',
-  'value': undefined,
-  type: taskType.SINGLE_ANSWER,
-  'max_note': 8
-};
 
 const renderTasks = (
-  type: number | undefined,
-  val: Array<iValueField> | undefined,
+  task: iTask | undefined,
   setVal: (_val: string) => void | undefined
 ) => {
-  switch (type) {
+  switch (task?.type) {
     case taskType.SINGLE_ANSWER:
       return (
         <DirectoryField
@@ -32,6 +30,34 @@ const renderTasks = (
           fullWidth={true}
         />
       );
+    case taskType.RADIO:
+      const values = task?.value && JSON.parse(`${task?.value?.toString()}`) || null;
+
+      if (values) {
+        return (
+          <DirectoryField
+            type={directoryFieldEnum.RADIO_GROUP}
+            options={values}
+            onChange={(_val) => setVal(_val)}
+          />
+        );
+      }
+
+      return null;
+    case taskType.MULTI_ANSWER:
+      const _values = task?.value && JSON.parse(`${task?.value?.toString()}`) || null;
+
+      if (_values) {
+        return (
+          <DirectoryField
+            type={directoryFieldEnum.CHECKBOX_GROUP}
+            options={_values}
+            onChange={(_val) => setVal(_val)}
+          />
+        );
+      }
+
+      return null;
   }
 
   return null;
@@ -45,22 +71,20 @@ const renderSubmitButton = () => (
 );
 
 const TaskView = () => {
-  const [task, setTask] = useState<iTask>();
   const [match] = useMatches();
-  const store = useStore();
+  const task = useSelector((stores: iStore) => stores.taskStore.task);
   const dispatch = useDispatch();
-  // eslint-disable-next-line padding-line-between-statements, no-console
+  const setTaskDispatch = (payload) => dispatch({type: 'SET_TASK', payload});
 
   useEffect(() => {
     const taskId = Number(match.params.taskId);
 
-    // setTask({id: taskId});
-    setTask(mockTask);
+    searchTaskWithId(setTaskDispatch, taskId);
   }, [match.pathname]);
 
-  useEffect(() => {
-    dispatch({type: 'GET_TASK'});
-  }, []);
+  // useEffect(() => {
+  //   dispatch({type: 'GET_TASK'});
+  // }, []);
 
   return (
     <div className={s.taskWrapper}>
@@ -83,8 +107,9 @@ const TaskView = () => {
             <React.Fragment>
               <div className={s.inputFields}>{
                 renderTasks(
-                  task?.type, task?.value, (_t) => {
-                    const t = 1;
+                  task, (_t) => {
+                    // eslint-disable-next-line no-console
+                    console.log(_t);
                   }
                 )
               }

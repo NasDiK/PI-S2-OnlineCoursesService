@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import enums from '@local/enums';
+import {shared} from '@local/enums';
 import TextField from './FieldTypes/TextField';
+import RadioGroup from './FieldTypes/RadioGroup';
+import CheckboxGroup from './FieldTypes/CheckboxGroup';
 import Select, {IOption} from './FieldTypes/Select';
 
 interface iPossibleProps {
@@ -17,10 +19,14 @@ interface iPossibleProps {
 
 const getFieldByType = (type: number, props: any) => {
   switch (type) {
-    case enums.shared.fieldType.SELECT:
+    case shared.fieldType.SELECT:
       return <Select {...props} />;
-    case enums.shared.fieldType.TEXT:
+    case shared.fieldType.TEXT:
       return <TextField {...props} />;
+    case shared.fieldType.RADIO_GROUP:
+      return <RadioGroup {...props} />;
+    case shared.fieldType.CHECKBOX_GROUP:
+      return <CheckboxGroup {...props} />;
     default:
       return null;
   }

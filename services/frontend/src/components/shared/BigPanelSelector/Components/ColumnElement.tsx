@@ -16,7 +16,8 @@ export interface iElement {
   name?: string,
   isDone?: boolean,
   subGroup?: iElement[],
-  progress?: number
+  progress?: number,
+  max_note?: number
 }
 
 interface iProps {
@@ -43,6 +44,13 @@ const ColumnElement = (props: iProps) => {
         <DoneIcon sx={{width: '17px', height: '17px', marginRight: '8px'}} />
       }
       <Typography variant={'body14'} weight={'regular'}>{props.element.name}</Typography>
+      {
+        props.element.max_note && (
+          <Typography variant={'body14'} weight={'regular'} className={s.maxNote}>
+            {`0/${props.element.max_note}`}
+          </Typography>
+        )
+      }
     </div>
   );
 };
