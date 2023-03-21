@@ -68,7 +68,7 @@ class authController {
         .select('id', 'password');
 
       if (!user) {
-        return res.status(400).json({message: `Пользователь ${username} не найден`});
+        return res.status(404).json({message: `Пользователь ${username} не найден`});
       }
       const validPassword = bcrypt.compareSync(password, user.password);
 

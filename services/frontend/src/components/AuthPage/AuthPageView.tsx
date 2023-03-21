@@ -63,7 +63,7 @@ const AuthPageView = () => {
 
     payload = await authorization(user);
 
-    if (!payload.userId) {
+    if (payload.message === `Пользователь ${user.username} не найден`) {
       await window.api().path('/auth/registration')
         .body(user)
         .executePost();
