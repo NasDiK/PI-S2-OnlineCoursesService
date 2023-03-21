@@ -20,7 +20,6 @@ export const tryAuth = (dispatch, navigate, token) => {
         roleId: ud.roleId,
         accessToken: token}}));
     }
-    navigate('/');
   });
 
   return userData;
@@ -70,7 +69,9 @@ const AuthPageView = () => {
       payload = await authorization(user);
     }
 
-    localStorage.setItem('access', payload.accessToken);
+    if (payload.accessToken) {
+      localStorage.setItem('access', payload.accessToken);
+    }
     dispatch(loginFunc({payload}));
 
     if (payload.userId) {
