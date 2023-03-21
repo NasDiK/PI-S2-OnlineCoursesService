@@ -47,8 +47,8 @@ const AuthPageView = () => {
     password = val;
   };
 
-  const authorization = async(user) => {
-    const res = await window.api().path('/auth/auth')
+  const authorization = (user) => {
+    const res = window.api().path('/auth/auth')
       .body(user)
       .executePost();
 
@@ -59,9 +59,8 @@ const AuthPageView = () => {
       username: login,
       password
     };
-    let payload;
 
-    payload = await authorization(user);
+    let payload = await authorization(user);
 
     if (payload.message === `Пользователь ${user.username} не найден`) {
       await window.api().path('/auth/registration')
@@ -108,7 +107,7 @@ const AuthPageView = () => {
               <DirectoryField
                 fullwidth={true}
                 type={2}
-                placeholder={'Плейсхолдер...'}
+                placeholder={'Пароль...'}
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangePass}

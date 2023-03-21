@@ -4,8 +4,6 @@ const knex = require('knex')(conf.development);
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const secret = require('../config');
-const cookie = require('cookie');
-
 const generateTokens = (id, roleid) => {
   payload = {
     id,
@@ -22,15 +20,15 @@ const generateTokens = (id, roleid) => {
   return tokens;
 };
 
-class authController {
-  async registration(reg, res) {
+class AuthController {
+  async registration(req, res) {
     try {
-      const errors = validationResult(reg);
+      const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
         return res.status(400).json({message: 'Ошибка при регистрации'});
       }
-      const {username, password} = reg.body;
+      const {username, password} = req.body;
 
       const [candidate] = await knex('users').where('nickname', username)
         .select('id', 'password');
@@ -61,9 +59,9 @@ class authController {
     }
   }
 
-  async login(reg, res) {
+  async login(req, res) {
     try {
-      const {username, password} = reg.body;
+      const {username, password} = req.body;
       const [user] = await knex('users').where('nickname', username)
         .select('id', 'password');
 
@@ -79,14 +77,6 @@ class authController {
         .pluck('role_id');
       const tokens = generateTokens(user, [userRolesIds]);
 
-      res.setHeader(
-        'Set-Cookie',
-        cookie.serialize('refreshToken', tokens.refreshToken, {
-          httpOnly: true,
-          maxAge: 1000 * 60 * 60 * 30
-        })
-      );
-
       const {accessToken} = tokens;
 
       return res.json({accessToken, userRolesIds, userId: user.id});
@@ -97,24 +87,17 @@ class authController {
     }
   }
 
-  logout(reg, res) {
+  logout(req, res) {
     try {
-      res.setHeader(
-        'Set-Cookie',
-        cookie.serialize('refreshToken', '', {
-          httpOnly: true,
-          maxAge: 0
-        })
-      );
       res.status(200).json({message: 'Пользователь логаут'});
     } catch(exception) {
       res.status(400).json({message: 'logout error'});
     }
   }
 
-  check(reg, res) {
+  check(req, res) {
     try {
-      const {token} = reg.body;
+      const {token} = req.body;
       const userData = jwt.verify(token, secret.accessTokenKey);
 
       return res.status(200).json({userData});
@@ -124,4 +107,4 @@ class authController {
   }
 }
 
-module.exports = new authController();
+module.exports = new AuthController();
