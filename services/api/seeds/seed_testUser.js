@@ -5,10 +5,12 @@
 exports.seed = async function(knex) {
   await knex('users').del();
   await knex('users').insert([
-    {nickname: 'admin', password: '$2b$07$w5c5blGFTYKklBAjNdOO/O9SfRsLAxP1Qfe5iJBuqkQlA7L21bVEK'},
-    {nickname: 'teacher', password: '$2b$07$vpLNIZJOPUKkcn4VTzxVBOKKCqfMJ8eUPVCxbGfGyHaZ6hkvA8RmW'},
-    // eslint-disable-next-line max-len
-    {nickname: 'student', password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'}
+    {nickname: 'admin',
+      password: '$2b$07$w5c5blGFTYKklBAjNdOO/O9SfRsLAxP1Qfe5iJBuqkQlA7L21bVEK'}, //admin
+    {nickname: 'teacher',
+      password: '$2b$07$vpLNIZJOPUKkcn4VTzxVBOKKCqfMJ8eUPVCxbGfGyHaZ6hkvA8RmW'}, //teacher
+    {nickname: 'student',
+      password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'} //student
   ]);
   await knex('roles').del();
   await knex('roles').insert([
