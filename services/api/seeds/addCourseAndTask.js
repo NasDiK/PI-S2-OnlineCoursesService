@@ -35,10 +35,10 @@ exports.seed = async function(knex) {
         {"value":2, "label": "Гвозди"},
         {"value":3, "label": "Одинаково"}
       ]`,
-      type: 1, //RADIO
+      type: 3, //RADIO
       max_note: null,
       weight: null,
-      correctAnswer: '[3]'
+      correctAnswer: '3'
     },
     {
       course_id: courseId,
@@ -49,7 +49,7 @@ exports.seed = async function(knex) {
         {"value":2, "label": "Галкин"},
         {"value":3, "label": "Железный димон"}
       ]`,
-      type: 3, //MULTI_ANSWER
+      type: 1, //MULTI_ANSWER
       max_note: null,
       weight: null,
       correctAnswer: '[1,3]'

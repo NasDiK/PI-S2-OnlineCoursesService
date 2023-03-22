@@ -1,7 +1,13 @@
+/* eslint-disable no-console */
 const express = require('express');
 const router = express.Router();
-const {searchTasks, getTaskById} = require('../controllers/tasks');
+const {
+  searchTasks,
+  getTaskById,
+  checkTaskAnswer
+} = require('../controllers/tasks');
 const validateParams = require('../utils/validateParams');
+const {logger} = require('./utils');
 
 router.post('/getTaskById', async(req, res) => {
   const requiredParams = ['taskId'];
@@ -26,6 +32,27 @@ router.post('/searchTasks', async(req, res) => {
 
     res.send({tasks});
   } catch(err) {
+    logger.error(err.message);
+    res.send({
+      message: err.message,
+      status: 500
+    });
+  }
+});
+
+router.post('/checkTaskAnswer', async(req, res) => {
+  try {
+    validateParams(['taskId', 'answer'], req);
+    const result = await checkTaskAnswer(req);
+
+    if (result) {
+      return res.status(200).json({result});
+    }
+
+    return res.status(400).json({result});
+
+  } catch(err) {
+    logger.error(err.message);
     res.send({
       message: err.message,
       status: 500
