@@ -16,8 +16,7 @@ const minimalElement: iElement = {
 const CoursePageView = () => {
   const [mainElement, setMainElement] = useState<iElement>();
   const [match] = useMatches();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const {courseId}: any = match.params;
+  const {courseId} = match.params;
 
   useEffect(() => {
     searchTasks({

@@ -1,7 +1,5 @@
-/* eslint-disable no-case-declarations */
 import React, {useEffect, useState} from 'react';
 import {useMatches} from 'react-router';
-import {iTask} from './Task';
 import {useSelector, useDispatch} from 'react-redux';
 import {searchTaskWithId, checkTaskAnswer} from './Methods/TaskMethods';
 import s from './Task.module.scss';
@@ -10,7 +8,7 @@ import {Typography, DirectoryField, Button} from '../../../shared';
 import {fieldType as taskType} from '@local/enums/tasks';
 import {fieldType as directoryFieldEnum} from '@local/enums/shared';
 import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
-
+import TaskModel from '../../../../stores/shared/models/TaskModel';
 interface iStore {
   taskStore: iTaskStoreState
 }
@@ -18,9 +16,11 @@ interface iStore {
 const isTeacher = false; //Вынести в стору
 
 const renderTasks = (
-  task: iTask | undefined,
+  task: TaskModel | undefined,
   setVal: (_val) => void | undefined
 ) => {
+  let _values;
+
   switch (task?.type) {
     case taskType.SINGLE_ANSWER:
       return (
@@ -31,13 +31,13 @@ const renderTasks = (
         />
       );
     case taskType.RADIO:
-      const values = task?.value && JSON.parse(`${task?.value?.toString()}`) || null;
+      _values = task?.taskValue && JSON.parse(`${task?.taskValue?.toString()}`) || null;
 
-      if (values) {
+      if (_values) {
         return (
           <DirectoryField
             type={directoryFieldEnum.RADIO_GROUP}
-            options={values}
+            options={_values}
             onChange={(_val) => setVal(_val)}
           />
         );
@@ -45,7 +45,7 @@ const renderTasks = (
 
       return null;
     case taskType.MULTI_ANSWER:
-      const _values = task?.value && JSON.parse(`${task?.value?.toString()}`) || null;
+      _values = task?.taskValue && JSON.parse(`${task?.taskValue?.toString()}`) || null;
 
       if (_values) {
         return (
@@ -63,11 +63,17 @@ const renderTasks = (
   return null;
 };
 
-const renderSubmitButton = (taskId, answer) => (
+const renderSubmitButton = (taskId, answer, permissions) => (
   <React.Fragment>
-    {true && <Button>{'Список решений студентов'}</Button>}
-    {true && <Button onClick={() => checkTaskAnswer(taskId, answer)}>{'Отправить'}</Button>}
-    {/* Положить условие в кнопки */}
+    {permissions.canCheckAnswers && <Button>{'Список решений студентов'}</Button>}
+    {
+      permissions.canSend && (
+        <Button onClick={() => checkTaskAnswer(taskId, answer)}>
+          {'Отправить'}
+        </Button>
+      )
+    }
+    {/* TODO Положить условие в кнопки */}
   </React.Fragment>
 );
 
@@ -75,6 +81,8 @@ const TaskView = () => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
   const dispatch = useDispatch();
+  let _taskModel = new TaskModel(task);
+
   const setTaskDispatch = (payload) => dispatch({type: 'SET_TASK', payload});
   const [answer, setAnswer] = useState();
 
@@ -84,6 +92,10 @@ const TaskView = () => {
     searchTaskWithId(setTaskDispatch, taskId).then(() => setAnswer(undefined));
   }, [match.pathname]);
 
+  useEffect(() => {
+    _taskModel = new TaskModel(task);
+  }, [task]);
+
   return (
     <div className={s.taskWrapper}>
       <div className={s.title}>
@@ -91,10 +103,10 @@ const TaskView = () => {
       </div>
       <div className={cn(s.task, s.island)}>
         {
-          task?.max_note && (
+          _taskModel.maxNote && (
             <div className={s.maxNote}>
               <Typography variant={'body14'} weight={'bold'}>
-                {`Максимум ${task.max_note} баллов`}
+                {`Максимум ${_taskModel.maxNote} баллов`}
               </Typography>
             </div>
           )
@@ -105,13 +117,19 @@ const TaskView = () => {
             <React.Fragment>
               <div className={s.inputFields}>{
                 renderTasks(
-                  task, (_val) => {
+                  _taskModel, (_val) => {
                     setAnswer(_val);
                   }
                 )
               }
               </div>
-              <div className={s.confirmButtons}>{renderSubmitButton(task.id, answer)}</div>
+              <div className={s.confirmButtons}>{
+                renderSubmitButton(_taskModel.id, answer, {
+                  canCheckAnswers: _taskModel.isPermittedWatchLogs,
+                  canSend: _taskModel.isPermittedSend
+                })
+              }
+              </div>
             </React.Fragment>
           )
         }

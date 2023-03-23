@@ -1,5 +1,4 @@
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
-import {iTask} from '../../../components/MainPage/Course/Components/Task';
 
 export interface iState {
   task?: iTask

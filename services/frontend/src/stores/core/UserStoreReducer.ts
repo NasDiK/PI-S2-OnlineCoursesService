@@ -1,14 +1,6 @@
 import {createAction, createReducer} from '@reduxjs/toolkit';
 
-export interface AuthState {
-  userData: {
-    userId: number | null,
-    roleId: [],
-    accessToken: string | null
-  }
-}
-
-const initialState: AuthState = {
+const initialState: IUserStoreState = {
   userData: {
     userId: null,
     roleId: [],
@@ -21,7 +13,7 @@ export const logOut = createAction('LOG_OUT');
 export const check = createAction('CHECK');
 
 export default createReducer(initialState, {
-  [logIn.type]: (state: AuthState, action) => {
+  [logIn.type]: (state: IUserStoreState, action) => {
     if (action.payload.userId) {
       state.userData.userId = action.payload.userId;
       state.userData.roleId = action.payload.roleId;
@@ -40,5 +32,5 @@ export default createReducer(initialState, {
         state.userData.accessToken = x.accessToken;
       });
   },
-  default: (state: AuthState) => state
+  default: (state: IUserStoreState) => state
 });
