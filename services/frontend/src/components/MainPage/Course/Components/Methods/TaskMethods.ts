@@ -1,6 +1,5 @@
 import {targetFields} from '@local/enums/shared';
 import {getTaskById, checkAnswer} from '../../../../../api/tasks';
-import {iElement} from '../../../../shared/BigPanelSelector/Components/ColumnElement';
 
 const searchTaskWithId = async(dispatchFunc, taskId) => {
   const task = await getTaskById(taskId, [
@@ -14,8 +13,6 @@ const searchTaskWithId = async(dispatchFunc, taskId) => {
     'weight'
   ]);
 
-  // eslint-disable-next-line no-console
-  console.log(task);
   dispatchFunc(task);
 };
 
@@ -32,7 +29,7 @@ const checkTaskAnswer = async(taskId, answer) => {
 const groupTasksForSidebar = (tasks) => {
 
   return {
-    id: tasks[0].course_id, //TODO CourseID
+    id: tasks[0].course_id,
     name: 'MOCK_COURSE_NAME',
     type: targetFields.ELEMENT_GROUP,
     isDone: false,

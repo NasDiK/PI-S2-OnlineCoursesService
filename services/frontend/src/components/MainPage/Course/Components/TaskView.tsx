@@ -1,8 +1,8 @@
 /* eslint-disable no-case-declarations */
 import React, {useEffect, useState} from 'react';
 import {useMatches} from 'react-router';
-import {iTask, iValueField} from './Task';
-import {useSelector, useDispatch, useStore} from 'react-redux';
+import {iTask} from './Task';
+import {useSelector, useDispatch} from 'react-redux';
 import {searchTaskWithId, checkTaskAnswer} from './Methods/TaskMethods';
 import s from './Task.module.scss';
 import cn from 'classnames';

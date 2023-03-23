@@ -28,7 +28,7 @@ interface iProps {
 const ColumnElement = (props: iProps) => {
   const {element, onClickElement} = props;
   const [match] = useMatches();
-  const {courseId, taskId}: any = match.params;
+  const {taskId}: any = match.params;
 
   return (
     <div

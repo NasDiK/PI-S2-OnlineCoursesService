@@ -23,22 +23,20 @@ const onClickElement = (
 
   if (targetElement?.type === shared.targetFields.ELEMENT) {
     navigator(`${elementLink}${targetElement?.id}`);
-    // alert(`Открыли элемент такой то ${targetElement?.id}`);
   } else {
     setFunc({element: targetElement, parentId: elem?.id});
   }
 };
 
 const searchElementById = (rootElement: iElement | undefined, searchableId: number | undefined) => {
-  searchableId; //?
+  searchableId; //? при желании дерево сделать
   const searchedParentId = undefined;
 
   return [rootElement, searchedParentId];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const goToParentFunc = (
-  rootElement: iElement | undefined, parentId: number | undefined, setFunc: any
+  rootElement: iElement | undefined, parentId: number | undefined, setFunc
 ) => {
   const [parentElement, parentParentId] = searchElementById(rootElement, parentId);
 
