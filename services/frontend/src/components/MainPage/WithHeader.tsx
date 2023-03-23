@@ -1,19 +1,28 @@
 import React, {useEffect} from 'react';
-import Header from './Header.tsx';
-import {useSelector} from 'react-redux';
+import Header from './Header';
+import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router';
 import PropTypes from 'prop-types';
 import s from './MainPage.module.scss';
+import {tryAuth} from '../AuthPage/AuthPageView';
 
 const WithHeader = (props) => {
   const {component} = props;
   const navigate = useNavigate();
-  const logged = useSelector((state) => state.userStore.logged);
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('access');
 
   useEffect(() => {
-    if (!logged) {
+    if (token) {
+      tryAuth(dispatch, navigate, token).then((_) => {
+        if (!_.userData.id.id) {
+          navigate('/auth');
+        }
+      });
+    } else {
       navigate('/auth');
     }
+
   }, []);
 
   return (
