@@ -1,21 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import enums from '@local/enums';
+import {shared} from '@local/enums';
 import TextField from './FieldTypes/TextField';
-import Select from './FieldTypes/Select';
+import RadioGroup from './FieldTypes/RadioGroup';
+import CheckboxGroup from './FieldTypes/CheckboxGroup';
+import Select, {IOption} from './FieldTypes/Select';
+
+interface iPossibleProps {
+  onChange?: (val: string) => void,
+  type: number,
+  'value'?: string | number,
+  placeholder?: string,
+  fullWidth?: boolean,
+  size?: 'small' | 'medium',
+  variant?: 'outline' | 'standart',
+  options?: ArrayLike<IOption>
+}
 
 const getFieldByType = (type: number, props: any) => {
   switch (type) {
-    case enums.shared.fieldType.SELECT:
+    case shared.fieldType.SELECT:
       return <Select {...props} />;
-    case enums.shared.fieldType.TEXT:
+    case shared.fieldType.TEXT:
       return <TextField {...props} />;
+    case shared.fieldType.RADIO_GROUP:
+      return <RadioGroup {...props} />;
+    case shared.fieldType.CHECKBOX_GROUP:
+      return <CheckboxGroup {...props} />;
     default:
       return null;
   }
 };
 
-const DirectoryField = (props: any) => {
+const DirectoryField = (props: iPossibleProps) => {
   const {type, ...otherProps} = props;
 
   return getFieldByType(type, otherProps);

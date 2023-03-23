@@ -1,43 +1,50 @@
 @import '../../globals/variables.module.scss';
 
-.headerWrapper {
-  display: flex;
-  justify-content: space-between;
-  background-color: black;
-  color: white;
-  padding: 5px 20px;
+.wrapper {
+  height: calc(100vh - 52px); //header height
+  width: 100vw;
 
-  .logoWrapper {
+  .headerWrapper {
     display: flex;
-    align-items: center;
+    justify-content: space-between;
+    background-color: black;
+    color: white;
+    padding: 5px 20px;
+    min-width: 880px;
 
-    .logo {
-      height: 40px;
-      width: 113px;
-      margin-right: 12px;
-    }
+    .logoWrapper {
+      display: flex;
+      align-items: center;
 
-    span {
-      user-select: none;
-    }
-  }
+      .logo {
+        height: 40px;
+        width: 113px;
+        margin-right: 12px;
+      }
 
-  .buttons {
-    display: flex;
-    align-items: center;
-    
-    & > button {
-      color: white;
-      user-select: none;
-      transition: 0s;
-
-      &:active {
-        color: $cornflower-80;
+      span {
+        user-select: none;
       }
     }
 
-    & > button:not(:last-child) {
-      margin-right: 12px;
+    .buttons {
+      display: flex;
+      align-items: center;
+      
+      & > button {
+        color: white;
+        user-select: none;
+        transition: 0s;
+
+        &:active {
+          color: $cornflower-80;
+        }
+      }
+
+      & > button:not(:last-child) {
+        margin-right: 12px;
+      }
     }
   }
+
 }

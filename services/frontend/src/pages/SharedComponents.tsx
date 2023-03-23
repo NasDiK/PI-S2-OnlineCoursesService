@@ -2,13 +2,14 @@
 import React from 'react';
 import {DirectoryField, Typography, Button, Alert} from '../components/shared';
 import {AlertTitle, CircularProgress, LinearProgress} from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import s from './styles.module.scss';
-import enums from '@local/enums';
+import {shared} from '@local/enums';
 
 const SynchLabel = '(SYNCH - будет изменена)';
 const InWorkLabel = '(InWork - нельзя использовать пока-что)';
 
-const {shared: {fieldType}} = enums;
+const {fieldType} = shared;
 
 const SharedPage = () => (
   <div className={s.sharedPage}>
@@ -40,6 +41,14 @@ const SharedPage = () => (
         <DirectoryField type={fieldType.TEXT} placeholder={'Плейсхолдер...'} size={'small'} />&nbsp;&nbsp;&nbsp;
         <DirectoryField type={fieldType.TEXT} placeholder={'Плейсхолдер...'} size={'medium'} />
       </div>
+      <div>
+        <h3>{'type: 3 (RADIO_GROUP)'}</h3>
+        <DirectoryField type={fieldType.RADIO_GROUP} options={[{'value': 1, 'label': 'Лейбл'}, {'value': 2, 'label': 'Лейбл2'}]} />&nbsp;&nbsp;&nbsp;
+      </div>
+      <div>
+        <h3>{'type: 4 (CHECKBOX_GROUP)'}</h3>
+        <DirectoryField type={fieldType.CHECKBOX_GROUP} options={[{'value': 1, 'label': 'Лейбл'}, {'value': 2, 'label': 'Лейбл2'}]} />&nbsp;&nbsp;&nbsp;
+      </div>
     </div>
 
     <div>
@@ -64,6 +73,16 @@ const SharedPage = () => (
         <Button variant={'roundThin'} size={'small'}>{'test'}</Button>
         <Button variant={'roundThin'} size={'normal'}>{'test2'}</Button>
         <Button variant={'roundThin'} size={'normal'}>
+          <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
+        </Button>
+      </div>
+      <div>
+        <h3>{'icon'}</h3>
+        <Button variant={'icon'}><ArrowBackIcon sx={{width: 16, height: 16}} /></Button>
+        <Button variant={'icon'}><ArrowBackIcon sx={{width: 24, height: 24}} /></Button>
+        <p>{'Размеры прокидываем sx пропсой в иконки @mui'}</p>
+        <p>{'Анти-пример - как делать не надо'}</p>
+        <Button variant={'icon'} size={'normal'}>
           <Typography weight={'bold'} variant={'body24'}>{'test2'}</Typography>
         </Button>
       </div>

@@ -6,7 +6,6 @@ services/api/node_modules
 services/api/.idea
 services/enums/.idea
 services/enums/node_modules
-services/enums/dist
 .pnp
 .pnp.js
 

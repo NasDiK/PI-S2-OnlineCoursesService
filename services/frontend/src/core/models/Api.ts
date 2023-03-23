@@ -1,46 +1,46 @@
 import {API_PORT} from '@local/documentation';
 
 class Api {
-  serviceName; //nullable->object
-  paramsInfo; //nullable->object
-  bodyInfo; //nullable->object
+  private _paramsInfo; //nullable->object
+  private _bodyInfo; //nullable->object
+  private _pathName;
 
   //TODO Добавить мету пользователя
 
   path = (name) => {
-    this.pathName = name;
+    this._pathName = name;
 
     return this;
   };
 
   params = (param) => {
-    this.paramsInfo = param;
+    this._paramsInfo = param;
 
     return this;
   };
 
   body = (body) => {
-    this.bodyInfo = body;
+    this._bodyInfo = body;
 
     return this;
   };
 
-  executeGet = () => fetch(`http://localhost:${API_PORT}${this.pathName}`, {
+  executeGet = () => fetch(`http://localhost:${API_PORT}${this._pathName}`, {
     method: 'GET',
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      ...this.paramsInfo
+      ...this._paramsInfo
     }
   }).then((x) => x.json());
 
-  executePost = () => fetch(`http://localhost:${API_PORT}${this.pathName}`, {
+  executePost = () => fetch(`http://localhost:${API_PORT}${this._pathName}`, {
     method: 'POST',
-    body: JSON.stringify(this.bodyInfo),
-    credentials: 'include',
+    body: JSON.stringify(this._bodyInfo),
+    // credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      ...this.paramsInfo
+      ...this._paramsInfo
     }
   }).then((x) => x.json());
 }

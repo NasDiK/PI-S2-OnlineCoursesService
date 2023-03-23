@@ -1,5 +1,7 @@
-describe('should be tests', () => {
-  test('test', () => {
-    expect(1).toBe(1);
-  });
+const {
+  isEqualArrays
+} = require('./methods/utils');
+
+describe('utils', () => {
+  describe('isEqualArrays', isEqualArrays());
 });

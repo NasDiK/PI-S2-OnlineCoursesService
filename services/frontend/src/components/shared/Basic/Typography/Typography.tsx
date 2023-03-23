@@ -48,7 +48,7 @@ const useStyles = makeStyles(() => {
 
 const Typography = (props: TypographyProps) => {
   const {children, variant = 'body14', weight = 'regular', className} = props;
-  const classes = useStyles(props);
+  const classes = useStyles();
 
   return (
     <span className={

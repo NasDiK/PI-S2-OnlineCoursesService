@@ -1,9 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-//import app from './Routes';
 import {init} from './core/init';
-//import {createRoot} from 'react-dom/client';
 import Routes from './Routes';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,9 +10,12 @@ const root = ReactDOM.createRoot(
 window.onload = () => {
   init().then(() => {
     root.render(
-      <React.StrictMode>
-        <Routes />
-      </React.StrictMode>
+      <React.Fragment>
+        <div id={'notify-portal'} />
+        <React.StrictMode>
+          <Routes />
+        </React.StrictMode>
+      </React.Fragment>
     );
   });
 };

@@ -4,9 +4,10 @@ import React from 'react';
 import primary from './ButtonTypes/PrimaryButton';
 import thin from './ButtonTypes/ThinButton';
 import roundThin from './ButtonTypes/RoundThinButton';
+import iconButton from './ButtonTypes/IconButton';
 
-type ButtonProps = {
-  variant?: 'thin' | 'primary' | 'roundThin',
+export type ButtonProps = {
+  variant?: 'thin' | 'primary' | 'roundThin' | 'icon',
   size?: 'small' | 'normal',
   children?: React.ReactNode,
   padding?: string,
@@ -24,6 +25,8 @@ const Button = (props: ButtonProps) => {
       return primary(otherProps);
     case 'roundThin':
       return roundThin(otherProps);
+    case 'icon':
+      return iconButton(otherProps);
     default:
       return primary(otherProps);
   }

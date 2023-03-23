@@ -3,6 +3,7 @@ import Header from './Header';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router';
 import PropTypes from 'prop-types';
+import s from './MainPage.module.scss';
 import {tryAuth} from '../AuthPage/AuthPageView';
 
 const WithHeader = (props) => {
@@ -25,10 +26,10 @@ const WithHeader = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
+    <div className={s.wrapper}>
       <Header />
       {component}
-    </React.Fragment>
+    </div>
   );
 };
 

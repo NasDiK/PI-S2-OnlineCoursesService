@@ -1,7 +1,7 @@
 import React from 'react';
 import {Select, MenuItem} from '@mui/material';
 
-interface IOption {
+export interface IOption {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   'value': any,
   label: string
