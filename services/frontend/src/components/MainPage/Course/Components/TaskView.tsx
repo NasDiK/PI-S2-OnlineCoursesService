@@ -73,7 +73,6 @@ const renderSubmitButton = (taskId, answer, permissions) => (
         </Button>
       )
     }
-    {/* TODO Положить условие в кнопки */}
   </React.Fragment>
 );
 
