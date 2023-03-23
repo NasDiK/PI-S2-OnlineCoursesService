@@ -10,7 +10,11 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const executeLogOut = () => {
+  const executeLogOut = async() => {
+    await window.api().path('/auth/logout')
+      .executePost();
+
+    localStorage.removeItem('access');
     dispatch(logoutFunc());
     navigate('/auth');
   };

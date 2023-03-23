@@ -4,30 +4,80 @@ import Typography from '../shared/Basic/Typography/Typography';
 import DirectoryField from '../shared/Basic/DirectoryField/DirectoryField';
 import Button from '../shared/Basic/Button/Button';
 import {useNavigate} from 'react-router';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {logIn as loginFunc} from '../../stores/core/UserStoreReducer';
 
-interface iState {
-  userStore: {
-    logged: boolean
-  }
-}
+export const tryAuth = (dispatch, navigate, token) => {
+  const userData = window.api().path('/auth/check')
+    .body({token})
+    .executePost();
 
+  userData.then((_data) => {
+    if (_data) {
+      const {userData: ud} = _data;
+
+      dispatch(loginFunc({payload: {userId: ud.id.id,
+        roleId: ud.roleId,
+        accessToken: token}}));
+    }
+  });
+
+  return userData;
+};
 const AuthPageView = () => {
   const navigate = useNavigate();
-  const logged = useSelector((state: iState) => state.userStore.logged);
   const dispatch = useDispatch();
-
-  const onChangeLogin = (val) => {
-    // eslint-disable-next-line no-console
-    console.log(val);
-  };
+  const token = localStorage.getItem('access');
+  let login;
+  let password;
 
   useEffect(() => {
-    if (logged) {
+    if (token) {
+      tryAuth(dispatch, navigate, token);
+    }
+
+  }, []);
+
+  const onChangeLogin = (val) => {
+    login = val;
+  };
+
+  const onChangePass = (val) => {
+    password = val;
+  };
+
+  const authorization = (user) => {
+    const res = window.api().path('/auth/auth')
+      .body(user)
+      .executePost();
+
+    return res;
+  };
+  const fetchUser = async() => {
+    const user = {
+      username: login,
+      password
+    };
+
+    let payload = await authorization(user);
+
+    if (payload.message === `Пользователь ${user.username} не найден`) {
+      await window.api().path('/auth/registration')
+        .body(user)
+        .executePost();
+
+      payload = await authorization(user);
+    }
+
+    if (payload.accessToken) {
+      localStorage.setItem('access', payload.accessToken);
+    }
+    dispatch(loginFunc({payload}));
+
+    if (payload.userId) {
       navigate('/');
     }
-  }, [logged]);
+  };
 
   return (
     <div className={s.authPage}>
@@ -45,7 +95,7 @@ const AuthPageView = () => {
               <DirectoryField
                 fullwidth={true}
                 type={2}
-                placeholder={'Плейсхолдер...'}
+                placeholder={'Логин...'}
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangeLogin}
@@ -58,14 +108,21 @@ const AuthPageView = () => {
               <DirectoryField
                 fullwidth={true}
                 type={2}
-                placeholder={'Плейсхолдер...'}
+                placeholder={'Пароль...'}
                 size={'small'}
                 fullWidth={true}
+                onChange={onChangePass}
               />
             </div>
           </div>
           <div className={s.button}>
-            <Button variant={'primary'} onClick={() => dispatch(loginFunc())}>{'Войти'}</Button>
+            <Button
+              variant={'primary'}
+              onClick={
+                () => fetchUser()
+              }
+            >{'Войти'}
+            </Button>
           </div>
         </div>
       </div>
