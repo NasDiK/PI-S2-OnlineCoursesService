@@ -40,7 +40,21 @@ const searchTasks = (filter: tasksFilter) => {
   return tasks;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const checkAnswer = async(taskId: number, answer: any) => {
+  const {result} = await window.api()
+    .path('/tasks/checkTaskAnswer')
+    .body({
+      taskId,
+      answer
+    })
+    .executePost();
+
+  return result;
+};
+
 export {
   getTaskById,
-  searchTasks
+  searchTasks,
+  checkAnswer
 };

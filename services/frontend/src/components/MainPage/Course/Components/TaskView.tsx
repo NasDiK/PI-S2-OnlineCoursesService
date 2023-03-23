@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {useMatches} from 'react-router';
 import {iTask, iValueField} from './Task';
 import {useSelector, useDispatch, useStore} from 'react-redux';
-import {searchTaskWithId} from './Methods/TaskMethods';
+import {searchTaskWithId, checkTaskAnswer} from './Methods/TaskMethods';
 import s from './Task.module.scss';
 import cn from 'classnames';
 import {Typography, DirectoryField, Button} from '../../../shared';
@@ -15,11 +15,11 @@ interface iStore {
   taskStore: iTaskStoreState
 }
 
-const isTeacher = true; //Вынести в стору
+const isTeacher = false; //Вынести в стору
 
 const renderTasks = (
   task: iTask | undefined,
-  setVal: (_val: string) => void | undefined
+  setVal: (_val) => void | undefined
 ) => {
   switch (task?.type) {
     case taskType.SINGLE_ANSWER:
@@ -63,10 +63,11 @@ const renderTasks = (
   return null;
 };
 
-const renderSubmitButton = () => (
+const renderSubmitButton = (taskId, answer) => (
   <React.Fragment>
     {true && <Button>{'Список решений студентов'}</Button>}
-    {true && <Button>{'Отправить'}</Button>} {/* Положить условие в кнопки */}
+    {true && <Button onClick={() => checkTaskAnswer(taskId, answer)}>{'Отправить'}</Button>}
+    {/* Положить условие в кнопки */}
   </React.Fragment>
 );
 
@@ -75,16 +76,13 @@ const TaskView = () => {
   const task = useSelector((stores: iStore) => stores.taskStore.task);
   const dispatch = useDispatch();
   const setTaskDispatch = (payload) => dispatch({type: 'SET_TASK', payload});
+  const [answer, setAnswer] = useState();
 
   useEffect(() => {
     const taskId = Number(match.params.taskId);
 
-    searchTaskWithId(setTaskDispatch, taskId);
+    searchTaskWithId(setTaskDispatch, taskId).then(() => setAnswer(undefined));
   }, [match.pathname]);
-
-  // useEffect(() => {
-  //   dispatch({type: 'GET_TASK'});
-  // }, []);
 
   return (
     <div className={s.taskWrapper}>
@@ -107,14 +105,13 @@ const TaskView = () => {
             <React.Fragment>
               <div className={s.inputFields}>{
                 renderTasks(
-                  task, (_t) => {
-                    // eslint-disable-next-line no-console
-                    console.log(_t);
+                  task, (_val) => {
+                    setAnswer(_val);
                   }
                 )
               }
               </div>
-              <div className={s.confirmButtons}>{renderSubmitButton()}</div>
+              <div className={s.confirmButtons}>{renderSubmitButton(task.id, answer)}</div>
             </React.Fragment>
           )
         }

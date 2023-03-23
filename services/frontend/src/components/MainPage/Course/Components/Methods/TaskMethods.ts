@@ -1,5 +1,5 @@
 import {targetFields} from '@local/enums/shared';
-import {getTaskById} from '../../../../../api/tasks';
+import {getTaskById, checkAnswer} from '../../../../../api/tasks';
 import {iElement} from '../../../../shared/BigPanelSelector/Components/ColumnElement';
 
 const searchTaskWithId = async(dispatchFunc, taskId) => {
@@ -17,6 +17,16 @@ const searchTaskWithId = async(dispatchFunc, taskId) => {
   // eslint-disable-next-line no-console
   console.log(task);
   dispatchFunc(task);
+};
+
+const checkTaskAnswer = async(taskId, answer) => {
+  try {
+    const result = await checkAnswer(taskId, answer);
+
+    alert(result);
+  } catch{
+    alert('Произошла ошибка');
+  }
 };
 
 const groupTasksForSidebar = (tasks) => {
@@ -38,4 +48,4 @@ const groupTasksForSidebar = (tasks) => {
   };
 };
 
-export {searchTaskWithId, groupTasksForSidebar};
+export {searchTaskWithId, groupTasksForSidebar, checkTaskAnswer};
