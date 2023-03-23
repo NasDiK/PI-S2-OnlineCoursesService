@@ -34,10 +34,11 @@ export default createReducer(initialState, {
     state.userData.accessToken = null;
   },
   [check.type]: (state) => {
-    const res = window.api().path('/auth/check')
-      .executePost();
-
-    state.userData.accessToken = res.accessToken;
+    window.api().path('/auth/check')
+      .executePost()
+      .then((x) => {
+        state.userData.accessToken = x.accessToken;
+      });
   },
   default: (state: AuthState) => state
 });
