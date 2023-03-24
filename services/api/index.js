@@ -15,7 +15,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth', authRouter);
 app.use(authMiddleware);
-app.use('/users',usersRouter);
+app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
 
 app.listen(_PORT, () => {
