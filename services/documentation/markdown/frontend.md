@@ -2,6 +2,14 @@
 
 `import {} from '@local/enums/*`, где * - нужная папочка. А в деструкторе нужный объект
 
+> Пример в коде
+  ```ts
+  import {shared} from '@local/enums';
+  const {fieldType} = shared;
+  
+  <DirectoryField type={fieldType.CHECKBOX_GROUP} options={\<Твой список>\} />
+  ```
+
 > Если TS ругается на declare module. Переименуйте файл где используете `.tsx->.js` но при этом обязательно используем PropTypes
 > Не забывайте, что при изменении enums нужно поменять `patch` версию на 1, удалять `node_modules`, `package-lock.json` и прописать `npm i`
 
@@ -10,7 +18,7 @@
 
 <span style="color: lime">Пример использования шаредного текста.</span>. **Как расширять - интуитивно понятно внутри файла**
 
-```js
+```ts
 <Typography>{'Test'}</Typography>
 
 <Typography variant={'body24'}>{'Test'}</Typography>

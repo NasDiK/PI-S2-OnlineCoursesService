@@ -7,9 +7,9 @@ api().path('/tasks/getTaskById')
     taskId: 1
 })
 .params({test: 'test'})
-.executePost()
-.executeGet()
-.then(x=>x.json()).then(x=>console.log(x));
+.executePost() //oneOf
+.executeGet() //oneOf
+.then(x=>console.log(x)); //optional
 ```
 
 Использование на фронте (если просто api() не сработает у TSX)
@@ -19,11 +19,13 @@ window.api().path('/tasks/getTaskById')
     taskId: 1
 })
 .params({test: 'test'})
-.executePost()
-.executeGet()
-.then(x=>x.json()).then(x=>console.log(x));
+.executePost() //oneOf
+.executeGet() //oneOf
+.then(x=>console.log(x)); //optional
 ```
 
 # Использование enums
 
 `import {} from '@local/enums/*`, где * - нужная папочка. А в деструкторе нужный объект
+
+**Конкретный пример использования можно найти в документации к frontend**
