@@ -2,6 +2,7 @@
 const express = require('express');
 const {usersRouter, tasksRouter, authRouter} = require('./routers');
 const cors = require('cors');
+const authMiddleware = require('./middlewares/authMiddleWare');
 const _PORT = 3001;
 const app = express();
 
@@ -13,6 +14,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/auth', authRouter);
+app.use(authMiddleware);
 app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
 

@@ -18,7 +18,11 @@ const WithHeader = (props) => {
         if (!_.userData.id.id) {
           navigate('/auth');
         }
-      });
+      })
+        .catch(() => {
+          localStorage.removeItem('access');
+          navigate('/auth');
+        });
     } else {
       navigate('/auth');
     }

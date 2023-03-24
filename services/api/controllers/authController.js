@@ -14,7 +14,7 @@ const generateTokens = (id, roleid) => {
     refreshToken: null
   };
 
-  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: '30d'});
+  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: 10 * 60});
   tokens.refreshToken = jwt.sign(payload, secret.refreshTokenKey, {expiresIn: '30d'});
 
   return tokens;
