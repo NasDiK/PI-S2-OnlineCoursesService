@@ -16,9 +16,13 @@ export const tryAuth = (dispatch, navigate, token) => {
     if (_data) {
       const {userData: ud} = _data;
 
-      dispatch(loginFunc({payload: {userId: ud.id.id,
-        roleId: ud.roleId,
-        accessToken: token}}));
+      dispatch(loginFunc({
+        payload: {
+          userId: ud.id.id,
+          roleId: ud.roleId,
+          accessToken: token
+        }
+      }));
     }
   });
 

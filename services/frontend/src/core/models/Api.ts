@@ -7,6 +7,10 @@ class Api {
 
   //TODO Добавить мету пользователя
 
+  get token() {
+    return localStorage.getItem('access');
+  }
+
   path = (name) => {
     this._pathName = name;
 
@@ -30,6 +34,7 @@ class Api {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
+      token: this.token,
       ...this._paramsInfo
     }
   }).then((x) => x.json());
@@ -40,6 +45,7 @@ class Api {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
+      token: this.token,
       ...this._paramsInfo
     }
   }).then((x) => x.json());
