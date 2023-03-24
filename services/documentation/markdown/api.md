@@ -26,6 +26,6 @@ window.api().path('/tasks/getTaskById')
 
 # Использование enums
 
-`import {} from '@local/enums/*`, где * - нужная папочка. А в деструкторе нужный объект
+`import {} from '@local/enums';`, где в деструкторе нужный объект
 
 **Конкретный пример использования можно найти в документации к frontend**
