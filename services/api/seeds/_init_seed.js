@@ -1,23 +1,34 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-console */
 const {tasks: {fieldType: taskTypeEnum}} = require('@local/enums');
 
 /* eslint-disable id-denylist */
 /* eslint-disable camelcase */
+
+const deleteTables = async(knex, tableNames) => {
+  for (const _name of tableNames) {
+    await knex(_name).del();
+    console.log(`Deleted table ${_name}`);
+  }
+};
 
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.seed = async function(knex) {
-  await knex('tasks_logger').del();
-  await knex('logger').del();
-  await knex('users_roles').del();
-  await knex('roles').del();
-  await knex('users').del();
-  await knex('tasks').del();
-  await knex('courses').del();
-  await knex('groups_users').del();
-  await knex('groups').del();
-  await knex('rights').del();
+  await deleteTables(knex, [
+    'tasks_logger',
+    'logger',
+    'users_roles',
+    'roles',
+    'tasks',
+    'groups_users',
+    'groups',
+    'courses',
+    'rights',
+    'users'
+  ]);
 
   let _users = await knex('users').insert([
     {nickname: 'admin',
@@ -36,23 +47,31 @@ exports.seed = async function(knex) {
     {name: 'teacher', title: 'Учитель'},
     {name: 'student', title: 'Студент'}
   ])
-    .returning('id');
+    .returning('*');
+
+  console.log('\nInserted roles:', _roles);
 
   _roles = _roles.map(({id}) => id);
 
-  await knex('users_roles').insert([
+  const _relations_users_roles = await knex('users_roles').insert([
     {user_id: _users[0], role_id: _roles[0]},
     {user_id: _users[1], role_id: _roles[1]},
     {user_id: _users[2], role_id: _roles[2]}
-  ]);
+  ])
+    .returning('*');
 
-  await knex('courses').insert([
+  console.log('\nInserted roles_users relations:', _relations_users_roles);
+
+  const _courses = await knex('courses').insert([
     {title: 'Тестовый курс #1', description: 'Проверяем работу себя'}
-  ]);
+  ])
+    .returning('*');
 
-  const {id: courseId} = await knex('courses').first('id');
+  console.log('\nInserted courses:', _courses);
 
-  await knex('tasks').insert([
+  const courseId = _courses[0].id; //helper
+
+  const _tasks = await knex('tasks').insert([
     {
       course_id: courseId,
       title: 'Загадки',
@@ -106,15 +125,22 @@ Kek();`,
       max_note: null,
       weight: null
     }
-  ]);
+  ])
+    .returning('*');
 
-  const [{id: groupId}] = await knex('groups').insert({
+  console.log('\nInserted tasks:', _tasks);
+
+  const _groups = await knex('groups').insert({
     'course_id': courseId,
     title: 'Огурцы'
   })
-    .returning('id');
+    .returning('*');
 
-  await knex('groups_users').insert([
+  console.log('Inserted groups: ', _groups);
+
+  const [{id: groupId}] = _groups; //Helper
+
+  const _relations_groups_users = await knex('groups_users').insert([
     {
       'user_id': _users[1], //teacher
       'group_id': groupId,
@@ -124,5 +150,8 @@ Kek();`,
       'user_id': _users[2], //student
       'group_id': groupId
     }
-  ]);
+  ])
+    .returning('*');
+
+  console.log('\nInserted relations groups_users:', _relations_groups_users);
 };
