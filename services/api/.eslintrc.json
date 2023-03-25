@@ -46,6 +46,7 @@
     "no-new-wrappers": 2,
     "no-undef":"off",
     "new-cap":"off",
+    "node/no-missing-require": 0,
     "no-loop-func": 2,
     "no-caller": 2,
     "array-callback-return": 2,

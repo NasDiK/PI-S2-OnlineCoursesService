@@ -1,5 +1,4 @@
-import * as shared from './shared';
-import * as rights from './rights';
-import * as services from './services';
-import * as tasks from './tasks';
-export { shared, rights, services, tasks };
+export * as shared from './shared';
+export * as rights from './rights';
+export * as services from './services';
+export * as tasks from './tasks';
