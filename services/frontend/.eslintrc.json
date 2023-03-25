@@ -44,6 +44,7 @@
     "no-useless-catch": 2,
     "no-return-await": 2,
     "no-return-assign": 2,
+    "node/no-missing-require": 0,
     "no-new-wrappers": 2,
     "no-loop-func": 2,
     "no-caller": 2,

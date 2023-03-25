@@ -1,4 +1,4 @@
-// const {tasks: tasksEnum} = require('@local/enums');
+const {tasks: {fieldType: tasksEnum}} = require('@local/enums');
 const {isEqualArrays} = require('../../utils');
 
 /**
@@ -25,13 +25,13 @@ const checkTaskAnswer = async(knex, request) => {
 
   try {
     switch (currentTask.type) {
-      case 1: //tasksEnum.fieldType.MULTI_ANSWER
+      case tasksEnum.MULTI_ANSWER: //tasksEnum.fieldType.MULTI_ANSWER
         correctAnswer = JSON.parse(currentTask.correctAnswer);
 
         return isEqualArrays(correctAnswer, answer, true);
 
-      case 2: //tasksEnum.fieldType.SINGLE_ANSWER
-      case 3: //tasksEnum.fieldType.RADIO
+      case tasksEnum.SINGLE_ANSWER: //tasksEnum.fieldType.SINGLE_ANSWER
+      case tasksEnum.RADIO: //tasksEnum.fieldType.RADIO
         return currentTask.correctAnswer === answer.toString();
       default:
         throw new Error('Unexpected autocheck task type');
