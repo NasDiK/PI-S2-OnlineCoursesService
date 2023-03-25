@@ -58,6 +58,12 @@ const renderTasks = (
       }
 
       return null;
+    case taskType.TEXT_AREA:
+      return (
+        <DirectoryField
+          type={directoryFieldEnum.TEXT_AREA}
+        />
+      );
   }
 
   return null;

@@ -3,6 +3,7 @@ export declare const fieldType: {
     TEXT: number;
     RADIO_GROUP: number;
     CHECKBOX_GROUP: number;
+    TEXT_AREA: number;
 };
 export declare const targetFields: {
     TASK: number;

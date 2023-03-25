@@ -5,6 +5,7 @@ import TextField from './FieldTypes/TextField';
 import RadioGroup from './FieldTypes/RadioGroup';
 import CheckboxGroup from './FieldTypes/CheckboxGroup';
 import Select, {IOption} from './FieldTypes/Select';
+import TextArea from './FieldTypes/TextArea';
 
 interface iPossibleProps {
   onChange?: (val: string) => void,
@@ -27,6 +28,8 @@ const getFieldByType = (type: number, props: any) => {
       return <RadioGroup {...props} />;
     case shared.fieldType.CHECKBOX_GROUP:
       return <CheckboxGroup {...props} />;
+    case shared.fieldType.TEXT_AREA:
+      return <TextArea {...props} />;
     default:
       return null;
   }

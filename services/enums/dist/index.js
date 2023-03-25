@@ -1,1 +1,31 @@
-!function(e,t){if("object"==typeof exports&&"object"==typeof module)module.exports=t();else if("function"==typeof define&&define.amd)define([],t);else{var r=t();for(var o in r)("object"==typeof exports?exports:e)[o]=r[o]}}(self,(()=>(()=>{"use strict";var e={492:function(e,t,r){var o=this&&this.__createBinding||(Object.create?function(e,t,r,o){void 0===o&&(o=r);var s=Object.getOwnPropertyDescriptor(t,r);s&&!("get"in s?!t.__esModule:s.writable||s.configurable)||(s={enumerable:!0,get:function(){return t[r]}}),Object.defineProperty(e,o,s)}:function(e,t,r,o){void 0===o&&(o=r),e[o]=t[r]}),s=this&&this.__setModuleDefault||(Object.create?function(e,t){Object.defineProperty(e,"default",{enumerable:!0,value:t})}:function(e,t){e.default=t}),i=this&&this.__importStar||function(e){if(e&&e.__esModule)return e;var t={};if(null!=e)for(var r in e)"default"!==r&&Object.prototype.hasOwnProperty.call(e,r)&&o(t,e,r);return s(t,e),t};Object.defineProperty(t,"__esModule",{value:!0}),t.tasks=t.services=t.rights=t.shared=void 0,t.shared=i(r(290)),t.rights=i(r(779)),t.services=i(r(994)),t.tasks=i(r(347))},779:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.groups=t.reviews=t.tasks=t.users=t.courses=void 0,t.courses={CREATE_COURSE:1,DELETE_COURSE:2,UPDATE_COURSE:4},t.users={REGISTER_USER:1,DELETE_USER:2,BLOCK_USER:4,UPDATE_USER:8,ADD_USER_ROLE:16},t.tasks={EXECUTE_TASK:1},t.reviews={READ_ALL_DECISIONS:1,READ_SUBORDINATE_DECISIONS:2,RATE_SUBORDINATE_REVIEW:4,RATE_ALL_REVIEWS:8},t.groups={CREATE_GROUP:1,EDIT_OWN_GROUP:2,EDIT_ALL_GROUPS:4,ADD_PARTICIPANT:8,REMOVE_PARTICIPANT:16,UPDATE_PARTICIPANT_ROLE:32}},994:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.services=void 0,t.services={COURSES:1,USERS:2,TASKS:3,GROUPS:4,REVIEW:5}},290:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.targetFields=t.fieldType=void 0,t.fieldType={SELECT:1,TEXT:2,RADIO_GROUP:3,CHECKBOX_GROUP:4},t.targetFields={TASK:1,COURSE:2,TASK_GROUP:3,ELEMENT_GROUP:4,ELEMENT:5}},347:(e,t)=>{Object.defineProperty(t,"__esModule",{value:!0}),t.fieldType=void 0,t.fieldType={MULTI_ANSWER:1,SINGLE_ANSWER:2,RADIO:3}}},t={};return function r(o){var s=t[o];if(void 0!==s)return s.exports;var i=t[o]={exports:{}};return e[o].call(i.exports,i,i.exports,r),i.exports}(492)})()));
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tasks = exports.services = exports.rights = exports.shared = void 0;
+exports.shared = __importStar(require("./shared"));
+exports.rights = __importStar(require("./rights"));
+exports.services = __importStar(require("./services"));
+exports.tasks = __importStar(require("./tasks"));
+//# sourceMappingURL=index.js.map

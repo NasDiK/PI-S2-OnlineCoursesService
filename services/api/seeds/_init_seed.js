@@ -1,13 +1,45 @@
+const {tasks: {fieldType: taskTypeEnum}} = require('@local/enums');
+
 /* eslint-disable id-denylist */
 /* eslint-disable camelcase */
+
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
 exports.seed = async function(knex) {
-  // Deletes ALL existing entries
+  await knex('users_roles').del();
+  await knex('roles').del();
+  await knex('users').del();
   await knex('tasks').del();
   await knex('courses').del();
+
+  let _users = await knex('users').insert([
+    {nickname: 'admin',
+      password: '$2b$07$w5c5blGFTYKklBAjNdOO/O9SfRsLAxP1Qfe5iJBuqkQlA7L21bVEK'}, //admin
+    {nickname: 'teacher',
+      password: '$2b$07$vpLNIZJOPUKkcn4VTzxVBOKKCqfMJ8eUPVCxbGfGyHaZ6hkvA8RmW'}, //teacher
+    {nickname: 'student',
+      password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'} //student
+  ])
+    .returning('id');
+
+  _users = _users.map(({id}) => id);
+
+  let _roles = await knex('roles').insert([
+    {name: 'admin', title: 'Администратор'},
+    {name: 'teacher', title: 'Учитель'},
+    {name: 'student', title: 'Студент'}
+  ])
+    .returning('id');
+
+  _roles = _roles.map(({id}) => id);
+
+  await knex('users_roles').insert([
+    {user_id: _users[0], role_id: _roles[0]},
+    {user_id: _users[1], role_id: _roles[1]},
+    {user_id: _users[2], role_id: _roles[2]}
+  ]);
 
   await knex('courses').insert([
     {title: 'Тестовый курс #1', description: 'Проверяем работу себя'}
@@ -21,7 +53,7 @@ exports.seed = async function(knex) {
       title: 'Загадки',
       description: 'Весит груша, нельзя скушать',
       value: null,
-      type: 2, //SINGLE_ANSWER
+      type: taskTypeEnum.SINGLE_ANSWER,
       max_note: 8,
       weight: null,
       correctAnswer: 'Лампочка'
@@ -35,7 +67,7 @@ exports.seed = async function(knex) {
         {"value":2, "label": "Гвозди"},
         {"value":3, "label": "Одинаково"}
       ]`,
-      type: 3, //RADIO
+      type: taskTypeEnum.RADIO,
       max_note: null,
       weight: null,
       correctAnswer: '3'
@@ -49,10 +81,21 @@ exports.seed = async function(knex) {
         {"value":2, "label": "Галкин"},
         {"value":3, "label": "Железный димон"}
       ]`,
-      type: 1, //MULTI_ANSWER
+      type: taskTypeEnum.MULTI_ANSWER,
       max_note: null,
       weight: null,
       correctAnswer: '[1,3]'
+    },
+    {
+      course_id: courseId,
+      title: 'Hello world JS Practice',
+      description: `Напиши Hello world на JS. Сможешь ли??
+
+      Или всё-таки слабак??`,
+      value: null,
+      type: taskTypeEnum.TEXT_AREA,
+      max_note: null,
+      weight: null
     }
   ]);
 };
