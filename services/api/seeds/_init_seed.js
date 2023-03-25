@@ -92,7 +92,11 @@ exports.seed = async function(knex) {
       description: `Напиши Hello world на JS. Сможешь ли??
 
       Или всё-таки слабак??`,
-      value: null,
+      value: `function Kek{
+//TODO task
+}
+
+Kek();`,
       type: taskTypeEnum.TEXT_AREA,
       max_note: null,
       weight: null

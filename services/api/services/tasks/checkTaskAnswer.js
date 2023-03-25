@@ -1,5 +1,6 @@
 const {tasks: {fieldType: tasksEnum}} = require('@local/enums');
 const {isEqualArrays} = require('../../utils');
+const {logger, generateError} = require('../../core');
 
 /**
  * Проверяет ответ к заданию (доступно только для авто-типов)
@@ -25,18 +26,22 @@ const checkTaskAnswer = async(knex, request) => {
 
   try {
     switch (currentTask.type) {
-      case tasksEnum.MULTI_ANSWER: //tasksEnum.fieldType.MULTI_ANSWER
+      case tasksEnum.MULTI_ANSWER:
         correctAnswer = JSON.parse(currentTask.correctAnswer);
 
         return isEqualArrays(correctAnswer, answer, true);
 
-      case tasksEnum.SINGLE_ANSWER: //tasksEnum.fieldType.SINGLE_ANSWER
-      case tasksEnum.RADIO: //tasksEnum.fieldType.RADIO
+      case tasksEnum.SINGLE_ANSWER:
+      case tasksEnum.RADIO:
         return currentTask.correctAnswer === answer.toString();
+      case tasksEnum.TEXT_AREA:
+        return true;
       default:
-        throw new Error('Unexpected autocheck task type');
+        throw generateError('Unexpected autocheck task type', {answer, taskType: currentTask.type});
     }
-  } catch(_) {
+  } catch(err) {
+    logger.error(err);
+
     return false;
   }
 };

@@ -7,7 +7,7 @@ const {
   checkTaskAnswer
 } = require('../controllers/tasks');
 const validateParams = require('../utils/validateParams');
-const {logger} = require('./utils');
+const {logger} = require('../core');
 
 router.post('/getTaskById', async(req, res) => {
   const requiredParams = ['taskId'];
@@ -32,7 +32,7 @@ router.post('/searchTasks', async(req, res) => {
 
     res.send({tasks});
   } catch(err) {
-    logger.error(err.message);
+    logger.error(err);
     res.send({
       message: err.message,
       status: 500
@@ -52,7 +52,7 @@ router.post('/checkTaskAnswer', async(req, res) => {
     return res.status(400).json({result});
 
   } catch(err) {
-    logger.error(err.message);
+    logger.error(err);
     res.send({
       message: err.message,
       status: 500

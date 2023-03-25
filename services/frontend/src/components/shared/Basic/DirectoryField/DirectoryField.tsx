@@ -16,6 +16,7 @@ interface iPossibleProps {
   size?: 'small' | 'medium',
   variant?: 'outline' | 'standart',
   options?: ArrayLike<IOption>
+  isDone?: boolean
 }
 
 const getFieldByType = (type: number, props: any) => {

@@ -59,9 +59,14 @@ const renderTasks = (
 
       return null;
     case taskType.TEXT_AREA:
+      _values = task?.taskValue;
+
       return (
         <DirectoryField
           type={directoryFieldEnum.TEXT_AREA}
+          value={_values}
+          // isDone={true}
+          onChange={(_val) => setVal(_val)}
         />
       );
   }

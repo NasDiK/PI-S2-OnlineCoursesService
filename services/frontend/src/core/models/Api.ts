@@ -5,8 +5,6 @@ class Api {
   private _bodyInfo; //nullable->object
   private _pathName;
 
-  //TODO Добавить мету пользователя
-
   get token() {
     return localStorage.getItem('access');
   }
