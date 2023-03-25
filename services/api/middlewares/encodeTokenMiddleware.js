@@ -12,8 +12,8 @@ module.exports = (req, res, next) => {
   const {token} = req.headers;
   const {id: {id: userId}, roleId: roleIds} = jwt.verify(token, secretKey);
 
-  req.header.userId = userId;
-  req.header.userRoles = roleIds;
+  req.headers.userId = userId;
+  req.headers.userRoles = roleIds;
 
   next();
 };

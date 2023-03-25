@@ -1,33 +1,12 @@
-/**
-* @typedef {{
-    * tasksIds: number
-    * fields: string[]
-    * coursesIds: number
-    * parentId: number //на будущее
-    * }} requestParams
-    */
+const writeTaskLog = async(knex, request, task, logOptions) => {
+  const {userId} = request.headers;
 
-/**
-    * Возвращает задачи по фильтру
-    * @param {import('knex').Knex} knex
-    * @param {requestParams} request
-    * @returns {object} Задача
-    */
-const writeTaskLog = (knex, request) => {
-  const {tasksIds, fields, coursesIds} = request.body;
-
-  const model = knex('tasks')
-    .select(fields || 'id');
-
-  if (tasksIds) {
-    model.whereIn('id', tasksIds);
-  }
-
-  if (coursesIds) {
-    model.whereIn('course_id', coursesIds);
-  }
-
-  return model;
+  await knex('tasks_logger').insert({
+    'user_id': userId,
+    'task_id': task.id,
+    action: logOptions.action,
+    'value': logOptions.value
+  });
 };
 
-module.exports = searchTasks;
+module.exports = writeTaskLog;

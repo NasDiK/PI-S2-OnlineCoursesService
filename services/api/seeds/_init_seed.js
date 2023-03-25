@@ -8,11 +8,16 @@ const {tasks: {fieldType: taskTypeEnum}} = require('@local/enums');
  * @returns { Promise<void> }
  */
 exports.seed = async function(knex) {
+  await knex('tasks_logger').del();
+  await knex('logger').del();
   await knex('users_roles').del();
   await knex('roles').del();
   await knex('users').del();
   await knex('tasks').del();
   await knex('courses').del();
+  await knex('groups_users').del();
+  await knex('groups').del();
+  await knex('rights').del();
 
   let _users = await knex('users').insert([
     {nickname: 'admin',
@@ -100,6 +105,24 @@ Kek();`,
       type: taskTypeEnum.TEXT_AREA,
       max_note: null,
       weight: null
+    }
+  ]);
+
+  const [{id: groupId}] = await knex('groups').insert({
+    'course_id': courseId,
+    title: 'Огурцы'
+  })
+    .returning('id');
+
+  await knex('groups_users').insert([
+    {
+      'user_id': _users[1], //teacher
+      'group_id': groupId,
+      'isModerator': true
+    },
+    {
+      'user_id': _users[2], //student
+      'group_id': groupId
     }
   ]);
 };

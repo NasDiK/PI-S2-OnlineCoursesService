@@ -4,3 +4,9 @@ export declare const fieldType: {
     RADIO: number;
     TEXT_AREA: number;
 };
+export declare const action: {
+    SEND: number;
+    SEND_TO_REVIEW: number;
+    REVIEW_APPROVE: number;
+    REVIEW_FAIL: number;
+};

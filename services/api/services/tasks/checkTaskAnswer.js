@@ -1,6 +1,10 @@
-const {tasks: {fieldType: tasksEnum}} = require('@local/enums');
+const {tasks: {
+  fieldType: tasksEnum,
+  action: taskActionEnum
+}} = require('@local/enums');
 const {isEqualArrays} = require('../../utils');
 const {logger, generateError} = require('../../core');
+const writeTaskLog = require('./writeTaskLog');
 
 /**
  * Проверяет ответ к заданию (доступно только для авто-типов)
@@ -22,19 +26,40 @@ const checkTaskAnswer = async(knex, request) => {
     throw new Error(`task #${taskId} doesn't exist`);
   }
 
-  let correctAnswer;
+  let correctAnswer, result;
 
   try {
     switch (currentTask.type) {
       case tasksEnum.MULTI_ANSWER:
         correctAnswer = JSON.parse(currentTask.correctAnswer);
+        try {
+          result = isEqualArrays(correctAnswer, answer, true);
+        } catch(_) {
+          result = false;
+        }
 
-        return isEqualArrays(correctAnswer, answer, true);
+        writeTaskLog(knex, request, currentTask, {
+          action: taskActionEnum.SEND,
+          'value': result
+        });
 
+        return result;
       case tasksEnum.SINGLE_ANSWER:
       case tasksEnum.RADIO:
-        return currentTask.correctAnswer === answer.toString();
+        result = currentTask.correctAnswer === answer.toString();
+
+        writeTaskLog(knex, request, currentTask, {
+          action: taskActionEnum.SEND,
+          'value': result
+        });
+
+        return result;
       case tasksEnum.TEXT_AREA:
+        writeTaskLog(knex, request, currentTask, {
+          action: taskActionEnum.SEND_TO_REVIEW,
+          'value': answer
+        });
+
         return true;
       default:
         throw generateError('Unexpected autocheck task type', {answer, taskType: currentTask.type});

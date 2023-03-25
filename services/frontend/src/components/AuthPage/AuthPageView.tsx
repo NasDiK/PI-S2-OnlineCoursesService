@@ -102,6 +102,7 @@ const AuthPageView = () => {
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangeLogin}
+                name={'login_auth'}
               />
             </div>
           </div>
@@ -114,6 +115,7 @@ const AuthPageView = () => {
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangePass}
+                name={'password_auth'}
               />
             </div>
           </div>
