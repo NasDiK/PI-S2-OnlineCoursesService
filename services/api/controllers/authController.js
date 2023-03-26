@@ -14,8 +14,8 @@ const generateTokens = (id, roleid) => {
     refreshToken: null
   };
 
-  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: 10 * 60});
-  tokens.refreshToken = jwt.sign(payload, secret.refreshTokenKey, {expiresIn: '30d'});
+  tokens.accessToken = jwt.sign(payload, secret.accessTokenKey, {expiresIn: 5});
+  tokens.refreshToken = jwt.sign(payload, secret.refreshTokenKey, {expiresIn: 60 * 60 * 24 * 30});
 
   return tokens;
 };
@@ -75,11 +75,9 @@ class AuthController {
       }
       const userRolesIds = await knex('users_roles').where('user_id', user.id)
         .pluck('role_id');
-      const tokens = generateTokens(user, [userRolesIds]);
+      const tokens = generateTokens(user, userRolesIds);
 
-      const {accessToken} = tokens;
-
-      return res.json({accessToken, userRolesIds, userId: user.id});
+      return res.json({tokens, userRolesIds, userId: user.id});
     } catch(exception) {
       res.status(400).json({message: 'Login error'});
 
@@ -95,12 +93,23 @@ class AuthController {
     }
   }
 
-  check(req, res) {
+  async check(req, res) {
     try {
-      const {token} = req.body;
-      const userData = jwt.verify(token, secret.accessTokenKey);
+      const {refreshtoken} = req.headers;
 
-      return res.status(200).json({userData});
+      const {id: {id}} = jwt.verify(refreshtoken, secret.refreshTokenKey);
+
+      const userRolesIds = await knex('users_roles').where('user_id', id)
+        .pluck('role_id');
+
+      const payload = {
+        id,
+        userRolesIds
+      };
+
+      payload.token = jwt.sign(payload, secret.accessTokenKey, {expiresIn: 5});
+
+      return res.status(200).json(payload);
     } catch(exception) {
       res.sendStatus(401);
     }

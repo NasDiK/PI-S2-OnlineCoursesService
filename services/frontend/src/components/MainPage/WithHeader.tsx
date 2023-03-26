@@ -14,13 +14,14 @@ const WithHeader = (props) => {
 
   useEffect(() => {
     if (token) {
-      tryAuth(dispatch, navigate, token).then((_) => {
-        if (!_.userData.id.id) {
+      tryAuth(dispatch).then((_) => {
+        if (!_.id) {
           navigate('/auth');
         }
       })
         .catch(() => {
           localStorage.removeItem('access');
+          localStorage.removeItem('refresh');
           navigate('/auth');
         });
     } else {
