@@ -7,12 +7,17 @@ import {iElement} from './Components/ColumnElement';
 interface iProps {
   element: iElement,
   renderableComponent: React.ReactNode,
-  elementLink?: string
+  elementLink: string,
+  withLinear?: boolean
 }
 
 const BigPanelSelector = (props: iProps) => (
   <div className={s.wrapper}>
-    <LeftColumnView element={props.element} elementLink={props.elementLink} />
+    <LeftColumnView
+      element={props.element}
+      withLinear={props.withLinear}
+      elementLink={props.elementLink}
+    />
     <RightColumnView component={props.renderableComponent} />
   </div>
 );

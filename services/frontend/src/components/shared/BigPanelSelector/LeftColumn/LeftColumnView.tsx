@@ -7,7 +7,8 @@ import {shared} from '@local/enums';
 import {useNavigate} from 'react-router';
 interface iProps {
   element: iElement,
-  elementLink?: string
+  elementLink?: string,
+  withLinear?: boolean
 }
 
 type iElementExtended = {
@@ -44,7 +45,7 @@ const goToParentFunc = (
 };
 
 const LeftColumnView = (props: iProps) => {
-  const {element, elementLink} = props;
+  const {element, elementLink, withLinear = false} = props;
   const [curElem, setCurElem] = useState<iElementExtended>({element, parentId: undefined});
   const navigator = useNavigate();
 
@@ -56,7 +57,7 @@ const LeftColumnView = (props: iProps) => {
     <div className={s.leftColumn}>
       <Header
         title={curElem?.element?.name}
-        withLinear={true}
+        withLinear={withLinear}
         value={curElem?.element?.progress || 0}
         gotoFunc={() => goToParentFunc(element, curElem.parentId, setCurElem)}
         parentId={curElem.parentId}
