@@ -7,14 +7,14 @@
 2) В корне нужного сервиса 
 
 <span style="color: lime">Api: </span>
-`rm node_modules/ && rm package-lock.json && npm i`
+`rm node_modules/; rm package-lock.json; npm i`
 
-Для оптимизации на бэке можно удалять только папочку енумов. `rm node_modules/@local/enums/ && npm i`
+Для оптимизации на бэке можно удалять только папочку енумов. `rm node_modules/@local/enums/;npm i`
 
 <span style="color: pink">Frontend: </span>
-`rm node_modules/ && rm package-lock.json && npm i -f`
+`rm node_modules/; rm package-lock.json; npm i -f`
 
-Для оптимизации на фронте можно удалять только папочку енумов. `rm node_modules/@local/enums/ && npm i -f`
+Для оптимизации на фронте можно удалять только папочку енумов. `rm node_modules/@local/enums/; npm i -f`
 
 На Windows требуется подтверждения, написать `A`
 
