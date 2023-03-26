@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable no-console */
+const databaseMethods = require('./databaseMethods');
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -24,5 +25,7 @@ const generateError = (message, body) => {
 
 module.exports = {
   logger,
-  generateError
+  generateError,
+  // eslint-disable-next-line node/no-unsupported-features/es-syntax
+  ...databaseMethods
 };

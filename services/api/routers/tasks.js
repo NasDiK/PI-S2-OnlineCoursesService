@@ -49,7 +49,7 @@ router.post('/checkTaskAnswer', async(req, res) => {
       return res.status(200).json({result});
     }
 
-    return res.status(400).json({result});
+    return res.status(301).json({result});
 
   } catch(err) {
     logger.error(err);

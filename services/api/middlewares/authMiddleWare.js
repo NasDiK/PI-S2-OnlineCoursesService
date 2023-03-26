@@ -9,10 +9,10 @@ module.exports = (req, res, next) => {
   const {token: accessToken, refreshtoken} = req.headers;
 
   try {
-    jwt.verify(accessToken, secret.accessTokenKey);
+    jwt.verify(accessToken, config.accessTokenKey);
   } catch(_) {
     try {
-      const {id: {id: userId}, roleid: roleIds} = jwt.verify(refreshtoken, secret.refreshTokenKey);
+      const {id: {id: userId}, roleid: roleIds} = jwt.verify(refreshtoken, config.refreshTokenKey);
 
       const payload = {
         userId,
@@ -20,7 +20,7 @@ module.exports = (req, res, next) => {
       };
 
       const tokenNew = jwt.sign(
-        payload, secret.accessTokenKey, {expiresIn: config.tokensExpiresTime.access}
+        payload, config.accessTokenKey, {expiresIn: config.tokensExpiresTime.access}
       ); //new AccessToken
 
       res.header('Access-Control-Allow-Origin', '*');

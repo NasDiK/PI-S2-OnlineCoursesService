@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {accessTokenKey: secretKey} = require('../config');
+const {getUserPermissions} = require('../core');
 
 /**
  * С фронта через апи к нам прилетает JWT Токен, этот пайплайн начиняет запрос...
@@ -10,11 +11,12 @@ const {accessTokenKey: secretKey} = require('../config');
  */
 module.exports = (req, res, next) => {
   const {token} = req.headers; //access token
+  const {userId} = jwt.verify(token, secretKey);
 
-  const test = jwt.verify(token, secretKey);
+  req.headers.userId = userId;
 
-  req.headers.userId = test.userId;
-  req.headers.userRoles = test.roleIds;
-
-  next();
+  getUserPermissions(userId).then((result) => {
+    req.headers.userRoles = result;
+    next();
+  });
 };
