@@ -1,12 +1,15 @@
 const jwt = require('jsonwebtoken');
-const secret = require('../config');
+const config = require('../config');
 
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
 module.exports = (req, res, next) => {
-  const {token} = req.headers;
-  const {refreshtoken} = req.headers;
+  const {token: accessToken, refreshtoken} = req.headers;
 
   try {
-    jwt.verify(token, secret.accessTokenKey);
+    jwt.verify(accessToken, secret.accessTokenKey);
   } catch(_) {
     try {
       const {id: {id: userId}, roleid: roleIds} = jwt.verify(refreshtoken, secret.refreshTokenKey);
@@ -16,9 +19,15 @@ module.exports = (req, res, next) => {
         roleIds
       };
 
-      const tokenNew = jwt.sign(payload, secret.accessTokenKey, {expiresIn: 10 * 60});
+      const tokenNew = jwt.sign(
+        payload, secret.accessTokenKey, {expiresIn: config.tokensExpiresTime.access}
+      ); //new AccessToken
 
-      res.setHeader('token', tokenNew);
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE');
+      res.header('Access-Control-Allow-Headers', 'Content-Type, x-auth-token');
+      res.header('Access-Control-Expose-Headers', 'x-auth-token');
+      res.setHeader('x-auth-token', tokenNew);
       req.headers.token = tokenNew;
 
     } catch(__) {

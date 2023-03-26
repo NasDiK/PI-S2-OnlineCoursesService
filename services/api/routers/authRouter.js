@@ -12,7 +12,6 @@ authRouter.post('/registration', [
     .isLength({min: 3, max: 10})
 ], controller.registration);
 authRouter.post('/auth', controller.login);
-authRouter.post('/logout', controller.logout);
 authRouter.post('/check', controller.check);
 
 module.exports = authRouter;

@@ -9,7 +9,7 @@ const {accessTokenKey: secretKey} = require('../config');
  * @param {import('express').NextFunction} next
  */
 module.exports = (req, res, next) => {
-  const {token} = req.headers;
+  const {token} = req.headers; //access token
 
   const test = jwt.verify(token, secretKey);
 
