@@ -5,8 +5,12 @@ class Api {
   private _bodyInfo; //nullable->object
   private _pathName;
 
-  get token() {
+  get accessToken() {
     return localStorage.getItem('access');
+  }
+
+  get refreshToken() {
+    return localStorage.getItem('refresh');
   }
 
   path = (name) => {
@@ -32,7 +36,8 @@ class Api {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      token: this.token,
+      token: this.accessToken,
+      refreshToken: this.refreshToken,
       ...this._paramsInfo
     }
   }).then((x) => x.json());
@@ -43,7 +48,8 @@ class Api {
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      token: this.token,
+      token: this.accessToken,
+      refreshToken: this.refreshToken,
       ...this._paramsInfo
     }
   }).then((x) => x.json());

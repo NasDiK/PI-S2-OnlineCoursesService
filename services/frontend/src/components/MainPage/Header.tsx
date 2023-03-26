@@ -15,6 +15,7 @@ const Header = () => {
       .executePost();
 
     localStorage.removeItem('access');
+    localStorage.removeItem('refresh');
     dispatch(logoutFunc());
     navigate('/auth');
   };

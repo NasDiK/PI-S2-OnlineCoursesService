@@ -10,10 +10,11 @@ const {accessTokenKey: secretKey} = require('../config');
  */
 module.exports = (req, res, next) => {
   const {token} = req.headers;
-  const {id: {id: userId}, roleId: roleIds} = jwt.verify(token, secretKey);
 
-  req.headers.userId = userId;
-  req.headers.userRoles = roleIds;
+  const test = jwt.verify(token, secretKey);
+
+  req.headers.userId = test.userId;
+  req.headers.userRoles = test.roleIds;
 
   next();
 };
