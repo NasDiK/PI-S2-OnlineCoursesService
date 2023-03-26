@@ -33,26 +33,46 @@ class Api {
 
   executeGet = () => fetch(`http://localhost:${API_PORT}${this._pathName}`, {
     method: 'GET',
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       token: this.accessToken,
       refreshToken: this.refreshToken,
       ...this._paramsInfo
     }
-  }).then((x) => x.json());
+  }).then((x) => {
+    try {
+      const _newAT = x.headers.get('x-auth-token');
+
+      _newAT && localStorage.setItem('access', _newAT);
+      const xJson = x.json();
+
+      return xJson;
+    } catch(err) {
+      return x;
+    }
+  });
 
   executePost = () => fetch(`http://localhost:${API_PORT}${this._pathName}`, {
     method: 'POST',
     body: JSON.stringify(this._bodyInfo),
-    credentials: 'include',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
       token: this.accessToken,
       refreshToken: this.refreshToken,
       ...this._paramsInfo
     }
-  }).then((x) => x.json());
+  }).then((x) => {
+    try {
+      const _newAT = x.headers.get('x-auth-token');
+
+      _newAT && localStorage.setItem('access', _newAT);
+      const xJson = x.json();
+
+      return xJson;
+    } catch(err) {
+      return x;
+    }
+  });
 }
 
 export default Api;

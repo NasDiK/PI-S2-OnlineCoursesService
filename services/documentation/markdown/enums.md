@@ -9,7 +9,7 @@
 <span style="color: lime">Api: </span>
 `rm node_modules/; rm package-lock.json; npm i`
 
-Для оптимизации на бэке можно удалять только папочку енумов. `rm node_modules/@local/enums/;npm i`
+Для оптимизации на бэке можно удалять только папочку енумов. `rm node_modules/@local/enums/; npm i`
 
 <span style="color: pink">Frontend: </span>
 `rm node_modules/; rm package-lock.json; npm i -f`

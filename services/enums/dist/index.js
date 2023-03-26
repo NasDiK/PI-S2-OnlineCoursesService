@@ -23,9 +23,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tasks = exports.services = exports.rights = exports.shared = void 0;
+exports.roles = exports.tasks = exports.services = exports.rights = exports.shared = void 0;
 exports.shared = __importStar(require("./shared"));
 exports.rights = __importStar(require("./rights"));
 exports.services = __importStar(require("./services"));
 exports.tasks = __importStar(require("./tasks"));
+exports.roles = __importStar(require("./roles"));
 //# sourceMappingURL=index.js.map
