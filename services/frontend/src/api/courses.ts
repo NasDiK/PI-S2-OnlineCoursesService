@@ -3,6 +3,12 @@ const searchCourses = () => window.api()
   .body({})
   .executePost();
 
+const getCoursesList = (usersIds) => window.api()
+  .path('/courses/getCoursesList')
+  .body({usersIds})
+  .executePost();
+
 export {
-  searchCourses
+  searchCourses,
+  getCoursesList
 };

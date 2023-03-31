@@ -8,14 +8,14 @@ import PropTypes from 'prop-types';
 const CourseCard = (props) => {
   const navigate = useNavigate();
   const moveToCourse = () => {
-    navigate('/course/1/1');
+    navigate(`/course/${props.id}/1`);
   };
 
   return (
     <div className={s.card}>
       <div className={s.cardBody}>
         <div className={s.courseHeader}>
-          <Typography variant={'body20'} weight='bold'>{props.title}</Typography>
+          <Typography variant={'body20'} weight={'bold'}>{props.title}</Typography>
           <div className={s.courseDescription}>
             <Typography variant={'body14'}>{props.description}</Typography>
           </div>
@@ -37,6 +37,7 @@ const CourseCard = (props) => {
 };
 
 CourseCard.propTypes = {
+  id: PropTypes.node,
   title: PropTypes.node,
   description: PropTypes.node
 };
