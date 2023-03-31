@@ -3,8 +3,9 @@ import s from './Card.module.scss';
 import Typography from '../../../shared/Basic/Typography/Typography';
 import Button from '../../../shared/Basic/Button/Button';
 import {useNavigate} from 'react-router';
+import PropTypes from 'prop-types';
 
-const CourseCard = () => {
+const CourseCard = (props) => {
   const navigate = useNavigate();
   const moveToCourse = () => {
     navigate('/course/1/1');
@@ -14,9 +15,9 @@ const CourseCard = () => {
     <div className={s.card}>
       <div className={s.cardBody}>
         <div className={s.courseHeader}>
-          <Typography variant={'body20'} weight='bold'>{'Заголовок курса'}</Typography>
+          <Typography variant={'body20'} weight='bold'>{props.title}</Typography>
           <div className={s.courseDescription}>
-            <Typography variant={'body14'}>{'Описание курса'}</Typography>
+            <Typography variant={'body14'}>{props.description}</Typography>
           </div>
         </div>
       </div>
@@ -33,6 +34,11 @@ const CourseCard = () => {
       </div>
     </div>
   );
+};
+
+CourseCard.propTypes = {
+  title: PropTypes.node,
+  description: PropTypes.node
 };
 
 export default CourseCard;
