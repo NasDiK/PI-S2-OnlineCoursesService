@@ -12,6 +12,7 @@ const {getUserPermissions} = require('../core');
 module.exports = (req, res, next) => {
   const {token} = req.headers; //access token
   const {userId} = jwt.verify(token, secretKey);
+  console.log(userId);
 
   req.headers.userId = userId;
 

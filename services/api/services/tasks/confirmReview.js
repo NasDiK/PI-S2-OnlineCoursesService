@@ -7,15 +7,15 @@ const {logger, generateError} = require('../../core');
 const writeTaskLog = require('./writeTaskLog');
 
 /**
- * Проверяет ответ к заданию (доступно только для авто-типов)
- * @param {import('knex').Knex} knex
- * @param {{
- *  taskId: number
- *  answer: any
- * }} request
- * @returns {object} Задача
- */
-const checkTaskAnswer = async(knex, request) => {
+   * Проверяет ответ к заданию (доступно только для авто-типов)
+   * @param {import('knex').Knex} knex
+   * @param {{
+   *  taskId: number
+   *  answer: any
+   * }} request
+   * @returns {object} Задача
+   */
+const confirmReview = async(knex, request) => {
   const {taskId, answer} = request.body;
 
   const [currentTask] = await knex('tasks')
@@ -57,8 +57,7 @@ const checkTaskAnswer = async(knex, request) => {
       case tasksEnum.TEXT_AREA:
         writeTaskLog(knex, request, currentTask, {
           action: taskActionEnum.SEND_TO_REVIEW,
-          'value': answer,
-          userId: request.headers.userId
+          'value': answer
         });
 
         return true;
@@ -72,4 +71,4 @@ const checkTaskAnswer = async(knex, request) => {
   }
 };
 
-module.exports = checkTaskAnswer;
+module.exports = confirmReview;

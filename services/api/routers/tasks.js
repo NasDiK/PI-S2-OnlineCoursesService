@@ -4,7 +4,8 @@ const router = express.Router();
 const {
   searchTasks,
   getTaskById,
-  checkTaskAnswer
+  checkTaskAnswer,
+  confirmReview
 } = require('../controllers/tasks');
 const validateParams = require('../utils/validateParams');
 const {logger} = require('../core');
@@ -50,6 +51,22 @@ router.post('/checkTaskAnswer', async(req, res) => {
     }
 
     return res.status(301).json({result});
+
+  } catch(err) {
+    logger.error(err);
+    res.send({
+      message: err.message,
+      status: 500
+    });
+  }
+});
+
+router.post('/confirmReview', async(req, res) => {
+  try {
+    validateParams(['taskId', 'userId'], req);
+    await confirmReview(req);
+
+    return res.status(200);
 
   } catch(err) {
     logger.error(err);

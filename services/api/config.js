@@ -2,7 +2,7 @@ module.exports = {
   accessTokenKey: 'ACCESS_KEY ',
   refreshTokenKey: 'REFRESH_KEY ',
   tokensExpiresTime: {
-    access: 30, //30 second
-    refresh: 60 * 60 * 2 //2 hours
+    access: 30 * 9999999, //30 second
+    refresh: 60 * 60 * 99999999 //2 hours
   }
 };
