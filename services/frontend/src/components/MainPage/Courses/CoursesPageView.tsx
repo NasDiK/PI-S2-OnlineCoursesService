@@ -4,6 +4,7 @@ import Typography from '../../shared/Basic/Typography/Typography';
 import CourseCard from './Components/CourseCard';
 import {getCoursesList} from '../../../api/courses';
 
+let arr;
 const renderCourseCard = (course) => (
   <CourseCard
     key={course.id}
@@ -20,13 +21,21 @@ const CoursesPageView = () => {
   useEffect(() => {
     getCoursesList([6, 7]).then((x) => {
       setMainElement(x);
-      // eslint-disable-next-line no-console
-      console.log(mainElement);
     });
+    asyncGet();
   }, []);
 
+  const asyncGet = async() => {
+    await getCoursesList([6, 7]).then((x) => {
+      arr = x;
+      setMainElement(x);
+    });
+  };
+
+  asyncGet();
+
   // eslint-disable-next-line no-console
-  console.log(mainElement);
+  console.log(arr);
 
   return (
     <div className={s.courseContent}>
@@ -34,7 +43,7 @@ const CoursesPageView = () => {
         <Typography variant={'body24'} weight='bold'>{'Мои курсы'}</Typography>
       </div>
       <div className={s.cards}>
-        {mainElement?.length && mainElement.courses.map((el) => renderCourseCard(el))}
+        {arr.courses.map((el) => renderCourseCard(el))}
       </div>
     </div>
   );
