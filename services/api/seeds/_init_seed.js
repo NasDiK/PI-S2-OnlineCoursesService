@@ -63,7 +63,11 @@ exports.seed = async function(knex) {
   console.log('\nInserted roles_users relations:', _relations_users_roles);
 
   const _courses = await knex('courses').insert([
-    {title: 'Тестовый курс #1', description: 'Проверяем работу себя'}
+    {title: 'Тестовый курс #1', description: 'Проверяем работу себя'},
+    {title: 'Тестовый курс #2', description: 'Проверяем работу себя2'},
+    {title: 'Тестовый курс #3', description: 'Проверяем работу себя3'},
+    {title: 'Тестовый курс #4', description: 'Проверяем работу себя4'},
+    {title: 'Тестовый курс #5', description: 'Проверяем работу себя5'}
   ])
     .returning('*');
 
@@ -130,10 +134,14 @@ Kek();`,
 
   console.log('\nInserted tasks:', _tasks);
 
-  const _groups = await knex('groups').insert({
+  const _groups = await knex('groups').insert([{
     'course_id': courseId,
     title: 'Огурцы'
-  })
+  },
+  {
+    'course_id': _courses[1].id,
+    title: 'Огурцы'
+  }])
     .returning('*');
 
   console.log('Inserted groups: ', _groups);
@@ -149,6 +157,10 @@ Kek();`,
     {
       'user_id': _users[2], //student
       'group_id': groupId
+    },
+    {
+      'user_id': _users[2], //student
+      'group_id': _groups[1].id
     }
   ])
     .returning('*');

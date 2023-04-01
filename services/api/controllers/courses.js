@@ -1,5 +1,5 @@
 const config = require('../knexfile.js');
-const {logger} = require('../routers/utils');
+const {logger} = require('../core');
 const knex = require('knex')(config.development);
 
 const getCoursesList = async(req, res) => {
