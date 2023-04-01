@@ -1,6 +1,5 @@
 const searchCourses = () => window.api()
   .path('/courses/searchCourses')
-  .body({})
   .executePost();
 
 const getCoursesList = (usersIds) => window.api()
