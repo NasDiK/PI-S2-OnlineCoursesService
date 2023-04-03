@@ -17,10 +17,9 @@ const useStyles = makeStyles(() => {
   };
 });
 
-//TODO: Доработать
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const primary = (props: any) => {
-  const {children, size = 'small', fullWidth, onClick} = props;
+  const {children, size = 'small', fullWidth, onClick, backgroundColor} = props;
 
   const classes = useStyles();
 
@@ -36,6 +35,7 @@ const primary = (props: any) => {
           s.primary
         )
       }
+      style={backgroundColor && {backgroundColor}}
       onClick={onClick}
     >
       {children}

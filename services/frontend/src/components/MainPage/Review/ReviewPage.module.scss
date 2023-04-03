@@ -1,0 +1,41 @@
+.reviewWrapper {
+  margin: 24px 50px 50px 60px;
+
+  .taskTitle {
+    text-align: center;
+  }
+
+  .taskWrapper {
+    margin-top: 19px;
+    background-color: white;
+
+    .notebox {
+      display: flex;
+      justify-content: space-between;
+      color: #8D8D8D;
+
+      padding: 14px 20px;
+      border-bottom: 1px solid black;
+    }
+
+    .description {
+      padding: 20px;
+    }
+  }
+
+  .answer {
+    background-color: white;
+    margin-top: 20px;
+    padding: 12px 20px;
+
+    .buttons {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+
+      & >:not(:last-child) {
+        margin-right: 16px;
+      }
+    }
+  }
+}

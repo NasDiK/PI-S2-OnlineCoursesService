@@ -12,7 +12,8 @@ export type ButtonProps = {
   children?: React.ReactNode,
   padding?: string,
   fullWidth?: boolean,
-  onClick?: any //функция обработчика
+  onClick?: any, //функция обработчика,
+  backgroundColor?: string
 };
 
 const Button = (props: ButtonProps) => {

@@ -7,7 +7,7 @@
   min-height: 20px;
 
   &:active {
-    background-color: $cornflower-80;
+    background-color: $cornflower-80 !important;
     cursor: pointer;
   }
 }
