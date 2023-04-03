@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <WrapComponent component={<WithHeader component={<StudentsPage />} />} />
   },
   {
-    path: '/admin-panel',
+    path: '/admin-panel/:groupId?',
     element: <WrapComponent component={<WithHeader component={<AdminPanelPage />} />} />
   },
   {

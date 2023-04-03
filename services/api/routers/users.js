@@ -1,4 +1,5 @@
 const express = require('express');
+const controller = require('../controllers/users');
 const router = express.Router();
 
 /*
@@ -7,5 +8,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.send('you are on page users');
 });
+
+router.post('/getUsersByRole', controller.getUsersByRole);
 
 module.exports = router;

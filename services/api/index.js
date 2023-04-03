@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const express = require('express');
-const {usersRouter, tasksRouter, authRouter, coursesRouter, reviewsRoutes} = require('./routers');
+const {usersRouter, tasksRouter, authRouter, coursesRouter, reviewsRoutes, groupsRouter} = require('./routers');
 const cors = require('cors');
 const authMiddleware = require('./middlewares/authMiddleWare');
 const encodeTokenMiddleware = require('./middlewares/encodeTokenMiddleware');
@@ -23,6 +23,7 @@ try {
   app.use('/tasks', tasksRouter);
   app.use('/courses', coursesRouter);
   app.use('/reviews', reviewsRoutes);
+  app.use('/groups', groupsRouter);
 } catch(err) {
   logger.error(err);
 }

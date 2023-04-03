@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Select, MenuItem} from '@mui/material';
 
 export interface IOption {
@@ -7,16 +7,20 @@ export interface IOption {
   label: string
 }
 interface SelectProps {
-  variant?: 'outline' | 'normal',
+  variant?: 'outline' | 'normal' | 'multi',
   size?: 'small' | 'medium',
-  options?: ArrayLike<IOption>,
+  options?: IOption[],
+  fullWidth?: boolean,
+  multiple?: boolean,
+  // eslint-disable-next-line id-denylist
+  value?: number[],
   onChange: (val) => VoidFunction;
 }
 
 const getSelectByType = (variant: string, props: SelectProps) => {
   //TODO доработать options
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {options, size, onChange} = props;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,id-denylist
+  const {options, size, onChange, fullWidth, multiple, value} = props;
 
   switch (variant) {
     case 'outline':
@@ -36,10 +40,30 @@ const getSelectByType = (variant: string, props: SelectProps) => {
         <Select
           variant={'standard'}
           size={size}
+          onChange={(ev) => onChange(ev.target.value)}
+          sx={{width: '100%', position: 'relative'}}
         >
-          <MenuItem value={10}>{'Ten'}</MenuItem>
-          <MenuItem value={20}>{'Twenty'}</MenuItem>
-          <MenuItem value={30}>{'Thirty'}</MenuItem>
+          {
+            options?.map((el, index) =>
+              <MenuItem key={index} value={el.value}>{el.label}</MenuItem>)
+          }
+        </Select>
+      );
+    case 'multi':
+      return (
+        <Select
+          variant={'standard'}
+          size={size}
+          multiple={multiple}
+          onChange={(ev) => onChange(ev.target.value)}
+          sx={{width: '100%', position: 'relative'}}
+          // eslint-disable-next-line id-denylist
+          value={value}
+        >
+          {
+            options?.map((el, index) =>
+              <MenuItem key={index} value={el.value}>{el.label}</MenuItem>)
+          }
         </Select>
       );
     default:
