@@ -97,7 +97,7 @@ const TaskView = () => {
   const [answer, setAnswer] = useState();
 
   useEffect(() => {
-    const taskId = Number(match.params.taskId);
+    const taskId = Number(match.params.id);
 
     searchTaskWithId(setTaskDispatch, taskId).then(() => setAnswer(undefined));
   }, [match.pathname]);

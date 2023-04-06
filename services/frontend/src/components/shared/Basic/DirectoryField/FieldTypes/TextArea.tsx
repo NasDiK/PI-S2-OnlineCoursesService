@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import s from './field.module.scss';
 import cn from 'classnames';
 
@@ -10,7 +10,11 @@ interface iProps {
 
 const TextArea = (props: iProps) => {
   const {value: val = '', isDone = false, onChange} = props;
-  const [_val, _setVal] = useState<string>(val);
+  const [_val, _setVal] = useState(val);
+
+  useEffect(() => {
+    _setVal(val);
+  }, [val]);
 
   return (
     <div className={s.textArea}>
@@ -32,7 +36,7 @@ const TextArea = (props: iProps) => {
             onChange(ev.target.value);
           }
         }
-        defaultValue={_val}
+        defaultValue={val}
       />
     </div>
   );

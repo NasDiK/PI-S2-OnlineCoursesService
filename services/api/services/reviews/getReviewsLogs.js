@@ -1,3 +1,5 @@
+const {tasks: {action}} = require('@local/enums');
+
 /**
  * @typedef {{
  *  fields: string[]
@@ -29,7 +31,12 @@ module.exports = (knex, req) => {
       createdBy
     } = {}
   } = req.body;
-  const _model = knex('tasks_logger').select(fields);
+  const _model = knex('tasks_logger').select(fields)
+    .whereIn('action', [
+      action.SEND_TO_REVIEW,
+      action.REVIEW_APPROVE,
+      action.REVIEW_FAIL
+    ]);
 
   if (appends.length) {
     appends.forEach((_append) => {
@@ -40,9 +47,22 @@ module.exports = (knex, req) => {
             this.on('task_id', '=', 'tasks.id');
           });
           break;
+        case 'users':
+          _model.leftJoin('users', function() {
+            this.on('user_id', '=', 'users.id');
+          });
+          break;
       }
     });
   }
+
+  _model.leftJoin('groups_users', function() {
+    this.on('tasks_logger.user_id', '=', 'groups_users.user_id');
+  });
+
+  _model.leftJoin('groups', function() {
+    this.on('groups_users.group_id', '=', 'groups.id');
+  });
 
   if (userId) {
     _model.where('user_id', userId);
