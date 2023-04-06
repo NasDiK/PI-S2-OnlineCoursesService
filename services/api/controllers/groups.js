@@ -29,7 +29,23 @@ const getGroups = async(req, res) => {
   }
 };
 
+const getUsersInGroup = async(req, res) => {
+  try {
+    const {groupId} = req.body;
+    const users = await knex('groups_users')
+      .select('user_id')
+      .where('group_id', groupId);
+
+    return res.status(200).json({users});
+  } catch(exception) {
+    logger.error(exception);
+    res.status(400).json({message: exception});
+  }
+};
+
 module.exports = {
   createGroup,
-  getGroups
+  getGroups,
+  getUsersInGroup,
+  changeGroup
 };

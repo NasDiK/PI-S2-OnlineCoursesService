@@ -6,11 +6,11 @@ import {useSelector} from 'react-redux';
 import {BigPanelSelector} from '../../shared';
 import {getUsersByRole} from '../../../api/users';
 import AddUserSelectComponent from './components/AddUserSelectComponent';
-import {getGroups} from '../../../api/groups';
-//import {searchTasks, tasksFieldsNamesEnum} from '@api/tasks';
+import {getGroups, getUsersInGroups} from '../../../api/groups';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
 import {shared} from '@local/enums';
 import {targetFields} from '@local/enums/shared';
+import {useMatches} from 'react-router';
 
 const minimalElement: iElement = {
   id: -1,
@@ -26,6 +26,8 @@ const AdminPanelPageView = () => {
   // eslint-disable-next-line
   const [users, setUsers]: any = useState<any>();
   const [groupElement, setGroupElement] = useState<iElement>();
+  const [match] = useMatches();
+  const {groupId} = match.params;
 
   useEffect(() => {
     getCoursesList([userId]).then((x) => {
@@ -35,34 +37,28 @@ const AdminPanelPageView = () => {
       setUsers(x);
     });
     getGroups().then(({groups}) => {
+      // eslint-disable-next-line max-nested-callbacks
+      const subGroups = groups.map((el) => {
+        const subGroup = {
+          id: el.id,
+          name: el.title,
+          type: targetFields.ELEMENT
+        };
+
+        return subGroup;
+      });
+
       setGroupElement({id: groups[0].id,
         name: 'Выберите группу',
         type: targetFields.ELEMENT_GROUP,
-        subGroup: [{id: groups[1].id,
-          name: 'MOCK_COURSE_NAME',
-          type: targetFields.ELEMENT}]});
+        subGroup: subGroups});
+    });
+
+    getUsersInGroups(groupId).then((x) => {
       // eslint-disable-next-line no-console
-      console.log(groupElement);
+      console.log(x);
     });
   }, [userId]);
-
-  /*useEffect(() => {
-    searchTasks({
-      coursesIds: [Number(courseId)],
-      fields: [
-        tasksFieldsNamesEnum.ID,
-        tasksFieldsNamesEnum.TITLE,
-        tasksFieldsNamesEnum.WEIGHT,
-        tasksFieldsNamesEnum.COURSE_ID,
-        tasksFieldsNamesEnum.MAX_NOTE
-      ]
-    }).then((x) => {
-      const {tasks} = x;
-      const groupedElement = groupTasksForSidebar(tasks);
-
-      setMainElement(groupedElement);
-    });
-  }, []);*/
 
   const options = mainElement?.courses.map((el) => {
     // eslint-disable-next-line id-denylist
@@ -74,9 +70,7 @@ const AdminPanelPageView = () => {
       <div className={s.groupsSelector}>
         <BigPanelSelector
           element={groupElement || minimalElement}
-          renderableComponent={
-            <AddUserSelectComponent />
-          }
+          renderableComponent={<AddUserSelectComponent />}
           elementLink={`/admin-panel/`}
           withLinear={false}
         />

@@ -3,10 +3,13 @@ import DirectoryField from '../../../shared/Basic/DirectoryField/DirectoryField'
 import {fieldType} from '@local/enums/dist/shared';
 import {getCoursesList} from '../../../../api/courses';
 import {getUsersByRole} from '../../../../api/users';
-import {getGroups} from '../../../../api/groups';
+import {getGroups, getUsersInGroups} from '../../../../api/groups';
 import {useSelector} from 'react-redux';
 import s from '../../Courses/Components/styles.module.scss';
 import Typography from '../../../shared/Basic/Typography/Typography';
+import {useMatches} from 'react-router';
+import {targetFields} from '@local/enums/shared';
+import Button from '../../../shared/Basic/Button/Button';
 
 const AddUserSelectComponent = () => {
   // eslint-disable-next-line
@@ -16,6 +19,18 @@ const AddUserSelectComponent = () => {
   const [usersIds, setusersIds]: any = useState<any>([]);
   const [mainElement, setMainElement] = useState<any>();
   const userId = useSelector((state: any) => state.userStore.userData.userId);
+
+  const [match] = useMatches();
+  const {groupId} = match.params;
+
+  useEffect(() => {
+    getUsersInGroups(groupId).then((x) => {
+      // eslint-disable-next-line max-nested-callbacks
+      const t = x.users.map((el) => el.user_id);
+
+      setusersIds(t);
+    });
+  }, [groupId]);
 
   useEffect(() => {
     getCoursesList([userId]).then((x) => {
@@ -36,6 +51,12 @@ const AddUserSelectComponent = () => {
     // eslint-disable-next-line id-denylist
     return {label: el.fullname, value: el.id};
   });
+
+  const changeGroup = () => {
+
+    // eslint-disable-next-line no-console
+    console.log('adasd');
+  };
 
   return (
     <div>
@@ -65,6 +86,13 @@ const AddUserSelectComponent = () => {
         variant={'multi'}
         value={usersIds}
       />
+      <Button
+        variant={'primary'}
+        onClick={
+          () => changeGroup()
+        }
+      >{'Сохранить'}
+      </Button>
     </div>
   );
 };

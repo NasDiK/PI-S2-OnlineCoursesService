@@ -7,6 +7,11 @@ export const getGroups = () => window.api()
   .path('/groups/getGroups')
   .executePost();
 
+export const getUsersInGroups = (groupId) => window.api()
+  .path('/groups/getUsersInGroups')
+  .body({groupId})
+  .executePost();
+
 export {
   createGroup
 };
