@@ -3,52 +3,30 @@ import {iElement} from '../../../components/shared/BigPanelSelector/Components/C
 import {shared} from '@local/enums';
 
 export interface iState {
-  element?: iElement
+  element?: iElement,
+  reviewsList: Array<unknown>,
 }
 
 const initialState: iState = {
   element: {
     id: -1,
     type: shared.targetFields.ELEMENT_GROUP,
-    name: 'ROT EBAL',
-    isDone: false,
-    subGroup: [
-      {
-        id: 1,
-        type: shared.targetFields.ELEMENT_GROUP,
-        name: 'ПИ 20.01',
-        subGroup: [
-          {
-            id: 1,
-            type: shared.targetFields.ELEMENT_GROUP,
-            name: 'Тунгусов А.С.',
-            subGroup: [
-              {
-                id: 2,
-                type: shared.targetFields.ELEMENT,
-                name: 'Задача 1'
-              },
-              {
-                id: 3,
-                type: shared.targetFields.ELEMENT,
-                name: 'Задача 2'
-              }
-            ]
-          }
-        ]
-      }
-    ], //iElement[]
-    progress: 10,
-    'max_note': undefined
-  }
+    name: 'Код-ревью',
+    subGroup: []
+  },
+  reviewsList: []
 };
 
-// export const setTask = createAction('SET_TASK', (payload) => payload);
+export const setReviewsList = createAction('SET_REVIEWS_LIST', (payload) => payload);
+export const setReviewsSelectorGroups = createAction('SET_SELECTOR_GROUPS', (payload) => payload);
 
 const reducer = createReducer(initialState, {
-//   [setTask.type]: (state: iState, action) => {
-//     state.task = action.payload;
-//   }
+  [setReviewsList.type]: (state: iState, action) => {
+    state.reviewsList = action.payload;
+  },
+  [setReviewsSelectorGroups.type]: (state: iState, action) => {
+    state.element = action.payload;
+  }
 });
 
 const rootReducer = combineReducers({
