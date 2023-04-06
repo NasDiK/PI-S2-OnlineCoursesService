@@ -21,7 +21,7 @@ const AddUserSelectComponent = () => {
   const userId = useSelector((state: any) => state.userStore.userData.userId);
 
   const [match] = useMatches();
-  const {groupId} = match.params;
+  const {id: groupId} = match.params;
 
   useEffect(() => {
     getUsersInGroups(groupId).then((x) => {

@@ -24,27 +24,9 @@ const style = {
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const BasicModal = (props: any) => {
-  let name;
-  let courseId;
-
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const onChangeName = (val) => {
-    name = val;
-  };
-
-  const onChangeCourse = (val) => {
-    courseId = val;
-  };
-  const addGroup = () => {
-
-    createGroup(name, courseId).then((x) => {
-      // eslint-disable-next-line no-console
-      console.log(x);
-    });
-  };
 
   return (
     <div>
@@ -56,20 +38,7 @@ const BasicModal = (props: any) => {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          <DirectoryField
-            type={2}
-            placeholder={'Введите название группы'}
-            size={'small'}
-            fullWidth={true}
-            onChange={onChangeName}
-          />
-          <DirectoryField
-            type={fieldType.SELECT}
-            size={'small'}
-            options={props.options}
-            onChange={onChangeCourse}
-          />
-          <Button onClick={addGroup}>{props.buttonText}</Button>
+          {props.children}
         </Box>
       </Modal>
     </div>
