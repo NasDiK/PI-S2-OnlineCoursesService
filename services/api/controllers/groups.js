@@ -46,6 +46,5 @@ const getUsersInGroup = async(req, res) => {
 module.exports = {
   createGroup,
   getGroups,
-  getUsersInGroup,
-  changeGroup
+  getUsersInGroup
 };
