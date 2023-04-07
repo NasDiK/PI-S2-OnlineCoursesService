@@ -12,6 +12,11 @@ export const getUsersInGroups = (groupId) => window.api()
   .body({groupId})
   .executePost();
 
+export const saveGroupChanges = (groupId, usersIds) => window.api()
+  .path('/groups/saveGroupChanges')
+  .body({groupId, usersIds})
+  .executePost();
+
 export {
   createGroup
 };

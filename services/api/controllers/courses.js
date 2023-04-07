@@ -2,7 +2,7 @@ const config = require('../knexfile.js');
 const {logger} = require('../core');
 const knex = require('knex')(config.development);
 
-const getCoursesList = async(req, res) => {
+const getCoursesListByUsers = async(req, res) => {
   try {
     const {usersIds} = req.body;
 
@@ -26,7 +26,7 @@ const getCoursesList = async(req, res) => {
   }
 };
 
-const searchCourses = async(req, res) => {
+const getAllCurses = async(req, res) => {
   try {
     const courses = await knex('courses').select('id', 'title', 'description');
 
@@ -37,4 +37,4 @@ const searchCourses = async(req, res) => {
   }
 };
 
-module.exports = {searchCourses, getCoursesList};
+module.exports = {getAllCurses, getCoursesListByUsers};

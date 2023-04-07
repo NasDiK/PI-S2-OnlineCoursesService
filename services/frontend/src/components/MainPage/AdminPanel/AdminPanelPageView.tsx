@@ -1,18 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import s from './AdminPanel.module.scss';
 import Modal from '../../shared/Basic/Modal/Modal';
-import {getCoursesList} from '../../../api/courses';
+import {getAllCurses} from '../../../api/courses';
 import {useSelector} from 'react-redux';
 import {BigPanelSelector} from '../../shared';
-import {getUsersByRole} from '../../../api/users';
 import AddUserSelectComponent from './components/AddUserSelectComponent';
-import {createGroup, getGroups, getUsersInGroups} from '../../../api/groups';
+import {createGroup, getGroups} from '../../../api/groups';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
 import {shared} from '@local/enums';
 import {fieldType, targetFields} from '@local/enums/shared';
-import {useMatches} from 'react-router';
 import DirectoryField from '../../shared/Basic/DirectoryField/DirectoryField';
 import Button from '../../shared/Basic/Button/Button';
+import Typography from '../../shared/Basic/Typography/Typography';
 
 const minimalElement: iElement = {
   id: -1,
@@ -25,21 +24,14 @@ const AdminPanelPageView = () => {
   const userId = useSelector((state: any) => state.userStore.userData.userId);
   // eslint-disable-next-line
   const [mainElement, setMainElement] = useState<any>();
-  // eslint-disable-next-line
-  const [users, setUsers]: any = useState<any>();
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [groupElement, setGroupElement] = useState<iElement>();
-  const [match] = useMatches();
-  const {groupId} = match.params;
-
   let name;
   let courseId;
 
   useEffect(() => {
-    getCoursesList([userId]).then((x) => {
+    getAllCurses().then((x) => {
       setMainElement(x);
-    });
-    getUsersByRole(12).then((x) => {
-      setUsers(x);
     });
     getGroups().then(({groups}) => {
       // eslint-disable-next-line max-nested-callbacks
@@ -58,11 +50,6 @@ const AdminPanelPageView = () => {
         type: targetFields.ELEMENT_GROUP,
         subGroup: subGroups});
     });
-
-    getUsersInGroups(groupId).then((x) => {
-      // eslint-disable-next-line no-console
-      console.log(x);
-    });
   }, [userId]);
 
   const options = mainElement?.courses.map((el) => {
@@ -77,12 +64,17 @@ const AdminPanelPageView = () => {
   const onChangeCourse = (val) => {
     courseId = val;
   };
-  const addGroup = () => {
 
-    createGroup(name, courseId).then((x) => {
-      // eslint-disable-next-line no-console
-      console.log(x);
-    });
+  const addGroup = () => {
+    createGroup(name, courseId);
+  };
+
+  const modalOpen = () => {
+    setModalIsOpen(true);
+  };
+
+  const ModalSetClose = () => {
+    setModalIsOpen(false);
   };
 
   return (
@@ -95,27 +87,43 @@ const AdminPanelPageView = () => {
           withLinear={false}
         />
       </div>
+      <Button
+        fullWidth={false}
+        onClick={modalOpen}
+      >
+        {'Добавить группу'}
+      </Button>
       <div className={s.button}>
         <Modal
           variant={'basic'}
           buttonText={'Добавить группу'}
           options={options}
+          isOpen={modalIsOpen}
+          onClose={ModalSetClose}
         >
-          <div>
+          <div className={s.modalContent}>
             <DirectoryField
               type={2}
               placeholder={'Введите название группы'}
-              size={'small'}
+              size={'medium'}
               fullWidth={true}
               onChange={onChangeName}
             />
-            <DirectoryField
-              type={fieldType.SELECT}
-              size={'small'}
-              options={options}
-              onChange={onChangeCourse}
-            />
-            <Button onClick={addGroup}>
+            <div className={s.courseField}>
+              <div className={s.text}>
+                <Typography variant={'body16'}>{'Выберите курс:'}</Typography>
+              </div>
+              <DirectoryField
+                type={fieldType.SELECT}
+                size={'small'}
+                options={options}
+                onChange={onChangeCourse}
+              />
+            </div>
+            <Button
+              fullWidth={true}
+              onClick={addGroup}
+            >
               {'Добавить'}
             </Button>
           </div>

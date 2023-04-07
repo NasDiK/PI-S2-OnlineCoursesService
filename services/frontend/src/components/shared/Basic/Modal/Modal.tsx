@@ -8,7 +8,9 @@ export type ModalProps = {
   padding?: string,
   fullWidth?: boolean,
   onClick?: any, //функция обработчика
-  options?: ArrayLike<IOption>
+  options?: ArrayLike<IOption>,
+  isOpen?: boolean,
+  onClose?: any
 };
 
 const Modal = (props: ModalProps) => {

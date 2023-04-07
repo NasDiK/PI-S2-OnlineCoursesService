@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import s from './Components/styles.module.scss';
 import Typography from '../../shared/Basic/Typography/Typography';
 import CourseCard from './Components/CourseCard';
-import {getCoursesList} from '../../../api/courses';
+import {getCoursesListByUsers} from '../../../api/courses';
 import {useSelector} from 'react-redux';
 
 const renderCourseCard = (course) => (
@@ -21,7 +21,7 @@ const CoursesPageView = () => {
   const [mainElement, setMainElement] = useState<any>();
 
   useEffect(() => {
-    getCoursesList([userId]).then((x) => {
+    getCoursesListByUsers([userId]).then((x) => {
       setMainElement(x);
     });
   }, [userId]);

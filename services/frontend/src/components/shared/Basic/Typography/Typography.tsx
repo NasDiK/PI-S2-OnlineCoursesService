@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 type TypographyProps = {
   children?: React.ReactNode,
-  variant?: 'body14' | 'body24' | 'body20' | 'body32',
+  variant?: 'body14' | 'body24' | 'body20' | 'body32' | 'body16',
   weight?: 'regular' | 'medium' | 'bold',
   className?: string
 };
@@ -14,6 +14,11 @@ const useStyles = makeStyles(() => {
     //variant
     body14: {
       fontSize: 14,
+      letterSpacing: '0.25px',
+      lineHeight: '20px'
+    },
+    body18: {
+      fontSize: 16,
       letterSpacing: '0.25px',
       lineHeight: '20px'
     },

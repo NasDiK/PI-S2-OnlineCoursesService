@@ -1,13 +1,13 @@
-const searchCourses = () => window.api()
-  .path('/courses/searchCourses')
+const getAllCurses = () => window.api()
+  .path('/courses/getAllCurses')
   .executePost();
 
-const getCoursesList = (usersIds) => window.api()
-  .path('/courses/getCoursesList')
+const getCoursesListByUsers = (usersIds) => window.api()
+  .path('/courses/getCoursesListByUsers')
   .body({usersIds})
   .executePost();
 
 export {
-  searchCourses,
-  getCoursesList
+  getAllCurses,
+  getCoursesListByUsers
 };

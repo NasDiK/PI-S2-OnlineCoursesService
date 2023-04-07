@@ -1,36 +1,42 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import Button from '../../Button/Button';
-import DirectoryField from '../../DirectoryField/DirectoryField';
-import {shared} from '@local/enums';
-import {createGroup} from '../../../../../api/groups';
-
-const {fieldType} = shared;
+import s from './BasicModal.module.scss';
+import {useEffect} from 'react';
 
 const style = {
   position: 'absolute' as const,
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 420,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
   display: 'flex',
   flexDirection: 'column',
-  gap: '15px'
+  justifyContent: 'space-between',
+  height: 200
 };
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const BasicModal = (props: any) => {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const modalSetClose = props?.onClose;
+
+  useEffect(() => {
+    setOpen(props.isOpen);
+  }, [props.isOpen]);
+  const handleClose = () => {
+    setOpen(false);
+
+    if (typeof modalSetClose === typeof Function) {
+      modalSetClose();
+    }
+  };
 
   return (
-    <div>
-      <Button onClick={handleOpen}>{props.buttonText}</Button>
+    <div className={s.form}>
       <Modal
         open={open}
         onClose={handleClose}
