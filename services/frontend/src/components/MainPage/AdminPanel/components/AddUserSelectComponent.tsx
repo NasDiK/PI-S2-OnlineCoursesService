@@ -12,9 +12,11 @@ import Button from '../../../shared/Basic/Button/Button';
 const AddUserSelectComponent = () => {
   // eslint-disable-next-line
   const [users, setUsers]: any = useState<any>();
+  // eslint-disable-next-line
   const [teachers, setTeachers]: any = useState<any>();
   // eslint-disable-next-line
   const [usersIds, setusersIds]: any = useState<any>([]);
+  // eslint-disable-next-line
   const userId = useSelector((state: any) => state.userStore.userData.userId);
   const [match] = useMatches();
   const {id: groupId} = match.params;

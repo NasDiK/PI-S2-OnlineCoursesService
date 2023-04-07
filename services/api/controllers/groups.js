@@ -66,13 +66,11 @@ const saveGroupChanges = async(req, res) => {
     });
 
     const objUsers = usersForAdd.map((x) => {
-      const row = {
+      return {
         'group_id': groupId,
         'user_id': x,
         'isModerator': false
       };
-
-      return row;
     });
 
     await knex('groups_users')

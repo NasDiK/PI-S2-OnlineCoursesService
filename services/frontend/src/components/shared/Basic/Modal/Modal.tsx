@@ -7,9 +7,11 @@ export type ModalProps = {
   children?: React.ReactNode,
   padding?: string,
   fullWidth?: boolean,
+  // eslint-disable-next-line
   onClick?: any, //функция обработчика
   options?: ArrayLike<IOption>,
   isOpen?: boolean,
+  // eslint-disable-next-line
   onClose?: any
 };
 

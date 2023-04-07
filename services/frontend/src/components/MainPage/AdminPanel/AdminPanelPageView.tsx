@@ -36,13 +36,11 @@ const AdminPanelPageView = () => {
     getGroups().then(({groups}) => {
       // eslint-disable-next-line max-nested-callbacks
       const subGroups = groups.map((el) => {
-        const subGroup = {
+        return {
           id: el.id,
           name: el.title,
           type: targetFields.ELEMENT
         };
-
-        return subGroup;
       });
 
       setGroupElement({id: groups[0].id,
