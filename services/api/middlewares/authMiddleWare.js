@@ -10,13 +10,20 @@ module.exports = (req, res, next) => {
 
   try {
     jwt.verify(accessToken, config.accessTokenKey);
+    req.body.token = accessToken;
   } catch(_) {
     try {
-      const {id: {id: userId}, roleid: roleIds} = jwt.verify(refreshtoken, config.refreshTokenKey);
+      const {
+        id: {id: userId, password},
+        roleid
+      } = jwt.verify(refreshtoken, config.refreshTokenKey);
 
       const payload = {
-        userId,
-        roleIds
+        id: {
+          id: userId,
+          password
+        },
+        roleid
       };
 
       const tokenNew = jwt.sign(
