@@ -9,6 +9,7 @@ import {fieldType as taskType} from '@local/enums/tasks';
 import {fieldType as directoryFieldEnum} from '@local/enums/shared';
 import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
 import TaskModel from '../../../../stores/shared/models/TaskModel';
+import {getReviewsLogs} from '../../../../api/reviews';
 interface iStore {
   taskStore: iTaskStoreState
 }
@@ -59,13 +60,15 @@ const renderTasks = (
 
       return null;
     case taskType.TEXT_AREA:
-      _values = task?.taskValue;
+      _values = task?.taskValue || '';
+      // eslint-disable-next-line no-case-declarations
+      const _isDone = !task.isPermittedSend;
 
       return (
         <DirectoryField
           type={directoryFieldEnum.TEXT_AREA}
-          value={_values}
-          // isDone={true}
+          value={_isDone && task.lastLogValue || _values}
+          isDone={_isDone}
           onChange={(_val) => setVal(_val)}
         />
       );
@@ -90,8 +93,9 @@ const renderSubmitButton = (taskId, answer, permissions) => (
 const TaskView = () => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
+  const taskLogs = useSelector((stores: iStore) => stores.taskStore.taskLogs);
   const dispatch = useDispatch();
-  let _taskModel = new TaskModel(task);
+  let _taskModel = new TaskModel(task, taskLogs);
 
   const setTaskDispatch = (payload) => dispatch({type: 'SET_TASK', payload});
   const [answer, setAnswer] = useState();
@@ -100,11 +104,32 @@ const TaskView = () => {
     const taskId = Number(match.params.id);
 
     searchTaskWithId(setTaskDispatch, taskId).then(() => setAnswer(undefined));
+    getReviewsLogs([
+      'tasks_logger.id as log_id',
+      'action as log_action',
+      'tasks_logger.user_id as user_id',
+      'tasks.title as task_title',
+      'tasks.description as task_description',
+      'task_id as task_id',
+      'createdAt as log_date',
+      'tasks_logger.value as log_value',
+      'groups.title as group_title',
+      'groups.id as group_id',
+      'users.fullname as user_fullname',
+      'tasks.max_note as task_maxNote'
+    ], ['tasks', 'users'], {
+      tasksIds: [taskId]
+    }, [
+      ['user_id', 'asc'],
+      ['task_id', 'asc'],
+      ['createdAt', 'asc']
+    ]).then((result) => dispatch({type: 'SET_TASK_LOGS', payload: result}));
+
   }, [match.pathname]);
 
   useEffect(() => {
-    _taskModel = new TaskModel(task);
-  }, [task]);
+    _taskModel = new TaskModel(task, taskLogs);
+  }, [task, taskLogs]);
 
   return (
     <div className={s.taskWrapper}>

@@ -22,7 +22,11 @@ const ReviewPageView = () => {
       'groups.id as group_id',
       'users.fullname as user_fullname',
       'tasks.max_note as task_maxNote'
-    ], ['tasks', 'users'], {})
+    ], ['tasks', 'users'], {}, [
+      ['user_id', 'asc'],
+      ['task_id', 'asc'],
+      ['createdAt', 'asc']
+    ])
       .then((result) => {
         // eslint-disable-next-line no-console
         console.log(result);
