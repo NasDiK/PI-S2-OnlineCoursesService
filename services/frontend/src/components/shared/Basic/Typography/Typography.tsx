@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => {
       letterSpacing: '0.25px',
       lineHeight: '20px'
     },
-    body18: {
+    body16: {
       fontSize: 16,
       letterSpacing: '0.25px',
       lineHeight: '20px'

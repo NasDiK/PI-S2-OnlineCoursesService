@@ -6,7 +6,6 @@ import RadioGroup from './FieldTypes/RadioGroup';
 import CheckboxGroup from './FieldTypes/CheckboxGroup';
 import Select, {IOption} from './FieldTypes/Select';
 import TextArea from './FieldTypes/TextArea';
-import {SelectChangeEvent} from '@mui/material/Select';
 
 interface iPossibleProps {
   onChange?: (val: string) => void,
@@ -15,11 +14,11 @@ interface iPossibleProps {
   placeholder?: string,
   fullWidth?: boolean,
   size?: 'small' | 'medium',
-  variant?: 'outline' | 'standart' | 'multi',
+  variant?: 'outline' | 'standart',
   options?: ArrayLike<IOption>
   isDone?: boolean,
   name?: string,
-  multiple?:boolean
+  isMulti?:boolean
 }
 
 const getFieldByType = (type: number, props: any) => {

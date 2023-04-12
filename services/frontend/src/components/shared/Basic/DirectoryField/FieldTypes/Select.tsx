@@ -14,13 +14,14 @@ interface SelectProps {
   multiple?: boolean,
   // eslint-disable-next-line id-denylist
   value?: number[],
+  isMulti?: boolean,
   onChange: (val) => VoidFunction;
 }
 
 const getSelectByType = (variant: string, props: SelectProps) => {
   //TODO доработать options
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,id-denylist
-  const {options, size, onChange, fullWidth, multiple, value} = props;
+  const {options, size, onChange, fullWidth, multiple, value, isMulti} = props;
 
   switch (variant) {
     case 'outline':
@@ -40,21 +41,7 @@ const getSelectByType = (variant: string, props: SelectProps) => {
         <Select
           variant={'standard'}
           size={size}
-          onChange={(ev) => onChange(ev.target.value)}
-          sx={{width: '100%', position: 'relative'}}
-        >
-          {
-            options?.map((el, index) =>
-              <MenuItem key={index} value={el.value}>{el.label}</MenuItem>)
-          }
-        </Select>
-      );
-    case 'multi':
-      return (
-        <Select
-          variant={'standard'}
-          size={size}
-          multiple={multiple}
+          multiple={isMulti}
           onChange={(ev) => onChange(ev.target.value)}
           sx={{width: '100%', position: 'relative'}}
           // eslint-disable-next-line id-denylist

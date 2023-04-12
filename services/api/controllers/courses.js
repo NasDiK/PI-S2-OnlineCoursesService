@@ -26,7 +26,7 @@ const getCoursesListByUsers = async(req, res) => {
   }
 };
 
-const getAllCurses = async(req, res) => {
+const getAllCourses = async(req, res) => {
   try {
     const courses = await knex('courses').select('id', 'title', 'description');
 
@@ -37,4 +37,4 @@ const getAllCurses = async(req, res) => {
   }
 };
 
-module.exports = {getAllCurses, getCoursesListByUsers};
+module.exports = {getAllCourses, getCoursesListByUsers};

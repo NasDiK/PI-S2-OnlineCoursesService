@@ -9,6 +9,10 @@ router.get('/', (req, res) => {
   res.send('you are on page users');
 });
 
-router.post('/getUsersByRole', controller.getUsersByRole);
+router.post('/getUsersByRoleName', async(req, res) => {
+  const users = await controller.getUsersByRoleName(req);
+
+  res.send(users);
+});
 
 module.exports = router;

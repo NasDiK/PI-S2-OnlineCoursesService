@@ -1,17 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import s from './AdminPanel.module.scss';
-import Modal from '../../shared/Basic/Modal/Modal';
-import {getAllCurses} from '../../../api/courses';
+import {getAllCourses} from '../../../api/courses';
 import {useSelector} from 'react-redux';
-import {BigPanelSelector} from '../../shared';
+import {BigPanelSelector, DirectoryField, Button, Typography, Modal} from '../../shared';
 import AddUserSelectComponent from './components/AddUserSelectComponent';
 import {createGroup, getGroups} from '../../../api/groups';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
 import {shared} from '@local/enums';
 import {fieldType, targetFields} from '@local/enums/shared';
-import DirectoryField from '../../shared/Basic/DirectoryField/DirectoryField';
-import Button from '../../shared/Basic/Button/Button';
-import Typography from '../../shared/Basic/Typography/Typography';
 
 const minimalElement: iElement = {
   id: -1,
@@ -26,19 +22,18 @@ const AdminPanelPageView = () => {
   const [mainElement, setMainElement] = useState<any>();
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [groupElement, setGroupElement] = useState<iElement>();
-  let name;
-  let courseId;
+  let name, courseId;
 
   useEffect(() => {
-    getAllCurses().then((x) => {
+    getAllCourses().then((x) => {
       setMainElement(x);
     });
     getGroups().then(({groups}) => {
       // eslint-disable-next-line max-nested-callbacks
-      const subGroups = groups.map((el) => {
+      const subGroup = groups.map(({id, title}) => {
         return {
-          id: el.id,
-          name: el.title,
+          id,
+          name: title,
           type: targetFields.ELEMENT
         };
       });
@@ -46,13 +41,13 @@ const AdminPanelPageView = () => {
       setGroupElement({id: groups[0].id,
         name: 'Выберите группу',
         type: targetFields.ELEMENT_GROUP,
-        subGroup: subGroups});
+        subGroup});
     });
   }, [userId]);
 
-  const options = mainElement?.courses.map((el) => {
+  const options = mainElement?.courses.map(({id, title}) => {
     // eslint-disable-next-line id-denylist
-    return {label: el.title, value: el.id};
+    return {label: title, value: id};
   });
 
   const onChangeName = (val) => {
@@ -67,11 +62,11 @@ const AdminPanelPageView = () => {
     createGroup(name, courseId);
   };
 
-  const modalOpen = () => {
+  const openModal = () => {
     setModalIsOpen(true);
   };
 
-  const ModalSetClose = () => {
+  const modalSetClose = () => {
     setModalIsOpen(false);
   };
 
@@ -87,21 +82,19 @@ const AdminPanelPageView = () => {
       </div>
       <Button
         fullWidth={false}
-        onClick={modalOpen}
+        onClick={openModal}
       >
         {'Добавить группу'}
       </Button>
       <div className={s.button}>
         <Modal
           variant={'basic'}
-          buttonText={'Добавить группу'}
-          options={options}
           isOpen={modalIsOpen}
-          onClose={ModalSetClose}
+          onClose={modalSetClose}
         >
           <div className={s.modalContent}>
             <DirectoryField
-              type={2}
+              type={fieldType.TEXT}
               placeholder={'Введите название группы'}
               size={'medium'}
               fullWidth={true}

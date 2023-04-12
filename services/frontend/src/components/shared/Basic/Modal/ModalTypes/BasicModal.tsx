@@ -43,9 +43,9 @@ const BasicModal = (props: any) => {
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Box sx={style}>
+        <div className={s.style}>
           {props.children}
-        </Box>
+        </div>
       </Modal>
     </div>
   );

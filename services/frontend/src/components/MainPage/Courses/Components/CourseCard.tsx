@@ -1,33 +1,28 @@
 import React from 'react';
 import s from './Card.module.scss';
-import Typography from '../../../shared/Basic/Typography/Typography';
-import Button from '../../../shared/Basic/Button/Button';
+import {Typography, Button} from '../../../shared';
 import {useNavigate} from 'react-router';
 import PropTypes from 'prop-types';
 
 const CourseCard = (props) => {
   const navigate = useNavigate();
-  const moveToCourse = () => {
-    navigate(`/course/${props.id}/1`);
-  };
+  const moveToCourse = () => navigate(`/course/${props.id}/1`);
 
   return (
     <div className={s.card}>
-      <div className={s.cardBody}>
-        <div className={s.courseHeader}>
+      <div className={s.body}>
+        <div className={s.header}>
           <Typography variant={'body20'} weight={'bold'}>{props.title}</Typography>
-          <div className={s.courseDescription}>
+          <div className={s.description}>
             <Typography variant={'body14'}>{props.description}</Typography>
           </div>
         </div>
       </div>
-      <div className={s.courseFooter}>
+      <div className={s.footer}>
         <div className={s.footerButton}>
           <Button
             variant={'primary'}
-            onClick={
-              () => moveToCourse()
-            }
+            onClick={() => moveToCourse()}
           >{'Перейти в карточку'}
           </Button>
         </div>
@@ -37,9 +32,9 @@ const CourseCard = (props) => {
 };
 
 CourseCard.propTypes = {
-  id: PropTypes.node,
-  title: PropTypes.node,
-  description: PropTypes.node
+  id: PropTypes.number,
+  title: PropTypes.string,
+  description: PropTypes.string
 };
 
 export default CourseCard;

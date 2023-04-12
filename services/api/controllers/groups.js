@@ -47,25 +47,12 @@ const saveGroupChanges = async(req, res) => {
   try {
     const {groupId, usersIds} = req.body;
     const userIdsFromDB = await knex('groups_users')
-      .select('user_id')
+      .pluck('user_id')
       .where('group_id', groupId);
-    const userIdsFromDBArray = userIdsFromDB.map((x) => x.user_id);
-    const usersForAdd = [];
-    const usersForDelete = [];
 
-    userIdsFromDBArray.forEach((x) => {
-      if (!usersIds.includes(x)) {
-        usersForDelete.push(x);
-      }
-    });
-
-    usersIds.forEach((x) => {
-      if (!userIdsFromDBArray.includes(x)) {
-        usersForAdd.push(x);
-      }
-    });
-
-    const objUsers = usersForAdd.map((x) => {
+    const usersForDelete = userIdsFromDB.filter((id) => !usersIds.includes(id));
+    const usersForAdd = usersIds.filter((id) => !userIdsFromDB.includes(id));
+    const users = usersForAdd.map((x) => {
       return {
         'group_id': groupId,
         'user_id': x,
@@ -73,14 +60,15 @@ const saveGroupChanges = async(req, res) => {
       };
     });
 
-    await knex('groups_users')
-      .where('group_id', groupId)
-      .whereIn('user_id', usersForDelete)
-      .delete();
-
-    await knex('groups_users')
-      .insert(objUsers)
-      .where('group_id', groupId);
+    await Promise.all([
+      await knex('groups_users')
+        .where('group_id', groupId)
+        .whereIn('user_id', usersForDelete)
+        .delete(),
+      await knex('groups_users')
+        .insert(users)
+        .where('group_id', groupId)
+    ]);
 
     return res.status(200).json({message: 'Выполнено'});
   } catch(exception) {

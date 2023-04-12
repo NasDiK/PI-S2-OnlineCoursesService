@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const express = require('express');
 const controller = require('../controllers/groups');
 const groupsRouter = express.Router();

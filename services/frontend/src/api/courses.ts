@@ -1,5 +1,5 @@
-const getAllCurses = () => window.api()
-  .path('/courses/getAllCurses')
+const getAllCourses = () => window.api()
+  .path('/courses/getAllCourses')
   .executePost();
 
 const getCoursesListByUsers = (usersIds) => window.api()
@@ -8,6 +8,6 @@ const getCoursesListByUsers = (usersIds) => window.api()
   .executePost();
 
 export {
-  getAllCurses,
+  getAllCourses,
   getCoursesListByUsers
 };

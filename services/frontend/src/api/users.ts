@@ -1,8 +1,8 @@
-const getUsersByRole = (roleId) => window.api()
-  .path('/users/getUsersByRole')
-  .body({roleId})
+const getUsersByRoleName = (roleName) => window.api()
+  .path('/users/getUsersByRoleName')
+  .body({roleName})
   .executePost();
 
 export {
-  getUsersByRole
+  getUsersByRoleName
 };
