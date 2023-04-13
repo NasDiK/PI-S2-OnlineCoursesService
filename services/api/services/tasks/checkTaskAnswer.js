@@ -40,7 +40,8 @@ const checkTaskAnswer = async(knex, request) => {
 
         writeTaskLog(knex, request, currentTask, {
           action: taskActionEnum.SEND,
-          'value': result
+          'value': result,
+          userId: request.body.userId
         });
 
         return result;
@@ -50,7 +51,8 @@ const checkTaskAnswer = async(knex, request) => {
 
         writeTaskLog(knex, request, currentTask, {
           action: taskActionEnum.SEND,
-          'value': result
+          'value': result,
+          userId: request.body.userId
         });
 
         return result;
@@ -58,7 +60,7 @@ const checkTaskAnswer = async(knex, request) => {
         writeTaskLog(knex, request, currentTask, {
           action: taskActionEnum.SEND_TO_REVIEW,
           'value': answer,
-          userId: request.headers.userId
+          userId: request.body.userId
         });
 
         return true;

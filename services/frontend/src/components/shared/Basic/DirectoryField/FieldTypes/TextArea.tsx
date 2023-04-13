@@ -36,7 +36,7 @@ const TextArea = (props: iProps) => {
             onChange(ev.target.value);
           }
         }
-        defaultValue={val}
+        value={_val}
       />
     </div>
   );

@@ -24,19 +24,21 @@ module.exports = (knex, req) => {
   const {
     fields = ['tasks_logger.id'],
     appends = [],
+    orders,
     filter: {
-      userId,
-      taskId,
+      userIds,
+      tasksIds,
       createdAt,
       createdBy
     } = {}
   } = req.body;
-  const _model = knex('tasks_logger').select(fields)
-    .whereIn('action', [
-      action.SEND_TO_REVIEW,
-      action.REVIEW_APPROVE,
-      action.REVIEW_FAIL
-    ]);
+  const _model = knex('tasks_logger').select(fields);
+
+  _model.whereIn('action', [
+    action.SEND_TO_REVIEW,
+    action.REVIEW_APPROVE,
+    action.REVIEW_FAIL
+  ]);
 
   if (appends.length) {
     appends.forEach((_append) => {
@@ -64,12 +66,12 @@ module.exports = (knex, req) => {
     this.on('groups_users.group_id', '=', 'groups.id');
   });
 
-  if (userId) {
-    _model.where('user_id', userId);
+  if (userIds) {
+    _model.whereIn('user_id', userIds);
   }
 
-  if (taskId) {
-    _model.where('task_id', taskId);
+  if (tasksIds) {
+    _model.whereIn('task_id', tasksIds);
   }
 
   if (Array.isArray(createdAt)) {
@@ -88,6 +90,12 @@ module.exports = (knex, req) => {
 
   if (createdBy) {
     _model.where(createdBy);
+  }
+
+  if (Array.isArray(orders)) { //['column', 'asc'][]
+    orders.forEach((order) => {
+      _model.orderBy(order[0], order[1]);
+    });
   }
 
   return _model;

@@ -9,13 +9,14 @@ export const tasksLoggerFieldsNamesEnum = {
   CREATED_BY: 'createdBy'
 };
 
-const getReviewsLogs = async(fields, appends, filter) => {
+const getReviewsLogs = async(fields, appends, filter, orders: [string, string][]) => {
   const _list = await window.api()
     .path('/reviews/getReviewsLogs')
     .body({
       filter,
       appends,
-      fields
+      fields,
+      orders
     })
     .executePost();
 
