@@ -8,20 +8,20 @@ const saveGroupChanges = async(knex, req) => {
 
     const usersForDelete = userIdsFromDB.filter((id) => !usersIds.includes(id));
     const usersForAdd = usersIds.filter((id) => !userIdsFromDB.includes(id));
-    const users = usersForAdd.map((x) => {
+    const users = usersForAdd.map((userId) => {
       return {
         'group_id': groupId,
-        'user_id': x,
+        'user_id': userId,
         'isModerator': false
       };
     });
 
     await Promise.all([
-      await knex('groups_users')
+      knex('groups_users')
         .where('group_id', groupId)
         .whereIn('user_id', usersForDelete)
         .delete(),
-      await knex('groups_users')
+      knex('groups_users')
         .insert(users)
         .where('group_id', groupId)
     ]);

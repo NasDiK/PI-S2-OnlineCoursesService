@@ -12,7 +12,7 @@ const getCoursesListByUsers = async(knex, req) => {
       .whereIn('groups_users.group_id', groupsIds)
       .pluck('course_id');
 
-    return await knex('courses')
+    return knex('courses')
       .whereIn('id', coursesIds)
       .select('id', 'title', 'description');
   } catch(exception) {

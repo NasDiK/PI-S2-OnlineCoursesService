@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const express = require('express');
 const coursesController = require('../controllers/courses');
 const coursesRouter = express.Router();

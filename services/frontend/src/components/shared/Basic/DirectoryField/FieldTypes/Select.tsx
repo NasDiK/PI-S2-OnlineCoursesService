@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Select, MenuItem} from '@mui/material';
 
 export interface IOption {
@@ -7,13 +7,12 @@ export interface IOption {
   label: string
 }
 interface SelectProps {
-  variant?: 'outline' | 'normal' | 'multi',
+  variant?: 'outline' | 'normal',
   size?: 'small' | 'medium',
   options?: IOption[],
   fullWidth?: boolean,
-  multiple?: boolean,
   // eslint-disable-next-line id-denylist
-  value?: number[],
+  value?: number[] | string [],
   isMulti?: boolean,
   onChange: (val) => VoidFunction;
 }
@@ -21,7 +20,7 @@ interface SelectProps {
 const getSelectByType = (variant: string, props: SelectProps) => {
   //TODO доработать options
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,id-denylist
-  const {options, size, onChange, fullWidth, multiple, value, isMulti} = props;
+  const {options, size, onChange, value, isMulti} = props;
 
   switch (variant) {
     case 'outline':

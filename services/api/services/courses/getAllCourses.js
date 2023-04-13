@@ -1,7 +1,7 @@
 const {logger} = require('../../core');
-const getAllCourses = async(knex) => {
+const getAllCourses = (knex) => {
   try {
-    return await knex('courses').select('id', 'title', 'description');
+    return knex('courses').select('id', 'title', 'description');
   } catch(exception) {
     logger.error(exception);
 

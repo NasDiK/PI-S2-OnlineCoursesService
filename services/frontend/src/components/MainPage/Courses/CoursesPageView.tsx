@@ -5,12 +5,12 @@ import CourseCard from './Components/CourseCard';
 import {getCoursesListByUsers} from '../../../api/courses';
 import {useSelector} from 'react-redux';
 
-const renderCourseCard = (course) => (
+const renderCourseCard = ({id, title, description}) => (
   <CourseCard
-    key={course.id}
-    title={course.title}
-    description={course.description}
-    id={course.id}
+    key={id}
+    title={title}
+    description={description}
+    id={id}
   />
 );
 
