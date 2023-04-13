@@ -1,9 +1,13 @@
 const {logger} = require('../../core');
-const getUsersInGroup = async(knex, req) => {
+const getUsersInGroup = (knex, req) => {
   try {
     const {groupId} = req.body;
 
-    return await knex('groups_users')
+    if (groupId === undefined) {
+      return;
+    }
+
+    return knex('groups_users')
       .select('user_id')
       .where('group_id', groupId);
   } catch(exception) {
