@@ -32,7 +32,7 @@ const CoursesPageView = () => {
         <Typography variant={'body24'} weight={'bold'}>{'Мои курсы'}</Typography>
       </div>
       <div className={s.cards}>
-        {mainElement?.courses.map((el) => renderCourseCard(el))}
+        {mainElement?.map((el) => renderCourseCard(el))}
       </div>
     </div>
   );

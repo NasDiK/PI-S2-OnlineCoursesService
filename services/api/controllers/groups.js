@@ -1,85 +1,18 @@
 const config = require('../knexfile.js');
-const {logger} = require('../core');
 const knex = require('knex')(config.development);
 
-const createGroup = async(req, res) => {
-  try {
-    const {groupName, courseId} = req.body;
-
-    await knex('groups').insert({
-      'title': groupName,
-      'course_id': courseId
-    });
-
-    return res.status(200).json({message: 'Курс добавлен'});
-  } catch(exception) {
-    logger.error(exception);
-    res.status(400).json({message: exception});
-  }
-};
-const getGroups = async(req, res) => {
-  try {
-
-    const groups = await knex('groups').select('id', 'title', 'course_id');
-
-    return res.status(200).json({groups});
-  } catch(exception) {
-    logger.error(exception);
-    res.status(400).json({message: exception});
-  }
-};
-
-const getUsersInGroup = async(req, res) => {
-  try {
-    const {groupId} = req.body;
-    const users = await knex('groups_users')
-      .select('user_id')
-      .where('group_id', groupId);
-
-    return res.status(200).json({users});
-  } catch(exception) {
-    logger.error(exception);
-    res.status(400).json({message: exception});
-  }
-};
-
-const saveGroupChanges = async(req, res) => {
-  try {
-    const {groupId, usersIds} = req.body;
-    const userIdsFromDB = await knex('groups_users')
-      .pluck('user_id')
-      .where('group_id', groupId);
-
-    const usersForDelete = userIdsFromDB.filter((id) => !usersIds.includes(id));
-    const usersForAdd = usersIds.filter((id) => !userIdsFromDB.includes(id));
-    const users = usersForAdd.map((x) => {
-      return {
-        'group_id': groupId,
-        'user_id': x,
-        'isModerator': false
-      };
-    });
-
-    await Promise.all([
-      await knex('groups_users')
-        .where('group_id', groupId)
-        .whereIn('user_id', usersForDelete)
-        .delete(),
-      await knex('groups_users')
-        .insert(users)
-        .where('group_id', groupId)
-    ]);
-
-    return res.status(200).json({message: 'Выполнено'});
-  } catch(exception) {
-    logger.error(exception);
-    res.status(400).json({message: exception});
-  }
-};
-
-module.exports = {
-  createGroup,
+const {
   getGroups,
   getUsersInGroup,
+  createGroup,
   saveGroupChanges
+} = require('../services/groups');
+
+const controller = {
+  getGroups: () => getGroups(knex),
+  getUsersInGroup: (req) => getUsersInGroup(knex, req),
+  createGroup: (req) => createGroup(knex, req),
+  saveGroupChanges: (req) => saveGroupChanges(knex, req)
 };
+
+module.exports = controller;

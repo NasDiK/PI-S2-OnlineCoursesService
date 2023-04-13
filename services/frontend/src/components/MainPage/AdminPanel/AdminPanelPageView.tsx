@@ -28,7 +28,7 @@ const AdminPanelPageView = () => {
     getAllCourses().then((x) => {
       setMainElement(x);
     });
-    getGroups().then(({groups}) => {
+    getGroups().then((groups) => {
       // eslint-disable-next-line max-nested-callbacks
       const subGroup = groups.map(({id, title}) => {
         return {
@@ -45,7 +45,7 @@ const AdminPanelPageView = () => {
     });
   }, [userId]);
 
-  const options = mainElement?.courses.map(({id, title}) => {
+  const options = mainElement?.map(({id, title}) => {
     // eslint-disable-next-line id-denylist
     return {label: title, value: id};
   });

@@ -22,7 +22,7 @@ const AddUserSelectComponent = () => {
   useEffect(() => {
     getUsersInGroups(groupId).then((x) => {
       // eslint-disable-next-line max-nested-callbacks
-      setUsersIds(x.users.map((el) => el.user_id));
+      setUsersIds(x.map((el) => el.user_id));
     });
   }, [groupId]);
 
