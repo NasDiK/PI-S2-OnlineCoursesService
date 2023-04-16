@@ -1,5 +1,17 @@
 @import '../../../../globals/variables.module.scss';
 
+.stroked {
+  text-shadow:
+    -1px -1px 0 #000,
+    0   -1px 0 #000,
+    1px -1px 0 #000,
+    1px  0   0 #000,
+    1px  1px 0 #000,
+    0    1px 0 #000,
+    -1px  1px 0 #000,
+    -1px  0   0 #000;
+}
+
 .taskWrapper {
   display: flex;
   flex-direction: column;
@@ -26,6 +38,24 @@
     .description {
       padding: 20px 20px 14px 20px;
     }
+
+    .reviewResult {
+      margin: 16px 20px;
+      text-align: right;
+
+
+      .green {
+        color: #13FF47;
+        @extend .stroked;
+      }
+  
+      .red {
+        color: #FF0F00;
+        @extend .stroked;
+      }
+    }
+
+    
 
     .inputFields {
       margin: 0 20px;

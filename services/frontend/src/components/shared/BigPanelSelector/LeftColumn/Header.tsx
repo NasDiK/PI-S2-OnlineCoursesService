@@ -26,11 +26,13 @@ const Header = (props: iProps) => (
       <TypographyShared variant={'body20'} weight={'bold'}>{props.title}</TypographyShared>
     </div>
     {
-      props.withLinear && (
-        <div className={s.progress}>
-          <LinearProgressWithLabel variant={'determinate'} value={props.value || 100} />
-        </div>
-      )
+      <div className={s.progress}>
+        {
+          props.withLinear && (
+            <LinearProgressWithLabel variant={'determinate'} value={props.value || 100} />
+          )
+        }
+      </div>
     }
   </div>
 );

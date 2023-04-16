@@ -41,6 +41,7 @@ const CoursePageView = () => {
       element={mainElement || minimalElement}
       renderableComponent={<Task />}
       elementLink={`/course/${courseId}/`}
+      withLinear={true}
     />
   );
 };

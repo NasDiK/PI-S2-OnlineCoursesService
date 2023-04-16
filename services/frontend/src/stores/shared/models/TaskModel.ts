@@ -1,8 +1,21 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable id-denylist */
+/* eslint-disable camelcase */
+import {action} from '@local/enums/tasks';
+
+type TaskLog = {
+  log_action: number,
+  id: number,
+  log_value: any
+};
+
 export default class TaskModel {
   private _task: iTask;
+  private _taskLogs: TaskLog[] = [];
 
-  constructor(task) {
+  constructor(task, taskLogs) {
     this._task = task;
+    this._taskLogs = taskLogs;
   }
 
   get id() {
@@ -34,7 +47,28 @@ export default class TaskModel {
   }
 
   get isPermittedSend() {
-    return true;
+    const {log_action: logAction} = this.lastlog || {log_action: -1};
+
+    switch (logAction) {
+      case action.REVIEW_APPROVE:
+      case action.SEND_TO_REVIEW:
+        return false;
+      case action.REVIEW_FAIL:
+      default:
+        return true;
+    }
+  }
+
+  get lastlog() {
+    const [result] = this._taskLogs?.length && this._taskLogs.slice(-1) || [undefined];
+
+    return result;
+  }
+
+  get lastLogValue() {
+    const {log_value} = this.lastlog || {log_value: undefined};
+
+    return log_value;
   }
 
   get isPermittedWatchLogs() {

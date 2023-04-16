@@ -1,5 +1,10 @@
-const {tasks: {fieldType: tasksEnum}} = require('@local/enums');
+const {tasks: {
+  fieldType: tasksEnum,
+  action: taskActionEnum
+}} = require('@local/enums');
 const {isEqualArrays} = require('../../utils');
+const {logger, generateError} = require('../../core');
+const writeTaskLog = require('./writeTaskLog');
 
 /**
  * Проверяет ответ к заданию (доступно только для авто-типов)
@@ -21,22 +26,50 @@ const checkTaskAnswer = async(knex, request) => {
     throw new Error(`task #${taskId} doesn't exist`);
   }
 
-  let correctAnswer;
+  let correctAnswer, result;
 
   try {
     switch (currentTask.type) {
-      case tasksEnum.MULTI_ANSWER: //tasksEnum.fieldType.MULTI_ANSWER
+      case tasksEnum.MULTI_ANSWER:
         correctAnswer = JSON.parse(currentTask.correctAnswer);
+        try {
+          result = isEqualArrays(correctAnswer, answer, true);
+        } catch(_) {
+          result = false;
+        }
 
-        return isEqualArrays(correctAnswer, answer, true);
+        await writeTaskLog(knex, request, currentTask.id, {
+          action: taskActionEnum.SEND,
+          'value': result,
+          userId: request.body.userId
+        });
 
-      case tasksEnum.SINGLE_ANSWER: //tasksEnum.fieldType.SINGLE_ANSWER
-      case tasksEnum.RADIO: //tasksEnum.fieldType.RADIO
-        return currentTask.correctAnswer === answer.toString();
+        return result;
+      case tasksEnum.SINGLE_ANSWER:
+      case tasksEnum.RADIO:
+        result = currentTask.correctAnswer === answer.toString();
+
+        await writeTaskLog(knex, request, currentTask.id, {
+          action: taskActionEnum.SEND,
+          'value': result,
+          userId: request.body.userId
+        });
+
+        return result;
+      case tasksEnum.TEXT_AREA:
+        await writeTaskLog(knex, request, currentTask.id, {
+          action: taskActionEnum.SEND_TO_REVIEW,
+          'value': answer,
+          userId: request.body.userId
+        });
+
+        return true;
       default:
-        throw new Error('Unexpected autocheck task type');
+        throw generateError('Unexpected autocheck task type', {answer, taskType: currentTask.type});
     }
-  } catch(_) {
+  } catch(err) {
+    logger.error(err);
+
     return false;
   }
 };

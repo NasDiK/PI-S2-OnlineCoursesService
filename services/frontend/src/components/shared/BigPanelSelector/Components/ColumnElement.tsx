@@ -17,7 +17,8 @@ export interface iElement {
   isDone?: boolean,
   subGroup?: iElement[],
   progress?: number,
-  max_note?: number
+  max_note?: number,
+  additionals?: any
 }
 
 interface iProps {
@@ -28,13 +29,13 @@ interface iProps {
 const ColumnElement = (props: iProps) => {
   const {element, onClickElement} = props;
   const [match] = useMatches();
-  const {taskId}: any = match.params;
+  const {id}: any = match.params;
 
   return (
     <div
       className={
         cn(s.element, {
-          [s.active]: !element.subGroup?.length && Number(taskId) === element.id
+          [s.active]: !element.subGroup?.length && Number(id) === element.id
         })
       }
       onClick={onClickElement}

@@ -9,14 +9,18 @@ export interface IOption {
 interface SelectProps {
   variant?: 'outline' | 'normal',
   size?: 'small' | 'medium',
-  options?: ArrayLike<IOption>,
+  options?: IOption[],
+  fullWidth?: boolean,
+  // eslint-disable-next-line id-denylist
+  value?: number[] | string [],
+  isMulti?: boolean,
   onChange: (val) => VoidFunction;
 }
 
 const getSelectByType = (variant: string, props: SelectProps) => {
   //TODO доработать options
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {options, size, onChange} = props;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,id-denylist
+  const {options, size, onChange, value, isMulti} = props;
 
   switch (variant) {
     case 'outline':
@@ -36,10 +40,16 @@ const getSelectByType = (variant: string, props: SelectProps) => {
         <Select
           variant={'standard'}
           size={size}
+          multiple={isMulti}
+          onChange={(ev) => onChange(ev.target.value)}
+          sx={{width: '100%', position: 'relative'}}
+          // eslint-disable-next-line id-denylist
+          value={value}
         >
-          <MenuItem value={10}>{'Ten'}</MenuItem>
-          <MenuItem value={20}>{'Twenty'}</MenuItem>
-          <MenuItem value={30}>{'Thirty'}</MenuItem>
+          {
+            options?.map((el, index) =>
+              <MenuItem key={index} value={el.value}>{el.label}</MenuItem>)
+          }
         </Select>
       );
     default:

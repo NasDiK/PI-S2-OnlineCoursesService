@@ -1,5 +1,5 @@
-const {AuthUser} = require('./authUser');
+const {getUsersByRoleName} = require('./getUsersByRoleName');
 
 module.exports = {
-  AuthUser
+  getUsersByRoleName
 };

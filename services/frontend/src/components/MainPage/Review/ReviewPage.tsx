@@ -1,11 +1,12 @@
 import React from 'react';
 import ReviewPageView from './ReviewPageView';
+import {Provider} from 'react-redux';
+import {store as reducerStore} from '../../../stores/components/Review/ReviewReducer';
 
 const ReviewPage = () => (
-  <React.Fragment>
-    {/* Здесь мог бы быть ваш Provider */}
+  <Provider store={reducerStore}>
     <ReviewPageView />
-  </React.Fragment>
+  </Provider>
 );
 
 export default ReviewPage;

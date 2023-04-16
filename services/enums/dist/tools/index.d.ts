@@ -1,0 +1,22 @@
+declare const dateFormat: {
+    FULL: number;
+    FULL_WITH_TIME: number;
+    SHORT: number;
+    SHORT_WITH_TIME: number;
+    TIME: number;
+    DAY_MONTH_TIME: number;
+    DAY_MONTH_YEAR_TIME: number;
+    INVERTED_YEAR_MONTH_DAY: number;
+    WEEKDAY_DAY_MONTH: number;
+    DAY_FULL_MONTH_YEAR_TIME: number;
+    DAY_OF_MONTH: number;
+    FULL_DAY_OF_WEEW: number;
+    DATE_FROM_NOW: number;
+    DATE_FROM_NOW_WITH_TIME: number;
+    CLOSE_DATE: number;
+    SHORT_DATE_TIME_WITH_SECONDS: number;
+    INVERTED_YEAR_MONTH_DAY_TIME_TZ: number;
+    DATE_FROM_NOW_WITH_SHORT_MONTH_AND_TIME: number;
+    CONTRACT_DATE: number;
+};
+export { dateFormat };

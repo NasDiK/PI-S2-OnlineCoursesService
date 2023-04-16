@@ -10,6 +10,7 @@ interface TextFieldProps {
   size?: 'small' | 'medium'
   fullWidth?: boolean,
   onChange: (val) => VoidFunction;
+  name?: string
 }
 
 const useStyles = makeStyles(() => {
@@ -28,14 +29,16 @@ const useStyles = makeStyles(() => {
 });
 
 const TextField = (props: TextFieldProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const {placeholder, value: fieldValue, variant, size = 'small', fullWidth, onChange} = props;
+  const {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    placeholder, value: fieldValue, variant, size = 'small', fullWidth, onChange, name
+  } = props;
   //пока не понимаю предназначение variant
   const classes = useStyles();
 
   return (
     <input
-      type={'text'}
+      type={new RegExp('^password.*').test(name || '') && 'password' || 'text'}
       value={fieldValue}
       placeholder={placeholder}
       onChange={(ev) => onChange(ev.target.value)}
@@ -49,6 +52,7 @@ const TextField = (props: TextFieldProps) => {
           }
         )
       }
+      name={name}
     />
   );
 };

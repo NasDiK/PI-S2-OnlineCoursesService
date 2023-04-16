@@ -22,11 +22,11 @@ const router = createBrowserRouter([
     element: <WrapComponent component={<WithHeader component={<CoursesPage />} />} />
   },
   {
-    path: '/review',
+    path: '/review/:id?',
     element: <WrapComponent component={<WithHeader component={<ReviewPage />} />} />
   },
   {
-    path: '/course/:courseId/:taskId',
+    path: '/course/:courseId/:id',
     element: <WrapComponent component={<WithHeader component={<CoursePage />} />} />
   },
   {
@@ -42,7 +42,7 @@ const router = createBrowserRouter([
     element: <WrapComponent component={<WithHeader component={<StudentsPage />} />} />
   },
   {
-    path: '/admin-panel',
+    path: '/admin-panel/:id?',
     element: <WrapComponent component={<WithHeader component={<AdminPanelPage />} />} />
   },
   {

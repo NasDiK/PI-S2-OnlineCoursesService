@@ -7,20 +7,17 @@ import {useNavigate} from 'react-router';
 import {useDispatch} from 'react-redux';
 import {logIn as loginFunc} from '../../stores/core/UserStoreReducer';
 
-export const tryAuth = (dispatch, navigate, token) => {
+export const tryAuth = (dispatch) => {
   const userData = window.api().path('/auth/check')
-    .body({token})
     .executePost();
 
   userData.then((_data) => {
     if (_data) {
-      const {userData: ud} = _data;
-
       dispatch(loginFunc({
         payload: {
-          userId: ud.id.id,
-          roleId: ud.roleId,
-          accessToken: token
+          userId: _data.id,
+          roleId: _data.roleid,
+          accessToken: _data.token
         }
       }));
     }
@@ -37,7 +34,7 @@ const AuthPageView = () => {
 
   useEffect(() => {
     if (token) {
-      tryAuth(dispatch, navigate, token);
+      tryAuth(dispatch);
     }
 
   }, []);
@@ -73,8 +70,9 @@ const AuthPageView = () => {
       payload = await authorization(user);
     }
 
-    if (payload.accessToken) {
-      localStorage.setItem('access', payload.accessToken);
+    if (payload.tokens.accessToken) {
+      localStorage.setItem('access', payload.tokens.accessToken);
+      localStorage.setItem('refresh', payload.tokens.refreshToken);
     }
     dispatch(loginFunc({payload}));
 
@@ -102,6 +100,7 @@ const AuthPageView = () => {
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangeLogin}
+                name={'login_auth'}
               />
             </div>
           </div>
@@ -114,6 +113,7 @@ const AuthPageView = () => {
                 size={'small'}
                 fullWidth={true}
                 onChange={onChangePass}
+                name={'password_auth'}
               />
             </div>
           </div>

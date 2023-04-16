@@ -5,10 +5,11 @@ import {searchTaskWithId, checkTaskAnswer} from './Methods/TaskMethods';
 import s from './Task.module.scss';
 import cn from 'classnames';
 import {Typography, DirectoryField, Button} from '../../../shared';
-import {fieldType as taskType} from '@local/enums/tasks';
+import {fieldType as taskType, action as taskActionEnum} from '@local/enums/tasks';
 import {fieldType as directoryFieldEnum} from '@local/enums/shared';
 import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
 import TaskModel from '../../../../stores/shared/models/TaskModel';
+import {getReviewsLogs} from '../../../../api/reviews';
 interface iStore {
   taskStore: iTaskStoreState
 }
@@ -58,6 +59,19 @@ const renderTasks = (
       }
 
       return null;
+    case taskType.TEXT_AREA:
+      _values = task?.taskValue || '';
+      // eslint-disable-next-line no-case-declarations
+      const _isDone = !task.isPermittedSend;
+
+      return (
+        <DirectoryField
+          type={directoryFieldEnum.TEXT_AREA}
+          value={_isDone && task.lastLogValue || _values}
+          isDone={_isDone}
+          onChange={(_val) => setVal(_val)}
+        />
+      );
   }
 
   return null;
@@ -76,24 +90,69 @@ const renderSubmitButton = (taskId, answer, permissions) => (
   </React.Fragment>
 );
 
+const renderReviewState = (action: number) => {
+  switch (action) {
+    case taskActionEnum.REVIEW_APPROVE:
+      return (
+        <div className={s.reviewResult}>
+          <Typography className={s.green}>{'Код одобрен преподавателем'}</Typography>
+        </div>
+      );
+    case taskActionEnum.REVIEW_FAIL:
+      return (
+        <div className={s.reviewResult}>
+          <Typography className={s.red}>{'Код отклонён преподавателем'}</Typography>
+        </div>
+      );
+    case taskActionEnum.SEND_TO_REVIEW:
+      return (
+        <div className={s.reviewResult}>
+          <Typography>{'Код отправлен на проверку'}</Typography>
+        </div>
+      );
+  }
+};
+
 const TaskView = () => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
+  const taskLogs = useSelector((stores: iStore) => stores.taskStore.taskLogs);
   const dispatch = useDispatch();
-  let _taskModel = new TaskModel(task);
+  let _taskModel = new TaskModel(task, taskLogs);
 
   const setTaskDispatch = (payload) => dispatch({type: 'SET_TASK', payload});
   const [answer, setAnswer] = useState();
 
   useEffect(() => {
-    const taskId = Number(match.params.taskId);
+    const taskId = Number(match.params.id);
 
     searchTaskWithId(setTaskDispatch, taskId).then(() => setAnswer(undefined));
+    getReviewsLogs([
+      'tasks_logger.id as log_id',
+      'action as log_action',
+      'tasks_logger.user_id as user_id',
+      'tasks.title as task_title',
+      'tasks.description as task_description',
+      'task_id as task_id',
+      'createdAt as log_date',
+      'tasks_logger.value as log_value',
+      'groups.title as group_title',
+      'groups.id as group_id',
+      'users.fullname as user_fullname',
+      'tasks.max_note as task_maxNote'
+    ], ['tasks', 'users'], {
+      tasksIds: [taskId]
+    }, [
+      ['user_id', 'asc'],
+      ['task_id', 'asc'],
+      ['createdAt', 'asc']
+    ]).then((result) => dispatch({type: 'SET_TASK_LOGS', payload: result}));
+
   }, [match.pathname]);
 
   useEffect(() => {
-    _taskModel = new TaskModel(task);
-  }, [task]);
+    _taskModel = new TaskModel(task, taskLogs);
+  }, [task, taskLogs]);
 
   return (
     <div className={s.taskWrapper}>
@@ -111,6 +170,7 @@ const TaskView = () => {
           )
         }
         <div className={s.description}>{task?.description}</div>
+        {_taskModel.lastlog && renderReviewState(_taskModel.lastlog.log_action)}
         {
           task?.type && (
             <React.Fragment>

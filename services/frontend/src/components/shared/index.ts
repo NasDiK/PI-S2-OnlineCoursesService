@@ -4,6 +4,7 @@ import DirectoryField from './Basic/DirectoryField/DirectoryField';
 import Alert from './Basic/Alert/Alert';
 import BigPanelSelector from './BigPanelSelector/BigPanelSelector';
 import {LinearProgressWithLabel} from './LinearProgress';
+import Modal from './Basic/Modal/Modal';
 
 export {
   Button,
@@ -11,5 +12,6 @@ export {
   DirectoryField,
   Alert,
   BigPanelSelector,
-  LinearProgressWithLabel
+  LinearProgressWithLabel,
+  Modal
 };
