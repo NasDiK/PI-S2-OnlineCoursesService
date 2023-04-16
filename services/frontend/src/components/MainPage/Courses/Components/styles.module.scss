@@ -1,0 +1,15 @@
+.courseContent{
+  margin: 24px 20px 0;
+
+  .cards{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 25px;
+
+    .card{
+      margin-top: 10px;
+    }
+  }
+}

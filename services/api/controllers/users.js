@@ -1,8 +1,12 @@
-const {AuthUser} = require('../services/users');
+const config = require('../knexfile.js');
+const knex = require('knex')(config.development);
 
-const authUser = (body, ext) =>
-  AuthUser(body, ext);
+const {
+  getUsersByRoleName
+} = require('../services/users');
 
-module.exports = {
-  authUser
+const controller = {
+  getUsersByRoleName: (req) => getUsersByRoleName(knex, req)
 };
+
+module.exports = controller;

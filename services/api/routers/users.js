@@ -1,4 +1,5 @@
 const express = require('express');
+const controller = require('../controllers/users');
 const router = express.Router();
 
 /*
@@ -6,6 +7,12 @@ const router = express.Router();
 */
 router.get('/', (req, res) => {
   res.send('you are on page users');
+});
+
+router.post('/getUsersByRoleName', async(req, res) => {
+  const users = await controller.getUsersByRoleName(req);
+
+  res.send(users);
 });
 
 module.exports = router;

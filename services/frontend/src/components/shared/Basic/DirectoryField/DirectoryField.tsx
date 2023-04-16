@@ -10,14 +10,15 @@ import TextArea from './FieldTypes/TextArea';
 interface iPossibleProps {
   onChange?: (val: string) => void,
   type: number,
-  'value'?: string | number,
+  'value'?: string | number | number[] | string[],
   placeholder?: string,
   fullWidth?: boolean,
   size?: 'small' | 'medium',
   variant?: 'outline' | 'standart',
   options?: ArrayLike<IOption>
   isDone?: boolean,
-  name?: string
+  name?: string,
+  isMulti?:boolean
 }
 
 const getFieldByType = (type: number, props: any) => {
