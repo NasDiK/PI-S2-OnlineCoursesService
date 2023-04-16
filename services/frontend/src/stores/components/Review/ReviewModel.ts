@@ -2,9 +2,11 @@
 import {action} from '@local/enums/tasks';
 export class ReviewModel {
   private review;
+  private triggers;
 
-  constructor(review) {
+  constructor(review, triggers) {
     this.review = review;
+    this.triggers = triggers;
   }
 
   get id() {
@@ -79,6 +81,9 @@ export class ReviewModel {
       console.log('Успешно');
     } catch{
       console.log('Произошла ошибка отправки запроса');
+    } finally {
+      await this.triggers.refreshReviewTrigger();
+      this.triggers.rerenderReviewTrigger();
     }
   };
 
@@ -99,6 +104,9 @@ export class ReviewModel {
       console.log('Успешно');
     } catch{
       console.log('Произошла ошибка отправки запроса');
+    } finally {
+      await this.triggers.refreshReviewTrigger(); //массив логов обновленный
+      this.triggers.rerenderReviewTrigger();
     }
   };
 

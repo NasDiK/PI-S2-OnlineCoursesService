@@ -8,8 +8,8 @@ import {groupReviewsForSelector} from './Methods';
 const ReviewPageView = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    getReviewsLogs([
+  const refreshReviewTrigger = async() => {
+    const result = await getReviewsLogs([
       'tasks_logger.id as log_id',
       'action as log_action',
       'tasks_logger.user_id as user_id',
@@ -26,14 +26,16 @@ const ReviewPageView = () => {
       ['user_id', 'asc'],
       ['task_id', 'asc'],
       ['createdAt', 'asc']
-    ])
-      .then((result) => {
-        // eslint-disable-next-line no-console
-        console.log(result);
+    ]);
 
-        dispatch({type: 'SET_REVIEWS_LIST', payload: result});
-        dispatch({type: 'SET_SELECTOR_GROUPS', payload: groupReviewsForSelector(result)});
-      });
+    dispatch({type: 'SET_REVIEWS_LIST', payload: result});
+    dispatch({type: 'SET_SELECTOR_GROUPS', payload: groupReviewsForSelector(result)});
+
+    return result;
+  };
+
+  useEffect(() => {
+    refreshReviewTrigger();
   }, []);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const element = useSelector((state: any) => state.reviewStore.element);
@@ -41,7 +43,13 @@ const ReviewPageView = () => {
   return (
     <BigPanelSelector
       element={element}
-      renderableComponent={<ReviewComponent />}
+      renderableComponent={
+        (
+          <ReviewComponent
+            refreshReviewTrigger={refreshReviewTrigger}
+          />
+        )
+      }
       elementLink={'/review/'}
     />
   );

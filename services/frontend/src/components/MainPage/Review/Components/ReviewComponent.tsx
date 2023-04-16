@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useState} from 'react';
-import {useMatches} from 'react-router';
+import PropTypes from 'prop-types';
+import {useMatches, useNavigate} from 'react-router';
 import s from '../ReviewPage.module.scss';
 import {Button, DirectoryField, Typography} from '../../../shared';
 import {fieldType} from '@local/enums/shared';
@@ -9,16 +10,27 @@ import {dateConverter} from '../../../../utils';
 import {dateFormat as dateFormatList} from '@local/enums/tools';
 import {ReviewModel} from '../../../../stores/components/Review/ReviewModel';
 
-const ReviewComponent = () => {
+const ReviewComponent = ({refreshReviewTrigger}) => {
   const [{params: {id}}] = useMatches();
   const _reviewId = Number(id);
   const reviewList = useSelector((state: any) => state.reviewStore.reviewsList);
   const [curReview, setCurReview] = useState<ReviewModel>();
+  const navigate = useNavigate();
+
+  const rerenderReviewTrigger = () => {
+    navigate(`/review/${curReview?.id + 2}`); //Костыль конечно, можно на последок разобраться
+    /**
+     * Основная проблема в том, что надо ререндерить при нажатии на кнопку Fail или Approve.
+     * Триггер вызывается из ReviewModel, передаётся в конструкторе класса;
+     *
+     * TODO: Thinking about зис алгоритм.
+     */
+  };
 
   useEffect(() => {
     const _review = reviewList.find(({log_id: reviewId}) => _reviewId === reviewId);
 
-    setCurReview(new ReviewModel({..._review}));
+    setCurReview(new ReviewModel({..._review}, {refreshReviewTrigger, rerenderReviewTrigger}));
   }, [_reviewId, reviewList]);
 
   return (
@@ -79,6 +91,10 @@ const ReviewComponent = () => {
       </div>
     </div>
   );
+};
+
+ReviewComponent.propTypes = {
+  refreshReviewTrigger: PropTypes.func
 };
 
 export default ReviewComponent;
