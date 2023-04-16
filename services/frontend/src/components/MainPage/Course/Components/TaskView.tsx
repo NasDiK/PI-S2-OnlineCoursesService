@@ -5,7 +5,7 @@ import {searchTaskWithId, checkTaskAnswer} from './Methods/TaskMethods';
 import s from './Task.module.scss';
 import cn from 'classnames';
 import {Typography, DirectoryField, Button} from '../../../shared';
-import {fieldType as taskType} from '@local/enums/tasks';
+import {fieldType as taskType, action as taskActionEnum} from '@local/enums/tasks';
 import {fieldType as directoryFieldEnum} from '@local/enums/shared';
 import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
 import TaskModel from '../../../../stores/shared/models/TaskModel';
@@ -90,6 +90,29 @@ const renderSubmitButton = (taskId, answer, permissions) => (
   </React.Fragment>
 );
 
+const renderReviewState = (action: number) => {
+  switch (action) {
+    case taskActionEnum.REVIEW_APPROVE:
+      return (
+        <div className={s.reviewResult}>
+          <Typography className={s.green}>{'Код одобрен преподавателем'}</Typography>
+        </div>
+      );
+    case taskActionEnum.REVIEW_FAIL:
+      return (
+        <div className={s.reviewResult}>
+          <Typography className={s.red}>{'Код отклонён преподавателем'}</Typography>
+        </div>
+      );
+    case taskActionEnum.SEND_TO_REVIEW:
+      return (
+        <div className={s.reviewResult}>
+          <Typography>{'Код отправлен на проверку'}</Typography>
+        </div>
+      );
+  }
+};
+
 const TaskView = () => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
@@ -147,6 +170,7 @@ const TaskView = () => {
           )
         }
         <div className={s.description}>{task?.description}</div>
+        {_taskModel.lastlog && renderReviewState(_taskModel.lastlog.log_action)}
         {
           task?.type && (
             <React.Fragment>

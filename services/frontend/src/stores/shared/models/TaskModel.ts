@@ -1,10 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable id-denylist */
 /* eslint-disable camelcase */
 import {action} from '@local/enums/tasks';
 
+type TaskLog = {
+  log_action: number,
+  id: number,
+  log_value: any
+};
+
 export default class TaskModel {
   private _task: iTask;
-  private _taskLogs: [] = [];
+  private _taskLogs: TaskLog[] = [];
 
   constructor(task, taskLogs) {
     this._task = task;

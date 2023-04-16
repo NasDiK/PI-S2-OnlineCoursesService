@@ -20,11 +20,22 @@ const groupReviewsForSelector = (reviews) => {
       const existUser = existSubgroup.subGroup?.find(({id}) => id === review.user_id);
 
       if (existUser) {
-        existUser.subGroup?.push({
-          id: review.log_id,
-          name: review.task_title,
-          type: targetFields.ELEMENT
-        });
+        //Задачи юзера сверка. коррекция на правильный лог.
+        const existReview = existUser //если нашелся лог по этой задачи этого юзера, то...
+          .subGroup?.find(({additionals: {taskId}}) => taskId === review.task_id);
+
+        if (existReview) { //просто подменяем review_id на свежий
+          existReview.id = review.log_id;
+        } else {
+          existUser.subGroup?.push({
+            id: review.log_id,
+            name: review.task_title,
+            type: targetFields.ELEMENT,
+            additionals: {
+              taskId: review.task_id
+            }
+          });
+        }
       } else {
         existSubgroup.subGroup?.push({
           id: review.user_id,
@@ -34,7 +45,10 @@ const groupReviewsForSelector = (reviews) => {
             {
               id: review.log_id,
               name: review.task_title,
-              type: targetFields.ELEMENT
+              type: targetFields.ELEMENT,
+              additionals: {
+                taskId: review.task_id
+              }
             }
           ]
         });
@@ -51,7 +65,10 @@ const groupReviewsForSelector = (reviews) => {
           subGroup: [{
             id: review.log_id,
             name: review.task_title,
-            type: targetFields.ELEMENT
+            type: targetFields.ELEMENT,
+            additionals: {
+              taskId: review.task_id
+            }
           }]
         }]
       });

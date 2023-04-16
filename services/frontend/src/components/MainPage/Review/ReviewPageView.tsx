@@ -30,6 +30,7 @@ const ReviewPageView = () => {
       .then((result) => {
         // eslint-disable-next-line no-console
         console.log(result);
+
         dispatch({type: 'SET_REVIEWS_LIST', payload: result});
         dispatch({type: 'SET_SELECTOR_GROUPS', payload: groupReviewsForSelector(result)});
       });

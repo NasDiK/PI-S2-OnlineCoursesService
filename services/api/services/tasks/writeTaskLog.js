@@ -1,9 +1,14 @@
-const writeTaskLog = async(knex, request, task, logOptions) => {
+const writeTaskLog = (
+  knex,
+  request,
+  taskId = request.body.taskId,
+  logOptions = request.body.logOptions
+) => {
   const {userId} = request.body;
 
-  await knex('tasks_logger').insert({
+  return knex('tasks_logger').insert({
     'user_id': logOptions.userId,
-    'task_id': task.id,
+    'task_id': taskId,
     action: logOptions.action,
     'value': logOptions.value,
     createdBy: userId

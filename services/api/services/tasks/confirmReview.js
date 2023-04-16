@@ -16,7 +16,7 @@ const writeTaskLog = require('./writeTaskLog');
    * @returns {object} Задача
    */
 const confirmReview = async(knex, request) => {
-  const {taskId, answer} = request.body;
+  const {taskId, answer, userId} = request.body;
 
   const [currentTask] = await knex('tasks')
     .select('id', 'correctAnswer', 'type')
@@ -38,9 +38,10 @@ const confirmReview = async(knex, request) => {
           result = false;
         }
 
-        writeTaskLog(knex, request, currentTask, {
+        await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
-          'value': result
+          'value': result,
+          userId
         });
 
         return result;
@@ -48,16 +49,18 @@ const confirmReview = async(knex, request) => {
       case tasksEnum.RADIO:
         result = currentTask.correctAnswer === answer.toString();
 
-        writeTaskLog(knex, request, currentTask, {
+        await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
-          'value': result
+          'value': result,
+          userId
         });
 
         return result;
       case tasksEnum.TEXT_AREA:
-        writeTaskLog(knex, request, currentTask, {
+        await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND_TO_REVIEW,
-          'value': answer
+          'value': answer,
+          userId
         });
 
         return true;

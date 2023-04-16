@@ -13,14 +13,14 @@ const TextArea = (props: iProps) => {
   const [_val, _setVal] = useState(val);
 
   useEffect(() => {
-    _setVal(val);
+    _setVal(val || '');
   }, [val]);
 
   return (
     <div className={s.textArea}>
       <div className={s.lineCounter}>
         {
-          _val.split('\n').map((_, index) => <div key={index}>{index + 1}</div>)
+          _val?.split('\n')?.map((_, index) => <div key={index}>{index + 1}</div>)
         }
       </div>
       <textarea

@@ -38,7 +38,7 @@ const checkTaskAnswer = async(knex, request) => {
           result = false;
         }
 
-        writeTaskLog(knex, request, currentTask, {
+        await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
           'value': result,
           userId: request.body.userId
@@ -49,7 +49,7 @@ const checkTaskAnswer = async(knex, request) => {
       case tasksEnum.RADIO:
         result = currentTask.correctAnswer === answer.toString();
 
-        writeTaskLog(knex, request, currentTask, {
+        await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
           'value': result,
           userId: request.body.userId
@@ -57,7 +57,7 @@ const checkTaskAnswer = async(knex, request) => {
 
         return result;
       case tasksEnum.TEXT_AREA:
-        writeTaskLog(knex, request, currentTask, {
+        await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND_TO_REVIEW,
           'value': answer,
           userId: request.body.userId

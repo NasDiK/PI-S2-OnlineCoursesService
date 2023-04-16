@@ -5,10 +5,11 @@ const {
   searchTasks,
   getTaskById,
   checkTaskAnswer,
+  writeTaskLog,
   confirmReview
 } = require('../controllers/tasks');
 const validateParams = require('../utils/validateParams');
-const {logger} = require('../core');
+const {logger, baseResponse} = require('../core');
 
 router.post('/getTaskById', async(req, res) => {
   const requiredParams = ['taskId'];
@@ -66,8 +67,22 @@ router.post('/confirmReview', async(req, res) => {
     validateParams(['taskId', 'userId'], req);
     await confirmReview(req);
 
-    return res.status(200);
+    return baseResponse(res, 200);
 
+  } catch(err) {
+    logger.error(err);
+    res.send({
+      message: err.message,
+      status: 500
+    });
+  }
+});
+
+router.post('/writeTaskLog', async(req, res) => {
+  try {
+    await writeTaskLog(req);
+
+    return baseResponse(res, 200);
   } catch(err) {
     logger.error(err);
     res.send({

@@ -1,5 +1,11 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
+
+/**
+ * @typedef {import('express').Response} ExpressResponse
+ */
+
 const databaseMethods = require('./databaseMethods');
 
 const getCurrentDate = () => {
@@ -23,9 +29,26 @@ const generateError = (message, body) => {
   return err;
 };
 
+/**
+ * Заготовка ответа
+ * @param {ExpressResponse} response
+ * @param {number} code
+ * @param {{
+ *  message JSON
+ * }} responseOptions
+ * @returns {ExpressResponse}
+ */
+const baseResponse = (response, code, responseOptions = {
+  message: 'OK'
+}) => {
+  const {message, ...otherOptions} = responseOptions;
+
+  return response.json({message, ...otherOptions}).status(code);
+};
+
 module.exports = {
   logger,
   generateError,
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
-  ...databaseMethods
+  ...databaseMethods,
+  baseResponse
 };

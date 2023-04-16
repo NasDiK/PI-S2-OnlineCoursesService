@@ -17,7 +17,8 @@ export interface iElement {
   isDone?: boolean,
   subGroup?: iElement[],
   progress?: number,
-  max_note?: number
+  max_note?: number,
+  additionals?: any
 }
 
 interface iProps {
