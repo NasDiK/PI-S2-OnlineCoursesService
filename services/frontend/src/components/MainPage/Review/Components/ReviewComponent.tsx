@@ -21,6 +21,8 @@ const ReviewComponent = ({refreshReviewTrigger}) => {
     navigate(`/review/${curReview?.id + 2}`); //Костыль конечно, можно на последок разобраться
     /**
      * Основная проблема в том, что надо ререндерить при нажатии на кнопку Fail или Approve.
+     * Но он curReview почему-то ПРОШЛЫЙ ID держит. Я думаю порядок useEffect нарушен
+     *
      * Триггер вызывается из ReviewModel, передаётся в конструкторе класса;
      *
      * TODO: Thinking about зис алгоритм.

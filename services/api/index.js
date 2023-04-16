@@ -1,6 +1,13 @@
 /* eslint-disable no-console */
 const express = require('express');
-const {usersRouter, tasksRouter, authRouter, coursesRouter, reviewsRoutes, groupsRouter} = require('./routers');
+const {
+  usersRouter,
+  tasksRouter,
+  authRouter,
+  coursesRouter,
+  reviewsRoutes,
+  groupsRouter
+} = require('./routers');
 const cors = require('cors');
 const authMiddleware = require('./middlewares/authMiddleWare');
 const encodeTokenMiddleware = require('./middlewares/encodeTokenMiddleware');
