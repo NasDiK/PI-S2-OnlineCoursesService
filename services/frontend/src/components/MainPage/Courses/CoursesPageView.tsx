@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useState} from 'react';
 import s from './Components/styles.module.scss';
-import Typography from '../../shared/Basic/Typography/Typography';
+import {Typography, Button} from '../../shared';
 import CourseCard from './Components/CourseCard';
 import {getCoursesListByUsers} from '../../../api/courses';
 import {useSelector} from 'react-redux';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import Drawers from './Components/Drawers';
 
 const renderCourseCard = ({id, title, description}) => (
   <CourseCard
@@ -15,26 +19,55 @@ const renderCourseCard = ({id, title, description}) => (
 );
 
 const CoursesPageView = () => {
-  // eslint-disable-next-line
   const userId = useSelector((state: any) => state.userStore.userData.userId);
-  // eslint-disable-next-line
-  const [mainElement, setMainElement] = useState<any>();
+  const [coursesList, setCoursesList] = useState<any>();
+  const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
+  const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    getCoursesListByUsers([userId]).then((x) => {
-      setMainElement(x);
+    getCoursesListByUsers([userId]).then((courses) => {
+      setCoursesList(courses);
     });
   }, [userId]);
 
   return (
-    <div className={s.courseContent}>
-      <div className={s.text}>
-        <Typography variant={'body24'} weight={'bold'}>{'Мои курсы'}</Typography>
+    <React.Fragment>
+      <div className={s.courseContent}>
+        <div className={s.text}>
+          <Typography variant={'body24'} weight={'bold'}>{'Мои курсы'}</Typography>
+          <Button
+            variant={'icon'}
+            onClick={() => setIsCreateDrawerOpen(true)}
+          >
+            <AddIcon
+              sx={{width: '24px', height: '24px', cursor: 'pointer'}}
+            />
+          </Button>
+          <Button
+            variant={'icon'}
+            onClick={() => setIsEditDrawerOpen(true)}
+          >
+            <EditIcon
+              sx={{width: '24px', height: '24px', cursor: 'pointer'}}
+            />
+          </Button>
+        </div>
+        <div className={s.cards}>
+          {coursesList?.map((el) => renderCourseCard(el))}
+        </div>
       </div>
-      <div className={s.cards}>
-        {mainElement?.map((el) => renderCourseCard(el))}
-      </div>
-    </div>
+      <Drawers
+        type={'create'}
+        isOpen={isCreateDrawerOpen}
+        onClose={() => setIsCreateDrawerOpen(false)}
+      />
+      <Drawers
+        type={'edit'}
+        isOpen={isEditDrawerOpen}
+        onClose={() => setIsEditDrawerOpen(false)}
+      />
+    </React.Fragment>
+
   );
 };
 

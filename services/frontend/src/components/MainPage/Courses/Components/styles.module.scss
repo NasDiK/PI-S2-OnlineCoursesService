@@ -1,6 +1,12 @@
 .courseContent{
   margin: 24px 20px 0;
 
+  .text {
+    & >:not(:last-child) {
+      margin-right: 16px;
+    }
+  }
+
   .cards{
     display: flex;
     flex-direction: row;

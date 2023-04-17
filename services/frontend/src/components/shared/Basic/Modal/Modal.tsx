@@ -1,20 +1,22 @@
 import basicModal from './ModalTypes/BasicModal';
+import WideModal from './ModalTypes/WideModal';
 
 export type ModalProps = {
-  variant?: 'basic',
-  children?: React.ReactNode,
+  variant?: 'basic' | 'wide',
+  children: React.ReactElement,
   fullWidth?: boolean,
   isOpen?: boolean,
-  // eslint-disable-next-line
-  onClose?: any
+  onClose?: () => void
 };
 
 const Modal = (props: ModalProps) => {
   const {variant, ...otherProps} = props;
 
   switch (variant) {
+    case 'wide':
+      // eslint-disable-next-line react/react-in-jsx-scope
+      return <WideModal {...otherProps} />;
     case 'basic':
-      return basicModal(otherProps);
     default:
       return basicModal(otherProps);
   }
