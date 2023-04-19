@@ -8,7 +8,8 @@ import {useNavigate} from 'react-router';
 interface iProps {
   element: iElement,
   elementLink?: string,
-  withLinear?: boolean
+  withLinear?: boolean,
+  onClickElement?: (element) => void
 }
 
 type iElementExtended = {
@@ -18,12 +19,17 @@ type iElementExtended = {
 
 const onClickElement = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, max-len
-  elem: iElement | undefined, elemIdx: number, setFunc: any, elementLink: string | undefined, navigator
+  elem: iElement | undefined, elemIdx: number, setFunc: any, elementLink: string | undefined, navigator, handleElementFunc
 ) => {
   const targetElement = elem?.subGroup?.[elemIdx];
 
   if (targetElement?.type === shared.targetFields.ELEMENT) {
+    // eslint-disable-next-line max-len
+    if (handleElementFunc) {
+      return handleElementFunc(targetElement);
+    }
     navigator(`${elementLink}${targetElement?.id}`);
+
   } else {
     setFunc({element: targetElement, parentId: elem?.id});
   }
@@ -67,7 +73,8 @@ const LeftColumnView = (props: iProps) => {
           elements={curElem?.element?.subGroup}
           onClickElement={
             (idx: number) =>
-              onClickElement(curElem?.element, idx, setCurElem, elementLink, navigator)
+              // eslint-disable-next-line max-len
+              onClickElement(curElem?.element, idx, setCurElem, elementLink, navigator, props.onClickElement)
           }
         />
       </div>

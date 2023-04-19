@@ -1,6 +1,9 @@
+import {Provider} from 'react-redux';
 import CreateDrawer from './CreateCourse';
 import EditDrawer from './EditCourse';
 import React from 'react';
+import {store as createDrawerReducer}
+  from '../../../../../stores/components/Courses/CreateDrawersReducer';
 
 interface iPossibleProps {
   type: 'create' | 'edit',
@@ -13,7 +16,12 @@ const CourseDrawers = (props: iPossibleProps) => {
 
   switch (type) {
     case 'create':
-      return <CreateDrawer {...otherProps} />;
+
+      return (
+        <Provider store={createDrawerReducer}>
+          <CreateDrawer {...otherProps} />
+        </Provider>
+      );
     case 'edit':
       return <EditDrawer {...otherProps} />;
     default:
