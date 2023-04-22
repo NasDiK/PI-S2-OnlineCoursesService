@@ -38,7 +38,7 @@ const router = createBrowserRouter([
     element: <WrapComponent component={<WithHeader component={<RatingPage />} />} />
   },
   {
-    path: '/students',
+    path: '/students/:id?',
     element: <WrapComponent component={<WithHeader component={<StudentsPage />} />} />
   },
   {

@@ -7,6 +7,11 @@ const getGroups = () => window.api()
   .path('/groups/getGroups')
   .executePost();
 
+const getGroupsById = (groupId) => window.api()
+  .path('/groups/getGroupsById')
+  .body({groupId})
+  .executePost();
+
 const getUsersInGroups = (groupId) => window.api()
   .path('/groups/getUsersInGroups')
   .body({groupId})
@@ -21,5 +26,6 @@ export {
   createGroup,
   getGroups,
   getUsersInGroups,
-  saveGroupChanges
+  saveGroupChanges,
+  getGroupsById
 };
