@@ -4,7 +4,7 @@ import {BigPanelSelector, Button, Modal} from '../../../../../shared';
 import {iElement} from '../../../../../shared/BigPanelSelector/Components/ColumnElement';
 import s from '../Drawers.module.scss';
 import TaskTypeCreator from '../Components/TaskTypeCreator';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 interface iPossibleProps {
   isOpen: boolean,
@@ -12,7 +12,17 @@ interface iPossibleProps {
 }
 
 const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
+  const dispatch = useDispatch();
   const element = useSelector((stores: any) => stores.createDrawerStore.selector);
+  // eslint-disable-next-line max-len
+  const setTargetComponent = (component) => dispatch({type: 'SET_TARGET_COMPONENT', payload: component});
+  const handleChangeCourseName = () => {
+    const _newTitle = prompt('');
+
+    if (_newTitle) {
+      dispatch({type: 'SET_SELECTOR_PROP', payload: {key: 'name', 'value': _newTitle}});
+    }
+  };
 
   return (
     <Modal
@@ -25,16 +35,14 @@ const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
         <div className={s.courseCreatorWrapper}>
           <BigPanelSelector
             element={element}
-            onClickElement={
-              (_element) => {
-                // eslint-disable-next-line no-console
-                console.log(_element);
-              }
-            }
+            onClickElement={setTargetComponent}
             renderableComponent={<TaskTypeCreator />}
           />
         </div>
-        <Button>{'Kringe'}</Button>
+        <div className={s.controls}>
+          <Button>{'Создать курс'}</Button>
+          <Button onClick={handleChangeCourseName}>{'Изменить название курса'}</Button>
+        </div>
       </div>
     </Modal>
   );

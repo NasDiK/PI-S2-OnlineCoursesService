@@ -1,0 +1,35 @@
+.answerBase {
+  border-top: 1px solid black;
+  padding-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+
+  & > :not(:last-child) {
+    margin-bottom: 10px;
+  }
+}
+
+.singleAnswer {
+  @extend .answerBase
+}
+
+.multiAnswer {
+  @extend .answerBase
+}
+
+.textAreaAnswer {
+  @extend .answerBase;
+}
+
+.radioAnswer {
+  @extend .answerBase;
+
+  .addOption {
+    
+    button {
+      display: flex;
+      align-items: center;
+    }
+  }
+}

@@ -17,6 +17,16 @@
   display: flex;
   flex-direction: column;
   width: fit-content;
+
+  .option {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.simpleTextArea {
+  min-height: 130px;
+  width: 100%;
 }
 
 .textArea {

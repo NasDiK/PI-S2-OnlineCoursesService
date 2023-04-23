@@ -9,9 +9,33 @@
     height: 100%;
     width: 100%;
     border: 1px solid black;
+
+    .buttons {
+      & >:not(:last-child) {
+        margin-right: 10px;
+      }
+    }
   }
+  .controls {
+    display: flex;
+    justify-content: space-between;
+
+  }
+}
+
+.edit {
+
 }
 
 .taskTypeCreator {
   width: 100%;
+  
+  .type {
+    display: flex;
+    align-items: center;
+
+    > span {
+      width: 150px;
+    }
+  }
 }
