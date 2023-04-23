@@ -46,7 +46,7 @@ const rows = [
 // eslint-disable-next-line react/function-component-definition
 export default function StudentsTable() {
   return (
-    <TableContainer sx={{maxHeight: 440, maxWidth: 900}} component={Paper}>
+    <TableContainer sx={{maxHeight: 440, maxWidth: 'auto'}} component={Paper}>
       <Table sx={{maxWidth: 100}} aria-label='simple table'>
         <TableHead>
           <TableRow>

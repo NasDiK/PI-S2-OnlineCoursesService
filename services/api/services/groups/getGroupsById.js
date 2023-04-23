@@ -3,6 +3,10 @@ const getGroupsById = (knex, req) => {
   try {
     const {groupId} = req.body;
 
+    if (groupId === undefined) {
+      return;
+    }
+
     return knex('groups')
       .select('id', 'title', 'course_id')
       .where('id', groupId);
