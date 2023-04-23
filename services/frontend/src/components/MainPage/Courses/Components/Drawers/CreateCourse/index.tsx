@@ -5,6 +5,7 @@ import {iElement} from '../../../../../shared/BigPanelSelector/Components/Column
 import s from '../Drawers.module.scss';
 import TaskTypeCreator from '../Components/TaskTypeCreator';
 import {useDispatch, useSelector} from 'react-redux';
+import {targetFields} from '@local/enums/shared';
 
 interface iPossibleProps {
   isOpen: boolean,
@@ -42,6 +43,19 @@ const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
         <div className={s.controls}>
           <Button>{'Создать курс'}</Button>
           <Button onClick={handleChangeCourseName}>{'Изменить название курса'}</Button>
+          <Button
+            onClick={
+              () => dispatch({type: 'ADD_TASK_FOR_SELECTOR',
+                payload: {
+                  id: parseInt((Math.random() * 99999).toString()),
+                  type: targetFields.ELEMENT,
+                  name: 'Новая задача',
+                  additionals: {}
+                }})
+            }
+            backgroundColor={'#00FFFF'}
+          >{'Добавить новый таск'}
+          </Button>
         </div>
       </div>
     </Modal>

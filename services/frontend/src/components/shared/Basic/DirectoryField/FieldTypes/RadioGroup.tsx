@@ -49,7 +49,8 @@ const RadioGroup = (props: iProps) => {
             type={'radio'}
             value={val}
             name={`${renderId}-${renderId2}`}
-            onChange={(ev) => onChange(ev.target.value)}
+            onChange={(ev) => onChange(Number(ev.target.value))}
+            checked={selectedVal === val}
           />
           {label}
         </label>

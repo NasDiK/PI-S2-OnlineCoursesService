@@ -51,11 +51,12 @@ const _insertElement = (arr: any[] | undefined, element, idx = null) => {
 export const setSelector = createAction('SET_SELECTOR', (payload) => payload);
 export const setSelectorProps = createAction('SET_SELECTOR_PROP', (payload) => payload);
 export const setTargetComponent = createAction('SET_TARGET_COMPONENT', (payload) => payload);
+export const setTargetComponentProps = createAction('SET_TARGET_COMPONENT_PROP', (payload) => payload);
 export const setTargetTaskType = createAction('SET_TARGET_TASK_TYPE', (payload) => payload);
 export const setTargetAdditionProps = createAction('SET_TARGET_ADDITIONAL_PROP', (payload) => payload);
 export const synchTargetAndSelector = createAction('SYNCH_TARGET_WITH_SELECTOR', (payload) => payload);
 export const addTask = createAction('ADD_TASK_FOR_SELECTOR', (payload) => payload);
-export const removeTask = createAction('REMOVE_TASK_FROM_SELECTOR', (payload) => payload);
+export const removeTask = createAction('DROP_TASK_FROM_SELECTOR', (payload) => payload);
 
 const reducer = createReducer(initialState, {
   [setSelector.type]: (state: iState, action) => {
@@ -124,6 +125,32 @@ const reducer = createReducer(initialState, {
 
       if (_compIndex !== -1) {
         state.selector.subGroup[_compIndex] = {...targetComponent};
+      }
+    }
+  },
+  [setTargetComponentProps.type]: (state: iState, action) => {
+    const {targetComponent} = state;
+
+    if (targetComponent) {
+      targetComponent[action.payload.key] = action.payload.value;
+    }
+  },
+  [removeTask.type]: (state: iState, action) => {
+    const existTasks = state.selector.subGroup || [];
+
+    const _toDelIdx = existTasks.findIndex(({id}) => id === action.payload.taskId);
+
+    const _fp = existTasks.slice(0, _toDelIdx);
+    const _lp = existTasks.slice(_toDelIdx + 1, existTasks.length);
+
+    state.selector.subGroup = [..._fp, ..._lp];
+    try {
+      state.targetComponent = existTasks[_toDelIdx - 1];
+    } catch(_) {
+      if (existTasks.length - 1) {
+        state.targetComponent = existTasks[0];
+      } else {
+        state.targetComponent = undefined;
       }
     }
   }

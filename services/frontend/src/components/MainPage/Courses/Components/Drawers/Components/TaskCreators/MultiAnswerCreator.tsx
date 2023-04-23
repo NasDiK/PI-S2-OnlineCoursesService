@@ -36,7 +36,20 @@ const MultiAnswerCreator = () => {
     const _fp = _curOptions.slice(0, _findedIdx);
     const _lp = _curOptions.slice(_findedIdx + 1, _curOptions.length);
 
-    setTaskProp('options', [..._fp, ..._lp]);
+    const _newOptions = [..._fp, ..._lp];
+    const _newOptionsValues = _newOptions.map(({value: _val}) => _val.toString());
+
+    setTaskProp('options', _newOptions);
+
+    const _previousRightAnswers = targetComponent.additionals?.rightAnswer || [];
+
+    setTaskProp('rightAnswer', _previousRightAnswers
+      .filter((_ra) => {
+        // eslint-disable-next-line no-console
+        console.log(_ra, _newOptionsValues);
+
+        return _newOptionsValues.includes(_ra.toString());
+      }));
   };
 
   const changeOptionName = ({val, after}) => {

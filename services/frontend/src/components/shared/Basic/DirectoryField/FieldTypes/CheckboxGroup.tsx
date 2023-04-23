@@ -31,7 +31,13 @@ const executeClick = (values: Array<any>, checked: boolean, curV) => {
 
 const CheckboxGroup = (props: iProps) => {
   const {
-    options, onChange, value: selectedVal, isEditable, isDeletable, editCallback, deleteCallback
+    options,
+    onChange,
+    value: selectedVal = [],
+    isEditable,
+    isDeletable,
+    editCallback,
+    deleteCallback
   } = props;
 
   const handleEditElement = (val, before, func) => {
@@ -49,7 +55,6 @@ const CheckboxGroup = (props: iProps) => {
     }
   };
 
-  const [values, setValues] = useState<Array<any>>([]);
   let toRender: Array<React.ReactNode> = [null];
 
   if (options?.length) {
@@ -60,12 +65,16 @@ const CheckboxGroup = (props: iProps) => {
           <input
             type={'checkbox'}
             value={val}
+            checked={selectedVal.includes(val.toString())}
             onChange={
               (ev) => {
-                const newValues = executeClick(values, ev.target.checked, ev.target.value);
+                const newValues = executeClick(
+                  selectedVal,
+                  ev.target.checked,
+                  ev.target.value
+                );
 
                 onChange(newValues);
-                setValues(newValues);
               }
             }
           />

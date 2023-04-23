@@ -35,6 +35,26 @@ const TaskTypeCreator = () => {
   const synchTargetAndSelector = () =>
     dispatch({type: 'SYNCH_TARGET_WITH_SELECTOR', payload: {targetComponent}});
 
+  const renameTargetComponent = () => {
+    const _newName = prompt();
+
+    // eslint-disable-next-line max-len
+    if (_newName && confirm('Будет применено только после сохранения текущий параметров, продолжить?')) {
+      dispatch({type: 'SET_TARGET_COMPONENT_PROP',
+        payload: {
+          key: 'name',
+          'value': _newName
+        }});
+    }
+  };
+
+  const dropTaskFromSelector = () => {
+    if (confirm(`Подтвердите удаление задачи: ${targetComponent.name}`)) {
+      dispatch({type: 'DROP_TASK_FROM_SELECTOR',
+        payload: {taskId: targetComponent.id}});
+    }
+  };
+
   // eslint-disable-next-line no-console
   console.log(targetComponent);
 
@@ -77,17 +97,14 @@ const TaskTypeCreator = () => {
           )
         }
         <Button
-          onClick={
-            () => dispatch({type: 'ADD_TASK_FOR_SELECTOR',
-              payload: {
-                id: parseInt((Math.random() * 99999).toString()),
-                type: targetFields.ELEMENT,
-                name: 'TTT',
-                additionals: {}
-              }})
-          }
-          backgroundColor={'#00FFFF'}
-        >{'Добавить новый таск'}
+          onClick={renameTargetComponent}
+          backgroundColor={'yellow'}
+        >{'Переименовать текущий таск'}
+        </Button>
+        <Button
+          onClick={dropTaskFromSelector}
+          backgroundColor={'red'}
+        >{'Удалить таск'}
         </Button>
       </div>
     </div>
