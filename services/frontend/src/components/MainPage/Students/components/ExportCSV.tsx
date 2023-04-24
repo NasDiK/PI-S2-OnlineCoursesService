@@ -15,7 +15,7 @@ export const ExportCSV = (props: IProps) => {
   const firstStr = {students: ''};
 
   if (tasks !== undefined) {
-    tasks.map((el) => {
+    tasks.forEach((el) => {
       firstStr[el.title] = '';
 
       return el.title;
@@ -24,16 +24,15 @@ export const ExportCSV = (props: IProps) => {
   }
 
   if (users !== undefined && tasks !== undefined && answers !== undefined) {
-    // eslint-disable-next-line array-callback-return
-    users.map((user) => {
+    users.forEach((user) => {
       const str = {students: user.fullname};
       let completedTasks = 0;
 
-      // eslint-disable-next-line array-callback-return
-      tasks.map((task) => {
+      tasks.forEach((task) => {
         str[task.title] = '';
-        // eslint-disable-next-line max-nested-callbacks,array-callback-return
-        answers.map((answer) => {
+
+        // eslint-disable-next-line max-nested-callbacks
+        answers.forEach((answer) => {
 
           if (answer.user_id === user.id && answer.task_id === task.id) {
             let valueAnswer;

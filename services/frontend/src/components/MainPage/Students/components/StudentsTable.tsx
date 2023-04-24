@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -32,8 +32,8 @@ const StudentsTable = (props: iProps) => {
 
       answersComponent = tasks?.map((task) => {
         answerCell = [];
-        // eslint-disable-next-line max-nested-callbacks,array-callback-return
-        answers?.map((answer) => {
+        // eslint-disable-next-line max-nested-callbacks
+        answers?.forEach((answer) => {
           if (answer.user_id === student.id && answer.task_id === task.id) {
             let valueAnswer;
 

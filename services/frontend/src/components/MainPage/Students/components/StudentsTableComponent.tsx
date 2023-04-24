@@ -22,7 +22,17 @@ const StudentsTableComponent = () => {
 
       setGroupName(title);
     });
+    getTasksByGroupId(groupId).then((tasksList) => {
+      const taskWithColumn = tasksList;
 
+      taskWithColumn.push({id: 999, title: 'Выполнено'});
+
+      setTasks(taskWithColumn);
+    });
+    uploadTable();
+  }, [groupId]);
+
+  const uploadTable = () => {
     if (groupId !== undefined) {
       getAnswersLogs(groupId).then((answersList) => {
         if (!answersList.length) {
@@ -31,24 +41,17 @@ const StudentsTableComponent = () => {
           setAnswers(answersList);
         }
       });
-      getTasksByGroupId(groupId).then((tasksList) => {
-        const taskWithColumn = tasksList;
-
-        taskWithColumn.push({id: 999, title: 'Выполнено'});
-
-        setTasks(taskWithColumn);
-      });
       getUsersByGroup(groupId).then((usersList) => {
         setUsers(usersList);
       });
     }
-  }, [groupId]);
+  };
 
   return (
     <div className={s.content}>
       <div className={s.buttons}>
         <ExportCSV csvData={{tasks, users, answers}} fileName={'Export'} />
-        <Button>
+        <Button onClick={uploadTable}>
           {'Обновить таблицу'}
         </Button>
         <div className={s.title}>
