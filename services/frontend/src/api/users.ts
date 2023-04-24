@@ -3,6 +3,12 @@ const getUsersByRoleName = (roleName) => window.api()
   .body({roleName})
   .executePost();
 
+const getUsersByGroup = (groupId) => window.api()
+  .path('/users/getUsersByGroup')
+  .body({groupId})
+  .executePost();
+
 export {
-  getUsersByRoleName
+  getUsersByRoleName,
+  getUsersByGroup
 };

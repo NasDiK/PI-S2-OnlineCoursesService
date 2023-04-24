@@ -15,4 +15,10 @@ router.post('/getUsersByRoleName', async(req, res) => {
   res.send(users);
 });
 
+router.post('/getUsersByGroup', async(req, res) => {
+  const users = await controller.getUsersByGroup(req);
+
+  res.send(users);
+});
+
 module.exports = router;
