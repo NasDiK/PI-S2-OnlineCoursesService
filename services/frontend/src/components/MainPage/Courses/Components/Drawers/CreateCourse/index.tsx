@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BigPanelSelector, Button, Modal} from '../../../../../shared';
 import {iElement} from '../../../../../shared/BigPanelSelector/Components/ColumnElement';
 import s from '../Drawers.module.scss';
@@ -9,10 +9,11 @@ import {targetFields} from '@local/enums/shared';
 
 interface iPossibleProps {
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  view?: 'edit' | 'create'
 }
 
-const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
+const CreateCourseDrawer = ({isOpen, onClose, view = 'create'}: iPossibleProps) => {
   const dispatch = useDispatch();
   const element = useSelector((stores: any) => stores.createDrawerStore.selector);
   // eslint-disable-next-line max-len
@@ -25,6 +26,15 @@ const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
     }
   };
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    !isOpen && console.log('clear eee');
+
+    if (view === 'create') {
+      dispatch({type: 'RESET_SELECTOR'});
+    }
+  }, [isOpen]);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -32,7 +42,7 @@ const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
       variant={'wide'}
     >
       <div className={s.create}>
-        <h2>{'Создать курс'}</h2>
+        {view === 'create' ? <h2>{'Создать курс'}</h2> : <h2>{'Изменить курс'}</h2>}
         <div className={s.courseCreatorWrapper}>
           <BigPanelSelector
             element={element}
@@ -41,7 +51,11 @@ const CreateCourseDrawer = ({isOpen, onClose}: iPossibleProps) => {
           />
         </div>
         <div className={s.controls}>
-          <Button>{'Создать курс'}</Button>
+          {
+            view === 'create' ?
+              <Button>{'Создать курс'}</Button> :
+              <Button>{'Изменить курс'}</Button>
+          }
           <Button onClick={handleChangeCourseName}>{'Изменить название курса'}</Button>
           <Button
             onClick={

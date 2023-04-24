@@ -14,4 +14,10 @@ coursesRouter.post('/getCoursesListByUsers', async(req, res) => {
   res.send(courses);
 });
 
+coursesRouter.post('/searchCourses', async(req, res) => {
+  const courses = await coursesController.searchCourses(req);
+
+  res.send(courses);
+});
+
 module.exports = coursesRouter;

@@ -12,18 +12,12 @@ export interface iState {
 const minimalComponent: iElement = {
   id: -1,
   type: targetFields.ELEMENT_GROUP,
-  name: 'test',
+  name: 'Новый курс',
   subGroup: [
     {
       id: 1,
       type: targetFields.ELEMENT,
-      name: 'Prikol',
-      additionals: {}
-    },
-    {
-      id: 2,
-      type: targetFields.ELEMENT,
-      name: 'Prikol2',
+      name: 'Новая задача',
       additionals: {}
     }
   ]
@@ -48,6 +42,7 @@ const _insertElement = (arr: any[] | undefined, element, idx = null) => {
   return [...arr, element];
 };
 
+export const resetSelector = createAction('RESET_SELECTOR');
 export const setSelector = createAction('SET_SELECTOR', (payload) => payload);
 export const setSelectorProps = createAction('SET_SELECTOR_PROP', (payload) => payload);
 export const setTargetComponent = createAction('SET_TARGET_COMPONENT', (payload) => payload);
@@ -153,6 +148,10 @@ const reducer = createReducer(initialState, {
         state.targetComponent = undefined;
       }
     }
+  },
+  [resetSelector.type]: (state: iState) => {
+    state.selector = {...minimalComponent};
+    state.targetComponent = undefined;
   }
 });
 
