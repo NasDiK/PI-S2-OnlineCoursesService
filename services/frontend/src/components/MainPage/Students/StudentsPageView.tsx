@@ -13,6 +13,7 @@ const minimalElement: iElement = {
   name: 'undefined'
 };
 const StudentsPageView = () => {
+  // eslint-disable-next-line
   const userId = useSelector((state: any) => state.userStore.userData.userId);
   const [groupElement, setGroupElement] = useState<iElement>();
 

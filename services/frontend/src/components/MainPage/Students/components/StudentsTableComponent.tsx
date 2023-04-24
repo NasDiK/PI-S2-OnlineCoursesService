@@ -44,9 +44,6 @@ const StudentsTableComponent = () => {
     <div className={s.content}>
       <div className={s.buttons}>
         <ExportCSV csvData={{tasks, users, answers}} fileName={'Export'} />
-        {/*        <Button>
-          {'Экспорт в эксель'}
-        </Button>*/}
         <Button>
           {'Обновить таблицу'}
         </Button>
