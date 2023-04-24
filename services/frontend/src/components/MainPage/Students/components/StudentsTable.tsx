@@ -17,32 +17,52 @@ interface iProps{
 }
 const StudentsTable = (props: iProps) => {
   const {tasks, usersIds, answers} = props;
-  let tasksComponent, studentsComponent, answersComponent;
-
-  if (tasks !== undefined) {
-    tasksComponent = tasks?.map((task) => (
+  let tasksComponent = [
       <TableCell
-        align='center'
-        key={task.title}
-      >{task.title}
+        key={'start'}
+        sx={{minWidth: 200}}
+      >{'Студенты'}
       </TableCell>
-    ));
+    ], studentsComponent, answersComponent;
+  let a = [<TableCell key={'start'} />];
+
+  a.pop();
+  if (tasks !== undefined) {
     studentsComponent = usersIds?.map((student) => {
-      answersComponent = answers?.map((answer) => {
-        if (answer.user_id !== student.id) {
-          return <TableCell key={student + answer.task_id} align='center'>{''}</TableCell>;
-        }
-        let valueAnswer;
+      answersComponent = tasks?.map((task) => {
+        a = [];
+        // eslint-disable-next-line max-nested-callbacks,array-callback-return
+        answers?.map((answer) => {
+          if (answer.user_id === student.id && answer.task_id === task.id) {
+            let valueAnswer;
 
-        if (answer.value === 'false') {
-          valueAnswer = '0';
-        } else if (answer.note !== null) {
-          valueAnswer = answer.note;
-        } else {
-          valueAnswer = 'Сдано';
+            if (answer.value === 'false') {
+              valueAnswer = '0';
+            } else if (answer.note !== null) {
+              valueAnswer = answer.note;
+            } else {
+              valueAnswer = 'Сдано';
+            }
+            a.push(
+              <TableCell
+                key={student.id + answer.task_id + answer.user_id}
+                align='center'
+              >{valueAnswer}
+              </TableCell>
+            );
+          }
+        });
+        if (a.length) {
+          return a;
         }
 
-        return (<TableCell key={student + answer.task_id} align='center'>{valueAnswer}</TableCell>);
+        return (
+          <TableCell
+            key={student.id + task.id}
+            align='center'
+          >{''}
+          </TableCell>
+        );
       });
 
       return (
@@ -53,13 +73,23 @@ const StudentsTable = (props: iProps) => {
       );
     });
   }
+  if (tasks !== undefined) {
+    tasksComponent = tasks?.map((task) => (
+      <TableCell
+        align='center'
+        key={task.title}
+      >{task.title}
+      </TableCell>
+    ));
+  } else {
+    tasksComponent.pop();
+  }
 
   return (
     <TableContainer sx={{maxHeight: 770, maxWidth: 'auto'}} component={Paper}>
       <Table stickyHeader={true} sx={{maxWidth: 'auto'}} aria-label='simple table'>
         <TableHead>
           <TableRow>
-            <TableCell sx={{minWidth: 200}}>{'Студенты'}</TableCell>
             {tasksComponent}
           </TableRow>
         </TableHead>

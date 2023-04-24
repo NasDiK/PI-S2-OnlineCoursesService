@@ -17,6 +17,7 @@ const getAnswersLogs = async(knex, req) => {
       .whereIn('action', [action.SEND, action.REVIEW_APPROVE])
       .whereIn('task_id', tasksIds)
       .where('groups_users.group_id', groupId)
+      .orderBy('tasks_logger.user_id', 'asc')
       .orderBy('tasks_logger.task_id', 'asc')
       .select('value', 'action', 'tasks_logger.user_id', 'task_id', 'note');
 

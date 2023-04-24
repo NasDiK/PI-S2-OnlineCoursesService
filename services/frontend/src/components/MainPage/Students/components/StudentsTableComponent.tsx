@@ -6,6 +6,7 @@ import {getGroupsById} from '../../../../api/groups';
 import StudentsTable from './StudentsTable';
 import {getAnswersLogs, getTasksByGroupId} from '../../../../api/tasks';
 import {getUsersByGroup} from '../../../../api/users';
+import {ExportCSV} from './ExportCSV';
 
 const StudentsTableComponent = () => {
   const [groupName, setGroupName] = useState();
@@ -42,9 +43,10 @@ const StudentsTableComponent = () => {
   return (
     <div className={s.content}>
       <div className={s.buttons}>
-        <Button>
+        <ExportCSV csvData={{tasks, users, answers}} fileName={'Export'} />
+        {/*        <Button>
           {'Экспорт в эксель'}
-        </Button>
+        </Button>*/}
         <Button>
           {'Обновить таблицу'}
         </Button>

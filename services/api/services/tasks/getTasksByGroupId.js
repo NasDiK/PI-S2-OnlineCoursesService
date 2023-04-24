@@ -6,7 +6,7 @@ const getTasksByGroupId = (knex, request) => {
     .where('id', groupId);
 
   return knex('tasks')
-    .select('title')
+    .select('title', 'id')
     .where('course_id', courseId);
 };
 
