@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {useEffect} from 'react';
 
 interface iProps{
   // eslint-disable-next-line
@@ -17,15 +18,16 @@ interface iProps{
 }
 const StudentsTable = (props: iProps) => {
   const {tasks, usersIds, answers} = props;
-  let tasksComponent = [
-      <TableCell
-        key={'start'}
-        sx={{minWidth: 200}}
-      >{'Студенты'}
-      </TableCell>
-    ], studentsComponent, answersComponent, a = [<TableCell key={'start'} />];
+  let studentsComponent, answersComponent, a = [<TableCell key={'start'} />];
+  const tasksComponent = [
+    <TableCell
+      key={'start'}
+      sx={{minWidth: 200}}
+    >{''}
+    </TableCell>
+  ];
 
-  if (tasks !== undefined) {
+  if (tasks !== undefined && tasks.length) {
     studentsComponent = usersIds?.map((student) => {
       answersComponent = tasks?.map((task) => {
         a = [];
@@ -65,20 +67,23 @@ const StudentsTable = (props: iProps) => {
 
       return (
         <TableRow key={student.fullname} sx={{'&:last-child td, &:last-child th': {border: 0}}}>
-          <TableCell component='th' scope='row'>{student.fullname}</TableCell>
+          <TableCell component='th' scope='row'>{student.fullname}
+          </TableCell>
           {answersComponent}
         </TableRow>
       );
     });
   }
-  if (tasks !== undefined) {
-    tasksComponent = tasks?.map((task) => (
-      <TableCell
-        align='center'
-        key={task.title}
-      >{task.title}
-      </TableCell>
-    ));
+  if (tasks !== undefined && tasks?.length > 0) {
+    tasks?.map((task) =>
+      tasksComponent.push(
+        <TableCell
+          sx={{fontWeight: 600}}
+          align='center'
+          key={task.title}
+        >{task.title}
+        </TableCell>
+      ));
   } else {
     tasksComponent.pop();
   }

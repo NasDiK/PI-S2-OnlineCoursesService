@@ -54,7 +54,9 @@ const StudentsTableComponent = () => {
           <Typography variant={'body24'} weight={'bold'}>{groupName}</Typography>
         </div>
       </div>
-      <StudentsTable tasks={tasks} usersIds={users} answers={answers} />
+      <div className={s.table}>
+        <StudentsTable tasks={tasks} usersIds={users} answers={answers} />
+      </div>
     </div>
   );
 };
