@@ -26,7 +26,6 @@ const StudentsTable = (props: iProps) => {
     ], studentsComponent, answersComponent;
   let a = [<TableCell key={'start'} />];
 
-  a.pop();
   if (tasks !== undefined) {
     studentsComponent = usersIds?.map((student) => {
       answersComponent = tasks?.map((task) => {
