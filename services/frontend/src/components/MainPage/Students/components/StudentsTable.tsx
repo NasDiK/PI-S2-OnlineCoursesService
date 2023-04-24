@@ -23,8 +23,7 @@ const StudentsTable = (props: iProps) => {
         sx={{minWidth: 200}}
       >{'Студенты'}
       </TableCell>
-    ], studentsComponent, answersComponent;
-  let a = [<TableCell key={'start'} />];
+    ], studentsComponent, answersComponent, a = [<TableCell key={'start'} />];
 
   if (tasks !== undefined) {
     studentsComponent = usersIds?.map((student) => {
