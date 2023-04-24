@@ -32,7 +32,11 @@ const StudentsTableComponent = () => {
         }
       });
       getTasksByGroupId(groupId).then((tasksList) => {
-        setTasks(tasksList);
+        const taskWithColumn = tasksList;
+
+        taskWithColumn.push({id: 999, title: 'Выполнено'});
+
+        setTasks(taskWithColumn);
       });
       getUsersByGroup(groupId).then((usersList) => {
         setUsers(usersList);

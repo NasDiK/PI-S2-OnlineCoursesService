@@ -27,6 +27,7 @@ export const ExportCSV = (props: IProps) => {
     // eslint-disable-next-line array-callback-return
     users.map((user) => {
       const str = {students: user.fullname};
+      let completedTasks = 0;
 
       // eslint-disable-next-line array-callback-return
       tasks.map((task) => {
@@ -45,6 +46,10 @@ export const ExportCSV = (props: IProps) => {
               valueAnswer = 'Сдано';
             }
             str[task.title] = valueAnswer;
+            completedTasks++;
+          }
+          if (task.id === 999) {
+            str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
           }
         });
       });

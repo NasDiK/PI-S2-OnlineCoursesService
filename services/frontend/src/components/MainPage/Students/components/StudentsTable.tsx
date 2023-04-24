@@ -17,7 +17,7 @@ interface iProps{
 }
 const StudentsTable = (props: iProps) => {
   const {tasks, usersIds, answers} = props;
-  let studentsComponent, answersComponent, a = [<TableCell key={'start'} />];
+  let studentsComponent, answersComponent, answerCell = [<TableCell key={'start'} />];
   const tasksComponent = [
     <TableCell
       key={'start'}
@@ -26,10 +26,12 @@ const StudentsTable = (props: iProps) => {
     </TableCell>
   ];
 
-  if (tasks !== undefined && tasks.length) {
+  if (tasks !== undefined && tasks.length > 1) {
     studentsComponent = usersIds?.map((student) => {
+      let completedTasks = 0;
+
       answersComponent = tasks?.map((task) => {
-        a = [];
+        answerCell = [];
         // eslint-disable-next-line max-nested-callbacks,array-callback-return
         answers?.map((answer) => {
           if (answer.user_id === student.id && answer.task_id === task.id) {
@@ -42,17 +44,28 @@ const StudentsTable = (props: iProps) => {
             } else {
               valueAnswer = 'Сдано';
             }
-            a.push(
+            answerCell.push(
               <TableCell
                 key={student.id + answer.task_id + answer.user_id}
                 align='center'
               >{valueAnswer}
               </TableCell>
             );
+            completedTasks++;
           }
         });
-        if (a.length) {
-          return a;
+        if (answerCell.length) {
+          return answerCell;
+        }
+
+        if (task.id === 999) {
+          return (
+            <TableCell
+              key={student.id + task.id + completedTasks}
+              align='center'
+            >{`${completedTasks / (tasks.length - 1) * 100}%`}
+            </TableCell>
+          );
         }
 
         return (
@@ -73,7 +86,7 @@ const StudentsTable = (props: iProps) => {
       );
     });
   }
-  if (tasks !== undefined && tasks?.length > 0) {
+  if (tasks !== undefined && tasks?.length > 1) {
     tasks?.map((task) =>
       tasksComponent.push(
         <TableCell
