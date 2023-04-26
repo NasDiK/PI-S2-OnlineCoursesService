@@ -47,9 +47,6 @@ export const ExportCSV = () => {
               completedTasks++;
             }
             if (task.id === 999) {
-
-              // eslint-disable-next-line no-console
-              console.log(task.title);
               str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
             }
           });
