@@ -22,7 +22,7 @@ export const ExportCSV = () => {
     csvData2.push(firstStr);
   }
 
-  if (users !== undefined && tasks !== undefined && answers !== undefined) {
+  if (users !== undefined && tasks !== undefined) {
     users.forEach((user) => {
       const str = {students: user.fullname};
       let completedTasks = 0;
@@ -30,26 +30,32 @@ export const ExportCSV = () => {
       tasks.forEach((task) => {
         str[task.title] = '';
 
-        // eslint-disable-next-line max-nested-callbacks
-        answers.forEach((answer) => {
+        if (answers !== undefined) {
+          // eslint-disable-next-line max-nested-callbacks
+          answers.forEach((answer) => {
+            if (answer.user_id === user.id && answer.task_id === task.id) {
+              let valueAnswer;
 
-          if (answer.user_id === user.id && answer.task_id === task.id) {
-            let valueAnswer;
-
-            if (answer.value === 'false') {
-              valueAnswer = '0';
-            } else if (answer.note !== null) {
-              valueAnswer = answer.note;
-            } else {
-              valueAnswer = 'Сдано';
+              if (answer.value === 'false') {
+                valueAnswer = '0';
+              } else if (answer.note !== null) {
+                valueAnswer = answer.note;
+              } else {
+                valueAnswer = 'Сдано';
+              }
+              str[task.title] = valueAnswer;
+              completedTasks++;
             }
-            str[task.title] = valueAnswer;
-            completedTasks++;
-          }
-          if (task.id === 999) {
-            str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
-          }
-        });
+            if (task.id === 999) {
+
+              // eslint-disable-next-line no-console
+              console.log(task.title);
+              str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
+            }
+          });
+        } else if (task.id === 999) {
+          str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
+        }
       });
       csvData2.push(str);
     });
