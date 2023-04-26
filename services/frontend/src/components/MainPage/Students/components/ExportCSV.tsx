@@ -1,16 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import {Button} from '../../../shared';
+import {useSelector} from 'react-redux';
 
-interface IProps{
-  // eslint-disable-next-line
-  csvData: any,
-  fileName: string
-}
-export const ExportCSV = (props: IProps) => {
-  const {csvData, fileName} = props;
-  const {tasks, users, answers} = csvData;
+export const ExportCSV = () => {
+  const tasks = useSelector((stores: any) => stores.studentsStore.tasks);
+  const users = useSelector((stores: any) => stores.studentsStore.users);
+  const answers = useSelector((stores: any) => stores.studentsStore.answers);
+  const fileName = useSelector((stores: any) => stores.studentsStore.groupName);
   const csvData2 = [{}];
   const firstStr = {students: ''};
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -6,17 +7,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {useSelector} from 'react-redux';
 
-interface iProps{
-  // eslint-disable-next-line
-  tasks?: any,
-  // eslint-disable-next-line
-  usersIds?: any,
-  // eslint-disable-next-line
-  answers?: any
-}
-const StudentsTable = (props: iProps) => {
-  const {tasks, usersIds, answers} = props;
+const StudentsTable = () => {
+  const tasks = useSelector((stores: any) => stores.studentsStore.tasks);
+  const usersIds = useSelector((stores: any) => stores.studentsStore.users);
+  const answers = useSelector((stores: any) => stores.studentsStore.answers);
   let studentsComponent, answersComponent, answerCell = [<TableCell key={'start'} />];
   const tasksComponent = [
     <TableCell

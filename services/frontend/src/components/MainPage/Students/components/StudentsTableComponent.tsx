@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, {useEffect} from 'react';
 import {Button, Typography} from '../../../shared';
 import s from '../Students.module.scss';
 import {useMatches} from 'react-router';
@@ -7,27 +8,25 @@ import StudentsTable from './StudentsTable';
 import {getAnswersLogs, getTasksByGroupId} from '../../../../api/tasks';
 import {getUsersByGroup} from '../../../../api/users';
 import {ExportCSV} from './ExportCSV';
+import {useDispatch, useSelector} from 'react-redux';
 
 const StudentsTableComponent = () => {
-  const [groupName, setGroupName] = useState();
-  const [tasks, setTasks] = useState();
-  const [users, setUsers] = useState();
-  const [answers, setAnswers] = useState();
+  const dispatch = useDispatch();
   const [match] = useMatches();
   const {id: groupId} = match.params;
+  const groupName = useSelector((stores: any) => stores.studentsStore.groupName);
 
   useEffect(() => {
     getGroupsById(groupId).then((groups) => {
       const {title} = groups[0];
 
-      setGroupName(title);
+      dispatch({type: 'SET_GROUP_NAME', payload: title});
     });
     getTasksByGroupId(groupId).then((tasksList) => {
       const taskWithColumn = tasksList;
 
       taskWithColumn.push({id: 999, title: 'Выполнено'});
-
-      setTasks(taskWithColumn);
+      dispatch({type: 'SET_TASKS', payload: taskWithColumn});
     });
     uploadTable();
   }, [groupId]);
@@ -36,13 +35,13 @@ const StudentsTableComponent = () => {
     if (groupId !== undefined) {
       getAnswersLogs(groupId).then((answersList) => {
         if (!answersList.length) {
-          setAnswers(undefined);
+          dispatch({type: 'SET_ANSWERS', payload: undefined});
         } else {
-          setAnswers(answersList);
+          dispatch({type: 'SET_ANSWERS', payload: answersList});
         }
       });
       getUsersByGroup(groupId).then((usersList) => {
-        setUsers(usersList);
+        dispatch({type: 'SET_USERS', payload: usersList});
       });
     }
   };
@@ -50,7 +49,7 @@ const StudentsTableComponent = () => {
   return (
     <div className={s.content}>
       <div className={s.buttons}>
-        <ExportCSV csvData={{tasks, users, answers}} fileName={'Export'} />
+        <ExportCSV />
         <Button onClick={uploadTable}>
           {'Обновить таблицу'}
         </Button>
@@ -59,7 +58,7 @@ const StudentsTableComponent = () => {
         </div>
       </div>
       <div className={s.table}>
-        <StudentsTable tasks={tasks} usersIds={users} answers={answers} />
+        <StudentsTable />
       </div>
     </div>
   );

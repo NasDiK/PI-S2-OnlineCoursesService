@@ -5,7 +5,8 @@ import {shared} from '@local/enums';
 import StudentsTableComponent from './components/StudentsTableComponent';
 import {getGroups} from '../../../api/groups';
 import {targetFields} from '@local/enums/shared';
-import {useSelector} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
+import {store as studentsStore} from '../../../stores/components/Students/StudentsReducer';
 
 const minimalElement: iElement = {
   id: -1,
@@ -38,7 +39,13 @@ const StudentsPageView = () => {
   return (
     <BigPanelSelector
       element={groupElement || minimalElement}
-      renderableComponent={<StudentsTableComponent />}
+      renderableComponent={
+        (
+          <Provider store={studentsStore}>
+            <StudentsTableComponent />
+          </Provider>
+        )
+      }
       elementLink={`/students/`}
       withLinear={false}
     />
