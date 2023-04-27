@@ -9,7 +9,7 @@ const exportToExcel = (tasks, users, answers, fileName) => {
   const csvData2 = [{}];
   const firstStr = {students: ''};
 
-  if (tasks !== undefined) {
+  if (tasks) {
     tasks.forEach((el) => {
       firstStr[el.title] = '';
 
@@ -18,36 +18,18 @@ const exportToExcel = (tasks, users, answers, fileName) => {
     csvData2.push(firstStr);
   }
 
-  if (users !== undefined && tasks !== undefined) {
+  if (users && tasks) {
     users.forEach((user) => {
       const str = {students: user.fullname};
-      let completedTasks = 0;
 
       tasks.forEach((task) => {
-        str[task.title] = '';
-
         if (answers !== undefined) {
           // eslint-disable-next-line max-nested-callbacks
-          answers.forEach((answer) => {
-            if (answer.user_id === user.id && answer.task_id === task.id) {
-              let valueAnswer;
-
-              if (answer.value === 'false') {
-                valueAnswer = '0';
-              } else if (answer.note !== null) {
-                valueAnswer = answer.note;
-              } else {
-                valueAnswer = 'Сдано';
-              }
-              str[task.title] = valueAnswer;
-              completedTasks++;
-            }
-            if (task.id === 999) {
-              str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
-            }
-          });
-        } else if (task.id === 999) {
-          str[task.title] = `${completedTasks / (tasks.length - 1) * 100}%`;
+          answers.filter((answer) => answer.user_id === user.id && answer.task_id === task.id)
+            // eslint-disable-next-line max-nested-callbacks
+            .forEach((answer) => {
+              str[task.title] = answer.value;
+            });
         }
       });
       csvData2.push(str);

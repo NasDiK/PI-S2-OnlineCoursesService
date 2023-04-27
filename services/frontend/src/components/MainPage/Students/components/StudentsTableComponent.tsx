@@ -17,18 +17,17 @@ const StudentsTableComponent = () => {
   const groupName = useSelector((stores: any) => stores.studentsStore.groupName);
 
   useEffect(() => {
-    getGroupsById(groupId).then((groups) => {
-      const {title} = groups[0];
+    if (groupId) {
+      getGroupsById(groupId).then((groups) => {
+        const {title} = groups[0];
 
-      dispatch({type: 'SET_GROUP_NAME', payload: title});
-    });
-    getTasksByGroupId(groupId).then((tasksList) => {
-      const taskWithColumn = tasksList;
-
-      taskWithColumn.push({id: 999, title: 'Выполнено'});
-      dispatch({type: 'SET_TASKS', payload: taskWithColumn});
-    });
-    uploadTable();
+        dispatch({type: 'SET_GROUP_NAME', payload: title});
+      });
+      getTasksByGroupId(groupId).then((tasksList) => {
+        dispatch({type: 'SET_TASKS', payload: tasksList});
+      });
+      uploadTable();
+    }
   }, [groupId]);
 
   const uploadTable = () => {
@@ -42,6 +41,7 @@ const StudentsTableComponent = () => {
       });
       getUsersByGroup(groupId).then((usersList) => {
         dispatch({type: 'SET_USERS', payload: usersList});
+        dispatch({type: 'GROUP_COMPONENTS', payload: undefined});
       });
     }
   };
