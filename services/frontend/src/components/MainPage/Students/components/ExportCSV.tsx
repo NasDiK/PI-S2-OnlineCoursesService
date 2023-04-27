@@ -5,11 +5,7 @@ import * as XLSX from 'xlsx';
 import {Button} from '../../../shared';
 import {useSelector} from 'react-redux';
 
-export const ExportCSV = () => {
-  const tasks = useSelector((stores: any) => stores.studentsStore.tasks);
-  const users = useSelector((stores: any) => stores.studentsStore.users);
-  const answers = useSelector((stores: any) => stores.studentsStore.answers);
-  const fileName = useSelector((stores: any) => stores.studentsStore.groupName);
+const exportToExcel = (tasks, users, answers, fileName) => {
   const csvData2 = [{}];
   const firstStr = {students: ''};
 
@@ -70,7 +66,17 @@ export const ExportCSV = () => {
     FileSaver.saveAs(dataToEx, fileNameToExport + fileExtension);
   };
 
+  exportToCSV(csvData2, fileName);
+};
+
+export const ExportCSV = () => {
+  const tasks = useSelector((stores: any) => stores.studentsStore.tasks);
+  const users = useSelector((stores: any) => stores.studentsStore.users);
+  const answers = useSelector((stores: any) => stores.studentsStore.answers);
+  const fileName = useSelector((stores: any) => stores.studentsStore.groupName);
+  const exportClick = () => exportToExcel(tasks, users, answers, fileName);
+
   return (
-    <Button onClick={() => exportToCSV(csvData2, fileName)}>{'Экспорт в Эксель'}</Button>
+    <Button onClick={exportClick}>{'Экспорт в Эксель'}</Button>
   );
 };

@@ -3,7 +3,7 @@ const getGroupsById = (knex, req) => {
   try {
     const {groupId} = req.body;
 
-    if (groupId === undefined) {
+    if (!groupId) {
       return;
     }
 

@@ -32,7 +32,7 @@ const StudentsTableComponent = () => {
   }, [groupId]);
 
   const uploadTable = () => {
-    if (groupId !== undefined) {
+    if (groupId) {
       getAnswersLogs(groupId).then((answersList) => {
         if (!answersList.length) {
           dispatch({type: 'SET_ANSWERS', payload: undefined});

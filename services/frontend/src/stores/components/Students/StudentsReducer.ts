@@ -18,6 +18,7 @@ export const setUsers = createAction('SET_USERS', (payload) => payload);
 export const setTasks = createAction('SET_TASKS', (payload) => payload);
 export const setAnswers = createAction('SET_ANSWERS', (payload) => payload);
 export const setGroupName = createAction('SET_GROUP_NAME', (payload) => payload);
+export const groupComponents = createAction('GROUP_COMPONENTS', (payload) => payload);
 
 const reducer = createReducer(initialState, {
   [setUsers.type]: (state: iState, action) => {

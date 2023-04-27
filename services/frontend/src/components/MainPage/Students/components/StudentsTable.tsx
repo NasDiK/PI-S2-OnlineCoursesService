@@ -1,22 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import {useSelector} from 'react-redux';
+import {Table, TableRow, TableHead, TableContainer, TableBody, Paper, TableCell}
+  from '@mui/material';
+import {useDispatch, useSelector} from 'react-redux';
 
 const StudentsTable = () => {
-  const tasks = useSelector((stores: any) => stores.studentsStore.tasks);
-  const usersIds = useSelector((stores: any) => stores.studentsStore.users);
-  const answers = useSelector((stores: any) => stores.studentsStore.answers);
-  let studentsComponent, answersComponent, answerCell = [<TableCell key={'start'} />];
+  const dispatch = useDispatch();
+  const tasks = useSelector(({studentsStore}: any) => studentsStore.tasks);
+  const usersIds = useSelector(({studentsStore}: any) => studentsStore.users);
+  const answers = useSelector(({studentsStore}: any) => studentsStore.answers);
+
+  dispatch({type: 'GROUP_COMPONENTS'});
+  let studentsComponent, answersComponent, answerCell:any = [];
   const tasksComponent = [
     <TableCell
-      key={'start'}
+      key={'tasksFirstItem'}
       sx={{minWidth: 200}}
     >{''}
     </TableCell>
