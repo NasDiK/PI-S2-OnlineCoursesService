@@ -23,7 +23,7 @@ const exportToExcel = (tasks, users, answers, fileName) => {
       const str = {students: user.fullname};
 
       tasks.forEach((task) => {
-        if (answers !== undefined) {
+        if (answers) {
           // eslint-disable-next-line max-nested-callbacks
           answers.filter((answer) => answer.user_id === user.id && answer.task_id === task.id)
             // eslint-disable-next-line max-nested-callbacks
