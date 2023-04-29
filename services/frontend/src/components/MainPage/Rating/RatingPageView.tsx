@@ -53,7 +53,7 @@ const RatingPageView = () => {
           <Table stickyHeader={true} sx={{maxWidth: 'auto'}} aria-label='simple table'>
             <TableHead>
               <TableRow>
-                <TableCell sx={{fontWeight: 600}} align='center'>{''}</TableCell>
+                <TableCell sx={{fontWeight: 600}} align='center'>{'№'}</TableCell>
                 <TableCell sx={{fontWeight: 600}} align='center'>{'Студент'}</TableCell>
                 <TableCell sx={{fontWeight: 600}} align='center'>{'Количество выполненных задач'}
                 </TableCell>
