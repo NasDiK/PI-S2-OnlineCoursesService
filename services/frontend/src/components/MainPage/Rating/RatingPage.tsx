@@ -1,11 +1,12 @@
 import React from 'react';
 import RatingPageView from './RatingPageView';
+import {store as ratingStore} from '../../../stores/components/Rating/RatingReducer';
+import {Provider} from 'react-redux';
 
 const RatingPage = () => (
-  <React.Fragment>
-    {/* Здесь мог бы быть ваш Provider */}
+  <Provider store={ratingStore}>
     <RatingPageView />
-  </React.Fragment>
+  </Provider>
 );
 
 export default RatingPage;

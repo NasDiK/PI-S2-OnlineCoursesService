@@ -5,6 +5,7 @@ const confirmReview = require('./confirmReview');
 const writeTaskLog = require('./writeTaskLog');
 const getTasksByGroupId = require('./getTasksByGroupId');
 const getAnswersLogs = require('./getAnswersLogs');
+const getAllLogs = require('./getAllLogs');
 
 module.exports = {
   getTaskById,
@@ -13,5 +14,6 @@ module.exports = {
   confirmReview,
   writeTaskLog,
   getTasksByGroupId,
-  getAnswersLogs
+  getAnswersLogs,
+  getAllLogs
 };

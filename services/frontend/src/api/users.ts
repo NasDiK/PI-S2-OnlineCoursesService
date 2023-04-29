@@ -8,7 +8,13 @@ const getUsersByGroup = (groupId) => window.api()
   .body({groupId})
   .executePost();
 
+const getUsersByIds = (usersIds) => window.api()
+  .path('/users/getUsersByIds')
+  .body({usersIds})
+  .executePost();
+
 export {
   getUsersByRoleName,
-  getUsersByGroup
+  getUsersByGroup,
+  getUsersByIds
 };

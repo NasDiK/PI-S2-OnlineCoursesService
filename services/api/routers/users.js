@@ -21,4 +21,10 @@ router.post('/getUsersByGroup', async(req, res) => {
   res.send(users);
 });
 
+router.post('/getUsersByIds', async(req, res) => {
+  const users = await controller.getUsersByIds(req);
+
+  res.send(users);
+});
+
 module.exports = router;
