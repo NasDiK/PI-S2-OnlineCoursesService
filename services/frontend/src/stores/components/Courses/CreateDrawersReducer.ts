@@ -46,19 +46,45 @@ const _insertElement = (arr: any[] | undefined, element, idx = null) => {
   return [...arr, element];
 };
 
-const _findInSubgroupRecursive = (element, findId) => {
+const _findInSubgroupRecursiveIdx = (element, findId, path) => {
   if (!element?.subGroup?.length) {
     return undefined;
   }
 
-  const finded = element.subGroup.find(({id}) => id === findId);
+  const finded = element.subGroup.findIndex(({id}) => id === findId);
 
-  if (finded) {
-    return finded;
+  if (finded !== -1) {
+    return {
+      inArrayIdx: finded,
+      path: [...path, finded]
+    };
   }
 
-  return element.subGroup.map((_el) => _findInSubgroupRecursive(_el, findId));
+  return element.subGroup.map((_el, index) => _findInSubgroupRecursiveIdx(_el, findId, [...path, index]));
+};
 
+const getCorr = (res) => isObject(res) ? res : res
+  .flat(1)
+  .filter(Boolean)
+  ?.[0]; //Костыль
+
+const returnAttachedSubgroup = (el, path) => {
+  let target = el.subGroup;
+
+  for (let i = 0; i < path.length; i++) {
+    if (i !== path.length - 1) { // не последний
+      // eslint-disable-next-line no-debugger
+      // debugger;
+      target = target[path[i]].subGroup;
+    } else {
+      // eslint-disable-next-line no-debugger
+      // debugger;
+
+      return target[path[i]];
+    }
+  }
+
+  return target;
 };
 
 export const resetSelector = createAction('RESET_SELECTOR');
@@ -95,10 +121,11 @@ const reducer = createReducer(initialState, {
   [setTargetComponent.type]: (state: iState, action) => {
     const _selectedComponent = action.payload;
 
-    const _t = _findInSubgroupRecursive(state.selector, _selectedComponent.id);
+    const _t = _findInSubgroupRecursiveIdx(state.selector, _selectedComponent.id, []);
+    const _res = getCorr(_t);
 
-    // eslint-disable-next-line no-nested-ternary
-    const component = isObject(_t) ? _t : Array.isArray(_t) ? _t[0] : _t;
+    console.log(_res);
+    const component = returnAttachedSubgroup(state.selector, _res.path);
 
     state.targetComponent = component;
     console.log(state.targetComponent);
