@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useState} from 'react';
 import {IOption} from './Select';
 import s from './field.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {isValEmpty} from '../../../../../utils';
+import {isValEmpty, tryConvertToNumber} from '../../../../../utils';
 
 interface iProps {
   options?: Array<IOption>,
@@ -18,15 +19,18 @@ interface iProps {
 }
 
 const executeClick = (values: Array<any>, checked: boolean, curV) => {
+  const _convertedValues = values.map((_) => tryConvertToNumber(_)[1]);
+  const _convertedCurV = tryConvertToNumber(curV)[1];
+
   if (checked) {
-    if (!values.includes(curV)) {
-      return [...values, curV];
+    if (!_convertedValues.includes(_convertedCurV)) {
+      return [..._convertedValues, _convertedCurV];
     }
 
     return [];
   }
 
-  return values.filter((_val) => _val !== curV);
+  return _convertedValues.filter((_val) => _val !== _convertedCurV);
 };
 
 const CheckboxGroup = (props: iProps) => {
@@ -65,7 +69,7 @@ const CheckboxGroup = (props: iProps) => {
           <input
             type={'checkbox'}
             value={val}
-            checked={selectedVal.includes(val.toString())}
+            checked={selectedVal.includes(val)}
             onChange={
               (ev) => {
                 const newValues = executeClick(

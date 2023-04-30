@@ -12,3 +12,8 @@ export declare const targetFields: {
     ELEMENT_GROUP: number;
     ELEMENT: number;
 };
+export declare const loadingStatus: {
+    LOADING: number;
+    SUCCESS: number;
+    ERROR: number;
+};

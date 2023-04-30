@@ -1,12 +1,15 @@
+/* eslint-disable no-console */
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
 import {iElement} from '../../../components/shared/BigPanelSelector/Components/ColumnElement';
-import {targetFields} from '@local/enums/shared';
+import {targetFields, loadingStatus} from '@local/enums/shared';
+import {isObject} from '../../../utils';
 
 export interface iState {
   selector: iElement,
-  targetComponent?: iElement
+  targetComponent?: iElement,
+  loadingStatus: number
 }
 
 const minimalComponent: iElement = {
@@ -24,7 +27,8 @@ const minimalComponent: iElement = {
 };
 
 const initialState: iState = {
-  selector: {...minimalComponent}
+  selector: {...minimalComponent},
+  loadingStatus: loadingStatus.SUCCESS
 };
 
 const _insertElement = (arr: any[] | undefined, element, idx = null) => {
@@ -42,6 +46,21 @@ const _insertElement = (arr: any[] | undefined, element, idx = null) => {
   return [...arr, element];
 };
 
+const _findInSubgroupRecursive = (element, findId) => {
+  if (!element?.subGroup?.length) {
+    return undefined;
+  }
+
+  const finded = element.subGroup.find(({id}) => id === findId);
+
+  if (finded) {
+    return finded;
+  }
+
+  return element.subGroup.map((_el) => _findInSubgroupRecursive(_el, findId));
+
+};
+
 export const resetSelector = createAction('RESET_SELECTOR');
 export const setSelector = createAction('SET_SELECTOR', (payload) => payload);
 export const setSelectorProps = createAction('SET_SELECTOR_PROP', (payload) => payload);
@@ -52,6 +71,8 @@ export const setTargetAdditionProps = createAction('SET_TARGET_ADDITIONAL_PROP',
 export const synchTargetAndSelector = createAction('SYNCH_TARGET_WITH_SELECTOR', (payload) => payload);
 export const addTask = createAction('ADD_TASK_FOR_SELECTOR', (payload) => payload);
 export const removeTask = createAction('DROP_TASK_FROM_SELECTOR', (payload) => payload);
+
+export const setLoadingStatus = createAction('CRT_DRW_SET_LOADING_STATUS', (payload) => payload);
 
 const reducer = createReducer(initialState, {
   [setSelector.type]: (state: iState, action) => {
@@ -74,10 +95,13 @@ const reducer = createReducer(initialState, {
   [setTargetComponent.type]: (state: iState, action) => {
     const _selectedComponent = action.payload;
 
-    const component = state.selector.subGroup
-      ?.find(({id}) => id === _selectedComponent.id);
+    const _t = _findInSubgroupRecursive(state.selector, _selectedComponent.id);
+
+    // eslint-disable-next-line no-nested-ternary
+    const component = isObject(_t) ? _t : Array.isArray(_t) ? _t[0] : _t;
 
     state.targetComponent = component;
+    console.log(state.targetComponent);
   },
   [setTargetTaskType.type]: (state: iState, action) => {
     const _selectedComponent = state.selector.subGroup
@@ -112,10 +136,11 @@ const reducer = createReducer(initialState, {
       }
     }
   },
-  [synchTargetAndSelector.type]: (state: iState, action) => {
+  [synchTargetAndSelector.type]: (state: iState) => {
     const {targetComponent} = state;
 
     if (targetComponent && state.selector?.subGroup) {
+      // const _compIndexX = _findInSubgroupRecursive(state.selector, targetComponent.id);
       const _compIndex = state.selector?.subGroup?.findIndex(({id}) => id === targetComponent.id);
 
       if (_compIndex !== -1) {
@@ -152,6 +177,9 @@ const reducer = createReducer(initialState, {
   [resetSelector.type]: (state: iState) => {
     state.selector = {...minimalComponent};
     state.targetComponent = undefined;
+  },
+  [setLoadingStatus.type]: (state: iState, action) => {
+    state.loadingStatus = action.payload;
   }
 });
 

@@ -23,7 +23,7 @@ const searchCourses = async(knex, req) => {
     appends.forEach((append) => {
       const {tableName, parentField, joinField} = append;
 
-      model.leftJoin(tableName, `${tableName}.${joinField}`, `courses.${parentField}`);
+      model.leftJoin(tableName, `${tableName}.${joinField}`, `${parentField}`);
     });
 
     ids && model.whereIn('id', ids);

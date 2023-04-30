@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.targetFields = exports.fieldType = void 0;
+exports.loadingStatus = exports.targetFields = exports.fieldType = void 0;
 exports.fieldType = {
     SELECT: 1,
     TEXT: 2,
@@ -14,5 +14,10 @@ exports.targetFields = {
     TASK_GROUP: 3,
     ELEMENT_GROUP: 4,
     ELEMENT: 5 //Элемент
+};
+exports.loadingStatus = {
+    LOADING: 1,
+    SUCCESS: 2,
+    ERROR: 3
 };
 //# sourceMappingURL=index.js.map
