@@ -6,7 +6,9 @@ const {
   getTaskById,
   checkTaskAnswer,
   writeTaskLog,
-  confirmReview
+  confirmReview,
+  getTasksByGroupId,
+  getAnswersLogs
 } = require('../controllers/tasks');
 const validateParams = require('../utils/validateParams');
 const {logger, baseResponse} = require('../core');
@@ -83,6 +85,34 @@ router.post('/writeTaskLog', async(req, res) => {
     await writeTaskLog(req);
 
     return baseResponse(res, 200);
+  } catch(err) {
+    logger.error(err);
+    res.send({
+      message: err.message,
+      status: 500
+    });
+  }
+});
+
+router.post('/getTasksByGroupId', async(req, res) => {
+  try {
+    tasks = await getTasksByGroupId(req);
+
+    res.send(tasks);
+  } catch(err) {
+    logger.error(err);
+    res.send({
+      message: err.message,
+      status: 500
+    });
+  }
+});
+
+router.post('/getAnswersLogs', async(req, res) => {
+  try {
+    answers = await getAnswersLogs(req);
+
+    res.send(answers);
   } catch(err) {
     logger.error(err);
     res.send({

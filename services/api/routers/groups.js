@@ -12,6 +12,11 @@ groupsRouter.post('/getGroups', async(req, res) => {
 
   res.send(groups);
 });
+groupsRouter.post('/getGroupsById', async(req, res) => {
+  const groups = await groupsController.getGroupsById(req);
+
+  res.send(groups);
+});
 groupsRouter.post('/getUsersInGroups', async(req, res) => {
   const usersInGroups = await groupsController.getUsersInGroup(req);
 

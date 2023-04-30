@@ -2,11 +2,13 @@ const config = require('../knexfile.js');
 const knex = require('knex')(config.development);
 
 const {
-  getUsersByRoleName
+  getUsersByRoleName,
+  getUsersByGroup
 } = require('../services/users');
 
 const controller = {
-  getUsersByRoleName: (req) => getUsersByRoleName(knex, req)
+  getUsersByRoleName: (req) => getUsersByRoleName(knex, req),
+  getUsersByGroup: (req) => getUsersByGroup(knex, req)
 };
 
 module.exports = controller;
