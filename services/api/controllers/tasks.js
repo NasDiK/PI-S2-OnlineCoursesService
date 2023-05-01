@@ -8,7 +8,8 @@ const {
   checkTaskAnswer,
   confirmReview,
   writeTaskLog,
-  getTasksByGroupId
+  getTasksByGroupId,
+  getAllLogs
 } = require('../services/tasks');
 
 const controller = {
@@ -18,7 +19,8 @@ const controller = {
   searchTasks: (request) => searchTasks(knex, request),
   checkTaskAnswer: (request) => checkTaskAnswer(knex, request),
   confirmReview: (request) => confirmReview(knex, request),
-  writeTaskLog: (request) => writeTaskLog(knex, request)
+  writeTaskLog: (request) => writeTaskLog(knex, request),
+  getAllLogs: () => getAllLogs(knex)
 };
 
 module.exports = controller;

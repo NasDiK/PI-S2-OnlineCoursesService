@@ -8,7 +8,8 @@ const {
   writeTaskLog,
   confirmReview,
   getTasksByGroupId,
-  getAnswersLogs
+  getAnswersLogs,
+  getAllLogs
 } = require('../controllers/tasks');
 const validateParams = require('../utils/validateParams');
 const {logger, baseResponse} = require('../core');
@@ -111,6 +112,20 @@ router.post('/getTasksByGroupId', async(req, res) => {
 router.post('/getAnswersLogs', async(req, res) => {
   try {
     answers = await getAnswersLogs(req);
+
+    res.send(answers);
+  } catch(err) {
+    logger.error(err);
+    res.send({
+      message: err.message,
+      status: 500
+    });
+  }
+});
+
+router.post('/getAllLogs', async(req, res) => {
+  try {
+    answers = await getAllLogs(req);
 
     res.send(answers);
   } catch(err) {

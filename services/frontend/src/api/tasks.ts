@@ -70,10 +70,19 @@ const getAnswersLogs = async(groupId) => {
   return result;
 };
 
+const getAllLogs = async() => {
+  const result = await window.api()
+    .path('/tasks/getAllLogs')
+    .executePost();
+
+  return result;
+};
+
 export {
   getTaskById,
   searchTasks,
   checkAnswer,
   getTasksByGroupId,
-  getAnswersLogs
+  getAnswersLogs,
+  getAllLogs
 };

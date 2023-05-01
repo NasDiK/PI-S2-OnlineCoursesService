@@ -19,7 +19,7 @@ const StudentsTableComponent = () => {
   useEffect(() => {
     if (groupId) {
       getGroupsById(groupId).then((groups) => {
-        const {title} = groups[0];
+        const [{title}] = groups;
 
         dispatch({type: 'SET_GROUP_NAME', payload: title});
       });
@@ -34,14 +34,14 @@ const StudentsTableComponent = () => {
     if (groupId) {
       getAnswersLogs(groupId).then((answersList) => {
         if (!answersList.length) {
-          dispatch({type: 'SET_ANSWERS', payload: undefined});
+          dispatch({type: 'SET_ANSWERS'});
         } else {
           dispatch({type: 'SET_ANSWERS', payload: answersList});
         }
       });
       getUsersByGroup(groupId).then((usersList) => {
         dispatch({type: 'SET_USERS', payload: usersList});
-        dispatch({type: 'GROUP_COMPONENTS', payload: undefined});
+        dispatch({type: 'GROUP_COMPONENTS'});
       });
     }
   };
