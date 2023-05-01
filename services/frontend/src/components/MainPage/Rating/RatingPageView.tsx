@@ -24,14 +24,14 @@ const RatingPageView = () => {
     });
   }, [usersIds]);
 
-  const upload = () => {
-    getAllLogs().then((answersList) => {
-      dispatch({type: 'SET_ANSWERS', payload: answersList});
-    });
+  const upload = async() => {
+    const [answersList, usersList] = await Promise.all([
+      getAllLogs(),
+      getUsersByIds(usersIds)
+    ]);
 
-    getUsersByIds(usersIds).then((usersList) => {
-      dispatch({type: 'SET_USERS', payload: usersList});
-    });
+    dispatch({type: 'SET_ANSWERS', payload: answersList});
+    dispatch({type: 'SET_USERS', payload: usersList});
   };
 
   return (
@@ -61,14 +61,14 @@ const RatingPageView = () => {
             </TableHead>
             <TableBody>
               {
-                usersRating.map((user, i) => (
+                usersRating.map(({user, count}, i) => (
                   <TableRow
-                    key={user.user}
+                    key={user}
                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
                   >
-                    <TableCell key={user.user + i} align='center'>{i + 1}</TableCell>
-                    <TableCell key={user.user} align='center'>{user.user}</TableCell>
-                    <TableCell key={user.count} align='center'>{user.count}</TableCell>
+                    <TableCell key={user + i} align='center'>{i + 1}</TableCell>
+                    <TableCell key={user} align='center'>{user}</TableCell>
+                    <TableCell key={count} align='center'>{count}</TableCell>
                   </TableRow>
                 ))
               }

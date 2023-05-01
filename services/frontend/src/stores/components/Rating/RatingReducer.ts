@@ -2,10 +2,10 @@
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
 
 export interface iState {
-  answers:any [],
-  usersIds:any [],
-  users:any [],
-  usersRating:any []
+  answers: any [],
+  usersIds: any [],
+  users: any [],
+  usersRating: any []
 }
 
 const initialState: iState = {

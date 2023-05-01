@@ -1,5 +1,5 @@
 const {logger} = require('../../core');
-const {tasks: {action}} = require('@local/enums/');
+const {tasks: {action}} = require('@local/enums');
 const getAnswersLogs = async(knex, req) => {
   try {
     const {groupId} = req.body;
@@ -17,8 +17,10 @@ const getAnswersLogs = async(knex, req) => {
       .whereIn('action', [action.SEND, action.REVIEW_APPROVE])
       .whereIn('task_id', tasksIds)
       .where('groups_users.group_id', groupId)
-      .orderBy('tasks_logger.user_id', 'asc')
-      .orderBy('tasks_logger.task_id', 'asc')
+      .orderBy([
+        {column: 'tasks_logger.user_id', order: 'asc'},
+        {column: 'tasks_logger.task_id', order: 'asc'}
+      ])
       .select('value', 'action', 'tasks_logger.user_id', 'task_id', 'note');
   } catch(exception) {
     logger.error(exception);

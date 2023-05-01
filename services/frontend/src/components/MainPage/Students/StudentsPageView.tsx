@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useState} from 'react';
 import {BigPanelSelector} from '../../shared';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
@@ -14,7 +15,6 @@ const minimalElement: iElement = {
   name: 'undefined'
 };
 const StudentsPageView = () => {
-  // eslint-disable-next-line
   const userId = useSelector((state: any) => state.userStore.userData.userId);
   const [groupElement, setGroupElement] = useState<iElement>();
 
