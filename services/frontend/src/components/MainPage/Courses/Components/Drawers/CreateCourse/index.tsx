@@ -169,7 +169,10 @@ const CreateCourseDrawer = ({isOpen, onClose, view = 'create'}: iPossibleProps) 
               <Button>{'Создать курс'}</Button> :
               <Button>{'Изменить курс'}</Button>
           }
-          <Button onClick={handleChangeCourseName}>{'Изменить название курса'}</Button>
+          {
+            view !== 'edit' &&
+            <Button onClick={handleChangeCourseName}>{'Изменить название курса'}</Button>
+          }
           <Button
             onClick={
               () => dispatch({type: 'ADD_TASK_FOR_SELECTOR',

@@ -9,7 +9,8 @@ import {isObject} from '../../../utils';
 export interface iState {
   selector: iElement,
   targetComponent?: iElement,
-  loadingStatus: number
+  loadingStatus: number,
+  updatedTasksIds: number[]
 }
 
 const minimalComponent: iElement = {
@@ -28,7 +29,8 @@ const minimalComponent: iElement = {
 
 const initialState: iState = {
   selector: {...minimalComponent},
-  loadingStatus: loadingStatus.SUCCESS
+  loadingStatus: loadingStatus.SUCCESS,
+  updatedTasksIds: [] //Для отслеживание какие задачи курса обновляем. Если курс создаётся - то не записываем
 };
 
 const _insertElement = (arr: any[] | undefined, element, idx = null) => {
@@ -68,18 +70,13 @@ const getCorr = (res) => isObject(res) ? res : res
   .filter(Boolean)
   ?.[0]; //Костыль
 
-const returnAttachedSubgroup = (el, path) => {
+const returnAttachedInSubgroup = (el, path) => {
   let target = el.subGroup;
 
   for (let i = 0; i < path.length; i++) {
     if (i !== path.length - 1) { // не последний
-      // eslint-disable-next-line no-debugger
-      // debugger;
       target = target[path[i]].subGroup;
     } else {
-      // eslint-disable-next-line no-debugger
-      // debugger;
-
       return target[path[i]];
     }
   }
@@ -124,11 +121,9 @@ const reducer = createReducer(initialState, {
     const _t = _findInSubgroupRecursiveIdx(state.selector, _selectedComponent.id, []);
     const _res = getCorr(_t);
 
-    console.log(_res);
-    const component = returnAttachedSubgroup(state.selector, _res.path);
+    const component = returnAttachedInSubgroup(state.selector, _res.path);
 
     state.targetComponent = component;
-    console.log(state.targetComponent);
   },
   [setTargetTaskType.type]: (state: iState, action) => {
     const _selectedComponent = state.selector.subGroup
@@ -167,11 +162,22 @@ const reducer = createReducer(initialState, {
     const {targetComponent} = state;
 
     if (targetComponent && state.selector?.subGroup) {
-      // const _compIndexX = _findInSubgroupRecursive(state.selector, targetComponent.id);
-      const _compIndex = state.selector?.subGroup?.findIndex(({id}) => id === targetComponent.id);
+      const _findedTarget = _findInSubgroupRecursiveIdx(state.selector, targetComponent.id, []);
+      const _res = getCorr(_findedTarget);
 
-      if (_compIndex !== -1) {
-        state.selector.subGroup[_compIndex] = {...targetComponent};
+      if (_res.path.length === 1) {
+        const _compIndex = state.selector?.subGroup?.findIndex(({id}) => id === targetComponent.id);
+
+        if (_compIndex !== -1) {
+          state.selector.subGroup[_compIndex] = {...targetComponent};
+        }
+      } else { //обработка вложенности
+        let _tInS: any = state.selector.subGroup;
+
+        _res.path.slice(0, -1).forEach((pathIdx) => {
+          _tInS = _tInS[pathIdx].subGroup;
+        });
+        _tInS[_res.path.slice(-1)] = targetComponent;
       }
     }
   },
@@ -183,19 +189,33 @@ const reducer = createReducer(initialState, {
     }
   },
   [removeTask.type]: (state: iState, action) => {
-    const existTasks = state.selector.subGroup || [];
+    const _toRmTask = _findInSubgroupRecursiveIdx(state.selector, action.payload.taskId, []);
+    const _corResult = getCorr(_toRmTask);
 
-    const _toDelIdx = existTasks.findIndex(({id}) => id === action.payload.taskId);
+    let _neededSubGroupElement;
 
-    const _fp = existTasks.slice(0, _toDelIdx);
-    const _lp = existTasks.slice(_toDelIdx + 1, existTasks.length);
+    if (_corResult.path.length > 1) {
+      _neededSubGroupElement = returnAttachedInSubgroup(state.selector, _corResult.path.slice(0, -1));
+    } else {
+      //Вложенности нет. всё на поверхности
+      _neededSubGroupElement = state.selector;
+    }
+    const _compToDelIdx = _neededSubGroupElement.subGroup.findIndex(({id}) => id === action.payload.taskId);
 
-    state.selector.subGroup = [..._fp, ..._lp];
+    // _neededSubGroupElement = returnAttachedInSubgroup(state.selector, _corResult.path.slice(0, -1));
+    // _compToDelIdx = _neededSubGroupElement.subGroup.findIndex(({id}) => id === action.payload.taskId);
+
+    const _fp = _neededSubGroupElement.subGroup.slice(0, _compToDelIdx);
+    const _lp = _neededSubGroupElement.subGroup.slice(_compToDelIdx + 1, _neededSubGroupElement.subGroup.length);
+
+    _neededSubGroupElement.subGroup = [..._fp, ..._lp];
+
+    //снятие таргета
     try {
-      state.targetComponent = existTasks[_toDelIdx - 1];
+      state.targetComponent = _neededSubGroupElement.subGroup[_compToDelIdx - 1];
     } catch(_) {
-      if (existTasks.length - 1) {
-        state.targetComponent = existTasks[0];
+      if (_neededSubGroupElement.subGroup.length - 1) {
+        state.targetComponent = _neededSubGroupElement.subGroup[0];
       } else {
         state.targetComponent = undefined;
       }
