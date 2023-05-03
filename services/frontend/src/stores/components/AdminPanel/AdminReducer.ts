@@ -29,7 +29,7 @@ export const clearSelected = createAction('CLEAR_SELECTED', (payload) => payload
 
 const reducer = createReducer(initialState, {
   [setUsers.type]: (state: iState, action) => {
-    state.users = state.users.concat(action.payload);
+    state.users = action.payload;
     state.usersOptions = [];
     state.usersOptions = state.users.map((user) => {
       return {value: user.id, label: user.fullname};

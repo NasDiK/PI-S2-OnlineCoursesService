@@ -16,23 +16,24 @@ const RolesComponent = () => {
   const selectedRole = useSelector((stores: any) => stores.adminStore.selectedRole);
 
   useEffect(() => {
-    getUsersByRoleName(['student', 'teacher']).then((x) => {
-      dispatch({type: 'SET_USERS', payload: x});
-    });
-    getRoles().then((x) => {
-      dispatch({type: 'SET_ROLE', payload: x});
-    });
+    getUsers();
   }, []);
 
   const setUsersIds = (usersIds) => dispatch({type: 'SET_SELECTED_USERS', payload: usersIds});
   const setRole = (roleId) => dispatch({type: 'SET_SELECTED_ROLE', payload: roleId});
   const clearSelected = () => dispatch({type: 'CLEAR_SELECTED'});
 
+  const getUsers = () => {
+    getUsersByRoleName(['student', 'teacher']).then((x) => {
+      dispatch({type: 'SET_USERS', payload: x});
+    });
+    getRoles().then((x) => {
+      dispatch({type: 'SET_ROLE', payload: x});
+    });
+  };
   const changeRole = () => {
     dispatch({type: 'CHANGE_ROLES'});
-    /*    getUsersByRoleName('student').then((x) => {
-      dispatch({type: 'SET_USERS', payload: x});
-    });*/
+    getUsers();
   };
 
   return (
