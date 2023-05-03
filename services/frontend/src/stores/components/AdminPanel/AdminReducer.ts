@@ -1,6 +1,6 @@
 /* eslint-disable id-denylist,camelcase, @typescript-eslint/no-explicit-any*/
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
-import {setNewRole} from '../../../api/roles';
+import {setUsersRoles} from '../../../api/roles';
 
 export interface iState {
   users: any [],
@@ -55,7 +55,7 @@ const reducer = createReducer(initialState, {
       });
   },
   [changeRoles.type]: (state: iState) => {
-    setNewRole(state.selectedRole, state.selectedUsers);
+    setUsersRoles(state.selectedRole, state.selectedUsers);
   }
 });
 

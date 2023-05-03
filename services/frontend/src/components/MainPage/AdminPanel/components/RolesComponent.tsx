@@ -5,7 +5,7 @@ import {Button, DirectoryField, Typography} from '../../../shared';
 import {fieldType} from '@local/enums/shared';
 import {useDispatch, useSelector} from 'react-redux';
 import {getUsersByRoleName} from '../../../../api/users';
-import {getRoles} from '../../../../api/roles';
+import {getAllRoles} from '../../../../api/roles';
 
 const RolesComponent = () => {
 
@@ -27,7 +27,7 @@ const RolesComponent = () => {
     getUsersByRoleName(['student', 'teacher']).then((x) => {
       dispatch({type: 'SET_USERS', payload: x});
     });
-    getRoles().then((x) => {
+    getAllRoles().then((x) => {
       dispatch({type: 'SET_ROLE', payload: x});
     });
   };

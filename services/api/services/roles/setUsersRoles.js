@@ -1,5 +1,5 @@
 const {logger} = require('../../core');
-const setNewRole = async(knex, req) => {
+const setUsersRoles = async(knex, req) => {
   try {
     const {usersIds, roleId} = req.body;
 
@@ -19,5 +19,5 @@ const setNewRole = async(knex, req) => {
 };
 
 module.exports = {
-  setNewRole
+  setUsersRoles
 };

@@ -1,19 +1,13 @@
-const getRolesByName = (roleName) => window.api()
-  .path('/roles/getRolesByName')
-  .body({roleName})
+const getAllRoles = () => window.api()
+  .path('/roles/getAllRoles')
   .executePost();
 
-const getRoles = () => window.api()
-  .path('/roles/getRoles')
-  .executePost();
-
-const setNewRole = (roleId, usersIds) => window.api()
-  .path('/roles/setNewRole')
+const setUsersRoles = (roleId, usersIds) => window.api()
+  .path('/roles/setUsersRoles')
   .body({roleId, usersIds})
   .executePost();
 
 export {
-  getRolesByName,
-  getRoles,
-  setNewRole
+  getAllRoles,
+  setUsersRoles
 };

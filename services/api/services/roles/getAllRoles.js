@@ -1,5 +1,5 @@
 const {logger} = require('../../core');
-const getRoles = (knex) => {
+const getAllRoles = (knex) => {
   try {
 
     const roles = knex('roles')
@@ -14,5 +14,5 @@ const getRoles = (knex) => {
 };
 
 module.exports = {
-  getRoles
+  getAllRoles
 };

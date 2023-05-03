@@ -1,9 +1,7 @@
-const {getRolesByName} = require('./getRolesByName');
-const {getRoles} = require('./getRoles');
-const {setNewRole} = require('./setNewRole');
+const {getAllRoles} = require('./getAllRoles');
+const {setUsersRoles} = require('./setUsersRoles');
 
 module.exports = {
-  getRolesByName,
-  getRoles,
-  setNewRole
+  getAllRoles,
+  setUsersRoles
 };
