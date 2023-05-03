@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import s from './AdminPanel.module.scss';
 import {getAllCourses} from '../../../api/courses';
-import {useSelector} from 'react-redux';
+import {Provider, useSelector} from 'react-redux';
 import {BigPanelSelector, DirectoryField, Button, Typography, Modal} from '../../shared';
 import AddUserSelectComponent from './components/AddUserSelectComponent';
 import {createGroup, getGroups} from '../../../api/groups';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
 import {shared} from '@local/enums';
 import {fieldType, targetFields} from '@local/enums/shared';
+import RolesComponent from './components/RolesComponent';
+import {store as adminStore} from '../../../stores/components/AdminPanel/AdminReducer';
 
 const minimalElement: iElement = {
   id: -1,
@@ -71,7 +73,7 @@ const AdminPanelPageView = () => {
   };
 
   return (
-    <div>
+    <div className={s.content}>
       <div className={s.groupsSelector}>
         <BigPanelSelector
           element={groupElement || minimalElement}
@@ -79,13 +81,13 @@ const AdminPanelPageView = () => {
           elementLink={`/admin-panel/`}
           withLinear={false}
         />
+        <Button
+          fullWidth={false}
+          onClick={openModal}
+        >
+          {'Добавить группу'}
+        </Button>
       </div>
-      <Button
-        fullWidth={false}
-        onClick={openModal}
-      >
-        {'Добавить группу'}
-      </Button>
       <div className={s.button}>
         <Modal
           variant={'basic'}
@@ -120,6 +122,9 @@ const AdminPanelPageView = () => {
           </div>
         </Modal>
       </div>
+      <Provider store={adminStore}>
+        <RolesComponent />
+      </Provider>
     </div>
   );
 };

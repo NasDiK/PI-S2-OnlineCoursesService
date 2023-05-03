@@ -6,7 +6,7 @@ const {
   authRouter,
   coursesRouter,
   reviewsRoutes,
-  groupsRouter
+  groupsRouter, rolesRouter
 } = require('./routers');
 const cors = require('cors');
 const authMiddleware = require('./middlewares/authMiddleWare');
@@ -31,6 +31,7 @@ try {
   app.use('/courses', coursesRouter);
   app.use('/reviews', reviewsRoutes);
   app.use('/groups', groupsRouter);
+  app.use('/roles', rolesRouter);
 } catch(err) {
   logger.error(err);
 }

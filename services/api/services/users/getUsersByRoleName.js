@@ -9,7 +9,7 @@ const getUsersByRoleName = (knex, req) => {
     return knex('users')
       .leftJoin('users_roles', 'users.id', '=', 'users_roles.user_id')
       .where('role_id', roleId)
-      .select('users.id', 'users.nickname', 'users.fullname');
+      .select('users.id', 'users.nickname', 'users.fullname', 'role_id');
   } catch(exception) {
     logger.error(exception);
 

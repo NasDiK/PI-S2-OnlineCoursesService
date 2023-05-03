@@ -1,4 +1,4 @@
-const getReviewsLogs = require('./getReviewsLogs');
+const {getReviewsLogs} = require('./getReviewsLogs');
 
 module.exports = {
   getReviewsLogs

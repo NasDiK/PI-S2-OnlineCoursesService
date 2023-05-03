@@ -1,21 +1,45 @@
-.groupsSelector {
-  width: 700px;
-  height: 500px;
-}
-
-.modalContent {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 170px;
-}
-
-.text {
-  width: 170px;
-}
-
-.courseField {
+.content {
   display: flex;
   flex-direction: row;
-  gap: 7px;
+  .groupsSelector {
+    width: 700px;
+    height: 500px;
+  }
+
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 170px;
+  }
+
+  .text {
+    width: 170px;
+  }
+
+  .courseField {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+  }
+
+  .roles{
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin: 24px 20px 20px;
+
+    .selector{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .buttons{
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      gap: 5px;
+    }
+  }
 }
