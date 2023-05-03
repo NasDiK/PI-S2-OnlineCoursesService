@@ -4,6 +4,7 @@ const authRouter = require('./authRouter');
 const coursesRouter = require('./courses');
 const reviewsRoutes = require('./reviews');
 const groupsRouter = require('./groups');
+const rolesRouter = require('./rolesRouter');
 
 module.exports = {
   usersRouter,
@@ -11,5 +12,6 @@ module.exports = {
   authRouter,
   reviewsRoutes,
   coursesRouter,
-  groupsRouter
+  groupsRouter,
+  rolesRouter
 };
