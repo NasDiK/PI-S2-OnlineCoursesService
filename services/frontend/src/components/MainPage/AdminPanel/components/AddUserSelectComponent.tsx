@@ -27,10 +27,10 @@ const AddUserSelectComponent = () => {
   }, [groupId]);
 
   useEffect(() => {
-    getUsersByRoleName('student').then((x) => {
+    getUsersByRoleName(['student']).then((x) => {
       setUsers(x);
     });
-    getUsersByRoleName('teacher').then((x) => {
+    getUsersByRoleName(['teacher']).then((x) => {
       setTeachers(x);
     });
   }, [userId]);

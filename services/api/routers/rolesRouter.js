@@ -14,4 +14,10 @@ router.post('/getRoles', async(req, res) => {
   res.send(roles);
 });
 
+router.post('/setNewRole', async(req, res) => {
+  const roles = await controller.setNewRole(req);
+
+  res.send(roles);
+});
+
 module.exports = router;

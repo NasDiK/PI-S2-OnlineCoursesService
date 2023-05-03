@@ -16,10 +16,7 @@ const RolesComponent = () => {
   const selectedRole = useSelector((stores: any) => stores.adminStore.selectedRole);
 
   useEffect(() => {
-    getUsersByRoleName('student').then((x) => {
-      dispatch({type: 'SET_USERS', payload: x});
-    });
-    getUsersByRoleName('teacher').then((x) => {
+    getUsersByRoleName(['student', 'teacher']).then((x) => {
       dispatch({type: 'SET_USERS', payload: x});
     });
     getRoles().then((x) => {
@@ -27,20 +24,15 @@ const RolesComponent = () => {
     });
   }, []);
 
-  const setUsersIds = (usersIds) => {
-    dispatch({type: 'SET_SELECTED_USERS', payload: usersIds});
-  };
-
-  const setRole = (roleId) => {
-    dispatch({type: 'SET_SELECTED_ROLE', payload: roleId});
-  };
-
-  const clearSelected = () => {
-    dispatch({type: 'CLEAR_SELECTED'});
-  };
+  const setUsersIds = (usersIds) => dispatch({type: 'SET_SELECTED_USERS', payload: usersIds});
+  const setRole = (roleId) => dispatch({type: 'SET_SELECTED_ROLE', payload: roleId});
+  const clearSelected = () => dispatch({type: 'CLEAR_SELECTED'});
 
   const changeRole = () => {
     dispatch({type: 'CHANGE_ROLES'});
+    /*    getUsersByRoleName('student').then((x) => {
+      dispatch({type: 'SET_USERS', payload: x});
+    });*/
   };
 
   return (
