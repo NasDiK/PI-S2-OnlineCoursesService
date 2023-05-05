@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 const StudentsTable = () => {
   const tasks = useSelector(({studentsStore}: any) => studentsStore.tasks);
   const students = useSelector(({studentsStore}: any) => studentsStore.users);
-  const answers = useSelector(({studentsStore}: any) => studentsStore.answers);
+  const groupedAnswers = useSelector(({studentsStore}: any) => studentsStore.groupedAnswers);
 
   return (
     <TableContainer sx={{maxHeight: 770, maxWidth: 'auto'}} component={Paper}>
@@ -15,11 +15,11 @@ const StudentsTable = () => {
         <TableHead>
           <TableRow>
             {
-              tasks.map((task) => (
+              tasks.map((task, i) => (
                 <TableCell
                   sx={{fontWeight: 600}}
                   align='center'
-                  key={task.title}
+                  key={i}
                 >{task.title}
                 </TableCell>
               ))
@@ -35,7 +35,7 @@ const StudentsTable = () => {
               >
                 <TableCell component='th' scope='row'>{student.fullname}</TableCell>
                 {
-                  answers?.filter((answer) => answer.user_id === student.id)
+                  groupedAnswers?.filter((answer) => answer.user_id === student.id)
                     .map((answer) => (
                       <TableCell
                         key={`${student.id} + ${answer.id} + ${answer.user_id} + ${answer.task_id}`}

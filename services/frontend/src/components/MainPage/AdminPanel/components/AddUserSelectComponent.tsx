@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {fieldType} from '@local/enums/dist/shared';
+import {fieldType} from '@local/enums/shared';
 import {Button, Typography, DirectoryField} from '../../../shared';
 import {getUsersByRoleName} from '../../../../api/users';
 import {getUsersInGroups, saveGroupChanges} from '../../../../api/groups';
