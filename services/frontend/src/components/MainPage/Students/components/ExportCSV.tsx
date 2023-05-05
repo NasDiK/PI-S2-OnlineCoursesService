@@ -5,7 +5,7 @@ import * as XLSX from 'xlsx';
 import {Button} from '../../../shared';
 import {useSelector} from 'react-redux';
 
-const exportToExcel = (tasks, users, answers, fileName) => {
+const exportToExcel = (tasks, users, groupedAnswers, fileName) => {
   const csvData2 = [{}];
   const firstStr = {students: ''};
 
@@ -23,9 +23,9 @@ const exportToExcel = (tasks, users, answers, fileName) => {
       const str = {students: user.fullname};
 
       tasks.forEach((task) => {
-        if (answers) {
-          // eslint-disable-next-line max-nested-callbacks
-          answers.filter((answer) => answer.user_id === user.id && answer.task_id === task.id)
+        if (groupedAnswers) {
+          // eslint-disable-next-line max-nested-callbacks,max-len
+          groupedAnswers.filter((answer) => answer.user_id === user.id && answer.task_id === task.id)
             // eslint-disable-next-line max-nested-callbacks
             .forEach((answer) => {
               str[task.title] = answer.value;
@@ -54,9 +54,9 @@ const exportToExcel = (tasks, users, answers, fileName) => {
 export const ExportCSV = () => {
   const tasks = useSelector((stores: any) => stores.studentsStore.tasks);
   const users = useSelector((stores: any) => stores.studentsStore.users);
-  const answers = useSelector((stores: any) => stores.studentsStore.answers);
+  const groupedAnswers = useSelector((stores: any) => stores.studentsStore.groupedAnswers);
   const fileName = useSelector((stores: any) => stores.studentsStore.groupName);
-  const exportClick = () => exportToExcel(tasks, users, answers, fileName);
+  const exportClick = () => exportToExcel(tasks, users, groupedAnswers, fileName);
 
   return (
     <Button onClick={exportClick}>{'Экспорт в Эксель'}</Button>
