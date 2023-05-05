@@ -35,7 +35,7 @@ const onClickElement = (
     setFunc({element: targetElement, parentId: elem?.id});
 
     if (targetElement?.type === shared.targetFields.ELEMENT_GROUP) {
-      handleGroupFunc(targetElement);
+      handleGroupFunc && handleGroupFunc(targetElement);
     }
   }
 };

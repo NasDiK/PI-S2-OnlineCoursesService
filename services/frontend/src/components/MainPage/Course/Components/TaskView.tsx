@@ -18,7 +18,8 @@ const isTeacher = false; //Вынести в стору
 
 const renderTasks = (
   task: TaskModel | undefined,
-  setVal: (_val) => void | undefined
+  setVal: (_val) => void | undefined,
+  answer
 ) => {
   let _values;
 
@@ -27,8 +28,9 @@ const renderTasks = (
       return (
         <DirectoryField
           type={directoryFieldEnum.TEXT}
-          onChange={(_val) => setVal(_val)}
+          onChange={setVal}
           fullWidth={true}
+          value={answer}
         />
       );
     case taskType.RADIO:
@@ -39,7 +41,8 @@ const renderTasks = (
           <DirectoryField
             type={directoryFieldEnum.RADIO_GROUP}
             options={_values}
-            onChange={(_val) => setVal(_val)}
+            onChange={setVal}
+            value={answer}
           />
         );
       }
@@ -53,7 +56,8 @@ const renderTasks = (
           <DirectoryField
             type={directoryFieldEnum.CHECKBOX_GROUP}
             options={_values}
-            onChange={(_val) => setVal(_val)}
+            onChange={setVal}
+            value={answer}
           />
         );
       }
@@ -69,7 +73,7 @@ const renderTasks = (
           type={directoryFieldEnum.TEXT_AREA}
           value={_isDone && task.lastLogValue || _values}
           isDone={_isDone}
-          onChange={(_val) => setVal(_val)}
+          onChange={setVal}
         />
       );
   }
@@ -178,7 +182,7 @@ const TaskView = () => {
                 renderTasks(
                   _taskModel, (_val) => {
                     setAnswer(_val);
-                  }
+                  }, answer
                 )
               }
               </div>

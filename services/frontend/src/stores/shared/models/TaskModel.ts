@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable id-denylist */
 /* eslint-disable camelcase */
@@ -52,6 +53,7 @@ export default class TaskModel {
     switch (logAction) {
       case action.REVIEW_APPROVE:
       case action.SEND_TO_REVIEW:
+      case action.SEND:
         return false;
       case action.REVIEW_FAIL:
       default:
