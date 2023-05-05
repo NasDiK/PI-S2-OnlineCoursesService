@@ -430,18 +430,53 @@ export default class CreateCourseStore {
     }, []);
   }
 
-  createCourse = () => {
+  createCourse = async() => {
     const _courseName = this.selector.name;
     const _courseTasks = this.getPreparedTasks(this.selector?.subGroup);
 
-    console.log(toJS(_courseTasks));
+    const description = prompt('Описание курса', '');
+
+    if (!description) {
+      return;
+    }
+
+    const _createdCourse = await window.api()
+      .path('/courses/createCourse')
+      .body({
+        courseData: {
+          title: _courseName,
+          description,
+          tasks: _courseTasks
+        }
+      })
+      .executePost();
+
+    console.log(_createdCourse);
   };
 
-  editTargetCourse = () => {
+  editTargetCourse = async() => {
+    if (!this.targetComponent) {
+      return;
+    }
+
     const _courseTasks = this.getPreparedTasks(this.targetGroup?.subGroup);
+    const _courseName = this.targetGroup?.name;
 
-    console.log(toJS(_courseTasks));
+    const description = confirm('Хотите изменить описание курса?') ?
+      prompt('Описание курса', '') : '';
 
-    //todo reWriteTasks
+    const _createdCourse = await window.api()
+      .path('/courses/editCourse')
+      .body({
+        courseData: {
+          id: this.targetGroup.id,
+          // title: _courseName,
+          description,
+          tasks: _courseTasks
+        }
+      })
+      .executePost();
+
+    console.log(_createdCourse);
   };
 }

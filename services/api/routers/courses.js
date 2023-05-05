@@ -22,10 +22,17 @@ coursesRouter.post('/searchCourses', async(req, res) => {
 });
 
 coursesRouter.post('/createCourse', async(req, res) => {
-  const _createdCourse = await coursesController(req, res);
+  const _createdCourse = await coursesController.createCourse(req, res);
 
-  logger.debug(JSON.stringify(_createdCourse, null, '  '));
+  logger.debug(`createdCourse ${JSON.stringify(_createdCourse, null, '  ')}`);
   res.send(_createdCourse);
+});
+
+coursesRouter.post('/editCourse', async(req, res) => {
+  const _updatedCourse = await coursesController.editCourse(req, res);
+
+  logger.debug(`updatedCourse ${JSON.stringify(_updatedCourse, null, '  ')}`);
+  res.send(_updatedCourse);
 });
 
 module.exports = coursesRouter;

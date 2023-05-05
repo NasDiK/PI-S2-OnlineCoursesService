@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 /* eslint-disable camelcase */
 /* eslint-disable id-denylist */
 const {logger} = require('../../core');
@@ -5,18 +6,26 @@ const {logger} = require('../../core');
 /**
  * @param {import('knex').Knex} knex
  */
-const createCourse = async(knex, req) => {
+const editCourse = async(knex, req) => {
   const {courseData} = req.body;
-  const {title, description, tasks} = courseData || {};
+  const {title, description, tasks, id} = courseData || {};
 
-  if ([title, description, tasks].includes(undefined)) {
+  if ([tasks].includes(undefined)) {
     return;
   }
 
   try {
-    const [{id: _createdCourseId}] = await knex('courses')
-      .insert({title, description})
-      .returning('id');
+    const _courseModel = knex('courses')
+      .where({id});
+
+    // title && _courseModel.update({title});
+    description && _courseModel.update({description}).returning('description');
+
+    if (!title && !description) {
+      _courseModel.select('title', 'description');
+    }
+
+    const [_updatedCourse] = await _courseModel;
 
     tasks.forEach((task) => {
       if (Array.isArray(task.correctAnswer)) {
@@ -26,15 +35,19 @@ const createCourse = async(knex, req) => {
       if (Array.isArray(task.value)) {
         task.value = JSON.stringify(task.value);
       }
-      task.course_id = _createdCourseId;
+      task.course_id = id;
     });
+
+    await knex('tasks')
+      .where({'course_id': id})
+      .del();
 
     const _createdTasksIds = await knex('tasks')
       .insert(tasks)
       .returning('id');
 
     return {
-      id: _createdCourseId,
+      ..._updatedCourse,
       tasks: _createdTasksIds
     };
   } catch(exception) {
@@ -44,4 +57,4 @@ const createCourse = async(knex, req) => {
   }
 };
 
-module.exports = {createCourse};
+module.exports = {editCourse};
