@@ -1,16 +1,20 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import {DirectoryField, Typography} from '../../../../../../shared';
+import {DirectoryField} from '../../../../../../shared';
 import {fieldType} from '@local/enums/shared';
 import s from './Creators.module.scss';
-import {useDispatch, useSelector} from 'react-redux';
+import {magic} from '../../../../../../../mobxUtils';
 
-const SingleAnswerCreator = () => {
-  const dispatch = useDispatch();
-
-  const targetComponent = useSelector((stores: any) => stores.createDrawerStore.targetComponent);
+const SingleAnswerCreator = ({setTargetComponent, targetComponent}) => {
   const setTaskProp = (key, val) => {
-    dispatch({type: 'SET_TARGET_ADDITIONAL_PROP', payload: {key, 'value': val}});
+    setTargetComponent({
+      ...targetComponent,
+      additionals: {
+        ...targetComponent.additionals,
+        [key]: val
+      }
+    });
   };
 
   return (
@@ -38,4 +42,11 @@ const SingleAnswerCreator = () => {
   );
 };
 
-export default SingleAnswerCreator;
+const mapStore = ({CreateCourseStore}) => {
+  return {
+    setTargetComponent: CreateCourseStore.setTargetComponent,
+    targetComponent: CreateCourseStore.targetComponent
+  };
+};
+
+export default magic(SingleAnswerCreator, {store: mapStore});

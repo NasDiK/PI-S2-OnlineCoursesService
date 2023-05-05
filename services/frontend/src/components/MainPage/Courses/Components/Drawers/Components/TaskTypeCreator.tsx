@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-console */
 import React from 'react';
 import s from '../Drawers.module.scss';
 import {Button, DirectoryField, Typography} from '../../../../../shared';
@@ -9,6 +11,7 @@ import MultiAnswerCreator from './TaskCreators/MultiAnswerCreator';
 import RadioCreator from './TaskCreators/RadioCreator';
 import SingleAnswerCreator from './TaskCreators/SingleAnswerCreator';
 import TextAreaCreator from './TaskCreators/TextAreaCreator';
+import {magic} from '../../../../../../mobxUtils';
 
 const renderTaskCreator = (taskType) => {
   switch (taskType) {
@@ -24,39 +27,29 @@ const renderTaskCreator = (taskType) => {
   }
 };
 
-const TaskTypeCreator = () => {
-  const dispatch = useDispatch();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const targetComponent = useSelector((stores: any) => stores.createDrawerStore.targetComponent);
-
-  const setComponentTaskId = (taskType) =>
-    dispatch({type: 'SET_TARGET_TASK_TYPE', payload: {taskType}});
-
-  const synchTargetAndSelector = () =>
-    dispatch({type: 'SYNCH_TARGET_WITH_SELECTOR', payload: {targetComponent}});
-
+const TaskTypeCreator = ({
+  targetComponent, setTargetComponent, synchTargetAndSelector, deleteTaskById, renameTaskById
+}) => {
   const renameTargetComponent = () => {
     const _newName = prompt();
 
-    // eslint-disable-next-line max-len
-    if (_newName && confirm('Будет применено только после сохранения текущий параметров, продолжить?')) {
-      dispatch({type: 'SET_TARGET_COMPONENT_PROP',
-        payload: {
-          key: 'name',
-          'value': _newName
-        }});
-    }
+    _newName && renameTaskById(targetComponent.id, _newName);
   };
 
   const dropTaskFromSelector = () => {
     if (confirm(`Подтвердите удаление задачи: ${targetComponent.name}`)) {
-      dispatch({type: 'DROP_TASK_FROM_SELECTOR',
-        payload: {taskId: targetComponent.id}});
+      deleteTaskById(targetComponent.id);
     }
   };
 
-  // eslint-disable-next-line no-console
-  console.log(targetComponent);
+  const setTargetTaskId = (taskType) => {
+    setTargetComponent({
+      ...targetComponent,
+      additionals: {
+        taskType
+      }
+    });
+  };
 
   if (!targetComponent) {
     return <Typography>{'Выберите или создайте задачу'}</Typography>;
@@ -77,7 +70,7 @@ const TaskTypeCreator = () => {
             ]
           }
           value={targetComponent?.additionals?.taskType || -1}
-          onChange={(typeId) => setComponentTaskId(typeId)}
+          onChange={setTargetTaskId}
         />
       </div>
       {
@@ -96,11 +89,11 @@ const TaskTypeCreator = () => {
             </Button>
           )
         }
-        <Button
+        {/* <Button
           onClick={renameTargetComponent}
           backgroundColor={'yellow'}
         >{'Переименовать текущий таск'}
-        </Button>
+        </Button> */}
         <Button
           onClick={dropTaskFromSelector}
           backgroundColor={'red'}
@@ -111,4 +104,14 @@ const TaskTypeCreator = () => {
   );
 };
 
-export default TaskTypeCreator;
+const mapStore = ({CreateCourseStore}) => {
+  return {
+    targetComponent: CreateCourseStore.targetComponent,
+    setTargetComponent: CreateCourseStore.setTargetComponent,
+    synchTargetAndSelector: CreateCourseStore.synchTargetAndSelector,
+    deleteTaskById: CreateCourseStore.deleteTaskById,
+    renameTaskById: CreateCourseStore.renameTaskById
+  };
+};
+
+export default magic(TaskTypeCreator, {store: mapStore});

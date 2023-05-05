@@ -1,17 +1,22 @@
+/* eslint-disable no-console */
+/* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import s from './Creators.module.scss';
 import {Typography, Button, DirectoryField} from '../../../../../../shared';
 import {fieldType} from '@local/enums/shared';
-import {useDispatch, useSelector} from 'react-redux';
 import AddIcon from '@mui/icons-material/Add';
+import {magic} from '../../../../../../../mobxUtils';
 
-const MultiAnswerCreator = () => {
-  const dispatch = useDispatch();
-
-  const targetComponent = useSelector((stores: any) => stores.createDrawerStore.targetComponent);
-  const setTaskProp = (key, val) => {
-    dispatch({type: 'SET_TARGET_ADDITIONAL_PROP', payload: {key, 'value': val}});
+const MultiAnswerCreator = ({targetComponent, setTargetComponent}) => {
+  const setTaskProps = (additionalsProps) => {
+    setTargetComponent({
+      ...targetComponent,
+      additionals: {
+        ...targetComponent.additionals,
+        ...additionalsProps
+      }
+    });
   };
 
   const addNewOption = () => {
@@ -22,7 +27,7 @@ const MultiAnswerCreator = () => {
       'label': 'Новая опция'
     });
 
-    setTaskProp('options', _curOptions);
+    setTaskProps({'options': _curOptions});
   };
 
   const deleteOptionWithValue = (val) => {
@@ -39,17 +44,13 @@ const MultiAnswerCreator = () => {
     const _newOptions = [..._fp, ..._lp];
     const _newOptionsValues = _newOptions.map(({value: _val}) => _val.toString());
 
-    setTaskProp('options', _newOptions);
-
     const _previousRightAnswers = targetComponent.additionals?.rightAnswer || [];
 
-    setTaskProp('rightAnswer', _previousRightAnswers
-      .filter((_ra) => {
-        // eslint-disable-next-line no-console
-        console.log(_ra, _newOptionsValues);
-
-        return _newOptionsValues.includes(_ra.toString());
-      }));
+    setTaskProps({
+      options: _newOptions,
+      rightAnswer: _previousRightAnswers
+        .filter((_ra) => _newOptionsValues.includes(_ra.toString()))
+    });
   };
 
   const changeOptionName = ({val, after}) => {
@@ -60,7 +61,7 @@ const MultiAnswerCreator = () => {
     const _fp = _curOptions.slice(0, _findOptionIdx);
     const _lp = _curOptions.slice(_findOptionIdx + 1, _curOptions.length);
 
-    setTaskProp('options', [..._fp, {..._opt, label: after}, ..._lp]);
+    setTaskProps({'options': [..._fp, {..._opt, label: after}, ..._lp]});
   };
 
   return (
@@ -69,14 +70,14 @@ const MultiAnswerCreator = () => {
         type={fieldType.TEXT}
         placeholder={'Название задачи'}
         value={targetComponent.additionals?.title}
-        onChange={(_title) => setTaskProp('title', _title)}
+        onChange={(_title) => setTaskProps({'title': _title})}
       />
       <DirectoryField
         type={fieldType.TEXT_AREA}
         placeholder={'Описание задачи'}
         textAreaVariant={'simple'}
         value={targetComponent.additionals?.description}
-        onChange={(_desc) => setTaskProp('description', _desc)}
+        onChange={(_desc) => setTaskProps({'description': _desc})}
       />
       {
         targetComponent.additionals?.options?.length && (
@@ -84,7 +85,7 @@ const MultiAnswerCreator = () => {
             type={fieldType.CHECKBOX_GROUP}
             value={targetComponent.additionals?.rightAnswer}
             options={targetComponent.additionals.options}
-            onChange={(_ra) => setTaskProp('rightAnswer', _ra)}
+            onChange={(_ra) => setTaskProps({'rightAnswer': _ra})}
             isEditable={true}
             editCallback={changeOptionName}
             isDeletable={true}
@@ -102,4 +103,11 @@ const MultiAnswerCreator = () => {
   );
 };
 
-export default MultiAnswerCreator;
+const mapStore = ({CreateCourseStore}) => {
+  return {
+    targetComponent: CreateCourseStore.targetComponent,
+    setTargetComponent: CreateCourseStore.setTargetComponent
+  };
+};
+
+export default magic(MultiAnswerCreator, {store: mapStore});

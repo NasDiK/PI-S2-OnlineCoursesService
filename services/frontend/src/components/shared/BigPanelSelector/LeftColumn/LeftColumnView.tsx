@@ -9,7 +9,8 @@ interface iProps {
   element: iElement,
   elementLink?: string,
   withLinear?: boolean,
-  onClickElement?: (element) => void
+  onClickElement?: (element) => void,
+  onClickGroup?: (element) => void
 }
 
 type iElementExtended = {
@@ -19,7 +20,7 @@ type iElementExtended = {
 
 const onClickElement = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, max-len
-  elem: iElement | undefined, elemIdx: number, setFunc: any, elementLink: string | undefined, navigator, handleElementFunc
+  elem: iElement | undefined, elemIdx: number, setFunc: any, elementLink: string | undefined, navigator, handleElementFunc, handleGroupFunc
 ) => {
   const targetElement = elem?.subGroup?.[elemIdx];
 
@@ -32,6 +33,10 @@ const onClickElement = (
 
   } else {
     setFunc({element: targetElement, parentId: elem?.id});
+
+    if (targetElement?.type === shared.targetFields.ELEMENT_GROUP) {
+      handleGroupFunc(targetElement);
+    }
   }
 };
 
@@ -74,7 +79,7 @@ const LeftColumnView = (props: iProps) => {
           onClickElement={
             (idx: number) =>
               // eslint-disable-next-line max-len
-              onClickElement(curElem?.element, idx, setCurElem, elementLink, navigator, props.onClickElement)
+              onClickElement(curElem?.element, idx, setCurElem, elementLink, navigator, props.onClickElement, props.onClickGroup)
           }
         />
       </div>

@@ -1,15 +1,19 @@
-import {Typography, Button, DirectoryField} from '../../../../../../shared';
+/* eslint-disable react/prop-types */
+import {DirectoryField} from '../../../../../../shared';
 import React from 'react';
 import s from './Creators.module.scss';
 import {fieldType} from '@local/enums/shared';
-import {useDispatch, useSelector} from 'react-redux';
+import {magic} from '../../../../../../../mobxUtils';
 
-const TextAreaCreator = () => {
-  const dispatch = useDispatch();
-
-  const targetComponent = useSelector((stores: any) => stores.createDrawerStore.targetComponent);
+const TextAreaCreator = ({targetComponent, setTargetComponent}) => {
   const setTaskProp = (key, val) => {
-    dispatch({type: 'SET_TARGET_ADDITIONAL_PROP', payload: {key, 'value': val}});
+    setTargetComponent({
+      ...targetComponent,
+      additionals: {
+        ...targetComponent.additionals,
+        [key]: val
+      }
+    });
   };
 
   return (
@@ -38,4 +42,11 @@ const TextAreaCreator = () => {
   );
 };
 
-export default TextAreaCreator;
+const mapStore = ({CreateCourseStore}) => {
+  return {
+    setTargetComponent: CreateCourseStore.setTargetComponent,
+    targetComponent: CreateCourseStore.targetComponent
+  };
+};
+
+export default magic(TextAreaCreator, {store: mapStore});

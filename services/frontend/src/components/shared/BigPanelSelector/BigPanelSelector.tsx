@@ -10,6 +10,7 @@ interface iProps {
   elementLink?: string,
   withLinear?: boolean,
   onClickElement?: (element) => void //Если будет передан, то elementLink - не отработает
+  onClickGroup?: (element) => void //Будет отрабатывать на каждый клик по targetFields.ELEMENT_GROUP
 }
 
 const BigPanelSelector = (props: iProps) => (
@@ -19,6 +20,7 @@ const BigPanelSelector = (props: iProps) => (
       withLinear={props.withLinear}
       elementLink={props.elementLink}
       onClickElement={props.onClickElement}
+      onClickGroup={props.onClickGroup}
     />
     <RightColumnView component={props.renderableComponent} />
   </div>

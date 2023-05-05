@@ -1,9 +1,7 @@
-import {Provider} from 'react-redux';
+import {Provider as MobxProvider} from '../../../../../mobxUtils';
 import CreateEditDrawer from './CreateCourse';
-import EditDrawer from './EditCourse';
 import React from 'react';
-import {store as createDrawerReducer}
-  from '../../../../../stores/components/Courses/CreateDrawersReducer';
+import CreateCourseStore from '../../../../../stores/components/Courses/CreateCourseStore';
 
 interface iPossibleProps {
   type: 'create' | 'edit',
@@ -13,23 +11,13 @@ interface iPossibleProps {
 
 const CourseDrawers = (props: iPossibleProps) => {
   const {type, ...otherProps} = props;
+  const createCourseStore = new CreateCourseStore(type);
 
-  switch (type) {
-    case 'create':
-      return (
-        <Provider store={createDrawerReducer}>
-          <CreateEditDrawer {...otherProps} />
-        </Provider>
-      );
-    case 'edit':
-      return (
-        <Provider store={createDrawerReducer}>
-          <CreateEditDrawer view={'edit'} {...otherProps} />
-        </Provider>
-      );
-    default:
-      return null;
-  }
+  return (
+    <MobxProvider CreateCourseStore={createCourseStore}>
+      <CreateEditDrawer {...otherProps} type={type} />
+    </MobxProvider>
+  );
 };
 
 export default CourseDrawers;

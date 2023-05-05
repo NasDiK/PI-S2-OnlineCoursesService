@@ -1,22 +1,26 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {useState} from 'react';
+import React from 'react';
 import s from './Creators.module.scss';
 import {Typography, Button, DirectoryField} from '../../../../../../shared';
 import {fieldType} from '@local/enums/shared';
 import AddIcon from '@mui/icons-material/Add';
-import {useDispatch, useSelector} from 'react-redux';
+import {magic} from '../../../../../../../mobxUtils';
 
 interface iOption {
   'value': number;
   'label': string;
 }
 
-const RadioCreator = () => {
-  const dispatch = useDispatch();
-
-  const targetComponent = useSelector((stores: any) => stores.createDrawerStore.targetComponent);
+const RadioCreator = ({targetComponent, setTargetComponent}) => {
   const setTaskProp = (key, val) => {
-    dispatch({type: 'SET_TARGET_ADDITIONAL_PROP', payload: {key, 'value': val}});
+    setTargetComponent({
+      ...targetComponent,
+      additionals: {
+        ...targetComponent.additionals,
+        [key]: val
+      }
+    });
   };
 
   const addNewOption = () => {
@@ -94,4 +98,11 @@ const RadioCreator = () => {
   );
 };
 
-export default RadioCreator;
+const mapStore = ({CreateCourseStore}) => {
+  return {
+    setTargetComponent: CreateCourseStore.setTargetComponent,
+    targetComponent: CreateCourseStore.targetComponent
+  };
+};
+
+export default magic(RadioCreator, {store: mapStore});

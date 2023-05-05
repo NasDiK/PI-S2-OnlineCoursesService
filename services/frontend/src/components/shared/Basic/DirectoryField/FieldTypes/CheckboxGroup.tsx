@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {useState} from 'react';
+import React from 'react';
 import {IOption} from './Select';
 import s from './field.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {isValEmpty, tryConvertToNumber} from '../../../../../utils';
+import {tryConvertToNumber} from '../../../../../utils';
 
 interface iProps {
   options?: Array<IOption>,
