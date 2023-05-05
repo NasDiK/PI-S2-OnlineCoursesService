@@ -52,8 +52,37 @@ const checkAnswer = async(taskId: number, answer) => {
   return result;
 };
 
+const getTasksByGroupId = async(groupId) => {
+  const result = await window.api()
+    .path('/tasks/getTasksByGroupId')
+    .body({groupId})
+    .executePost();
+
+  return result;
+};
+
+const getAnswersLogs = async(groupId) => {
+  const result = await window.api()
+    .path('/tasks/getAnswersLogs')
+    .body({groupId})
+    .executePost();
+
+  return result;
+};
+
+const getAllLogs = async() => {
+  const result = await window.api()
+    .path('/tasks/getAllLogs')
+    .executePost();
+
+  return result;
+};
+
 export {
   getTaskById,
   searchTasks,
-  checkAnswer
+  checkAnswer,
+  getTasksByGroupId,
+  getAnswersLogs,
+  getAllLogs
 };
