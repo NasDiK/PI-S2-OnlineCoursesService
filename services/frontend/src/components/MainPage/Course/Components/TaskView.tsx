@@ -10,6 +10,9 @@ import {fieldType as directoryFieldEnum} from '@local/enums/shared';
 import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
 import TaskModel from '../../../../stores/shared/models/TaskModel';
 import {getReviewsLogs} from '../../../../api/reviews';
+import {dateFormat as dateFormatList} from '@local/enums/tools';
+import {dateConverter} from '../../../../utils';
+
 interface iStore {
   taskStore: iTaskStoreState
 }
@@ -81,13 +84,25 @@ const renderTasks = (
   return null;
 };
 
-const renderSubmitButton = (taskId, answer, permissions) => (
+const renderSubmitButton = (taskId, answer, permissions, additionals) => (
   <React.Fragment>
-    {permissions.canCheckAnswers && <Button>{'Список решений студентов'}</Button>}
+    {/* {permissions.canCheckAnswers && <Button>{'Список решений студентов'}</Button>} */}
     {
       permissions.canSend && (
         <Button onClick={() => checkTaskAnswer(taskId, answer)}>
           {'Отправить'}
+        </Button>
+      ) || (
+        <Button
+          onClick={() => checkTaskAnswer(taskId, answer)}
+          disabled={true}
+          backgroundColor={'whitegreen'}
+        >
+          {
+            `Отправлено ${
+              dateConverter.dateConverter(additionals.doneAt, dateFormatList.FULL_WITH_TIME)
+            }`
+          }
         </Button>
       )
     }
@@ -190,6 +205,8 @@ const TaskView = () => {
                 renderSubmitButton(_taskModel.id, answer, {
                   canCheckAnswers: _taskModel.isPermittedWatchLogs,
                   canSend: _taskModel.isPermittedSend
+                }, {
+                  doneAt: _taskModel?.lastlog?.log_date
                 })
               }
               </div>

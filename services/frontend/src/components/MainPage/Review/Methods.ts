@@ -1,8 +1,12 @@
 import {shortnameMaker} from '../../../utils';
 import {iElement} from '../../../components/shared/BigPanelSelector/Components/ColumnElement';
 import {targetFields} from '@local/enums/shared';
+import {action} from '@local/enums/tasks';
 
 const groupReviewsForSelector = (reviews) => {
+  // eslint-disable-next-line camelcase
+  const _reviewsList = reviews.filter(({log_action}) => log_action !== action.SEND);
+
   const result: iElement = {
     id: -1,
     type: targetFields.ELEMENT_GROUP,
@@ -10,7 +14,7 @@ const groupReviewsForSelector = (reviews) => {
     subGroup: []
   };
 
-  reviews.reduce((acc: iElement, review) => {
+  _reviewsList.reduce((acc: iElement, review) => {
     const _shortFullname = shortnameMaker(review.user_fullname);
     //короткое полное имя. F.e: Тунгусов А.С.
 

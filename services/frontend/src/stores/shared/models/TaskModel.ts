@@ -50,6 +50,7 @@ export default class TaskModel {
   get isPermittedSend() {
     const {log_action: logAction} = this.lastlog || {log_action: -1};
 
+    console.log(this.lastlog);
     switch (logAction) {
       case action.REVIEW_APPROVE:
       case action.SEND_TO_REVIEW:
@@ -61,7 +62,7 @@ export default class TaskModel {
     }
   }
 
-  get lastlog() {
+  get lastlog(): any {
     const [result] = this._taskLogs?.length && this._taskLogs.slice(-1) || [undefined];
 
     return result;

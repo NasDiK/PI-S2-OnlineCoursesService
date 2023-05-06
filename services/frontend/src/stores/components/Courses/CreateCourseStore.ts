@@ -389,6 +389,8 @@ export default class CreateCourseStore {
     }
 
     return subGroup.reduce((acc, curTask, idx) => {
+      const {id} = curTask;
+
       const {
         taskType,
         title,
@@ -423,7 +425,8 @@ export default class CreateCourseStore {
         type: taskType,
         weight: idx,
         correctAnswer: _correctAnswer,
-        'value': _value
+        'value': _value,
+        selectorTaskId: id
       });
 
       return acc;
