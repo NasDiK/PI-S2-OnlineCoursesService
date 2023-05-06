@@ -64,6 +64,8 @@ const reducer = createReducer(initialState, {
                   valueAnswer = '0';
                 } else if (answer.note !== null) {
                   valueAnswer = answer.note;
+                } else if (answer.action === 4) {
+                  valueAnswer = 'Отклонено';
                 } else {
                   valueAnswer = 'Сдано';
                 }
