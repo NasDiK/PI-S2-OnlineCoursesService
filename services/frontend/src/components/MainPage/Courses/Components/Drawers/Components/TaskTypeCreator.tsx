@@ -3,8 +3,7 @@
 import React from 'react';
 import s from '../Drawers.module.scss';
 import {Button, DirectoryField, Typography} from '../../../../../shared';
-import {useDispatch, useSelector} from 'react-redux';
-import {targetFields, fieldType} from '@local/enums/shared';
+import {fieldType} from '@local/enums/shared';
 import {fieldType as taskTypeEnums} from '@local/enums/tasks';
 import {creationTaskTypes} from '../../consts';
 import MultiAnswerCreator from './TaskCreators/MultiAnswerCreator';
@@ -28,14 +27,8 @@ const renderTaskCreator = (taskType) => {
 };
 
 const TaskTypeCreator = ({
-  targetComponent, setTargetComponent, synchTargetAndSelector, deleteTaskById, renameTaskById
+  targetComponent, setTargetComponent, synchTargetAndSelector, deleteTaskById
 }) => {
-  const renameTargetComponent = () => {
-    const _newName = prompt();
-
-    _newName && renameTaskById(targetComponent.id, _newName);
-  };
-
   const dropTaskFromSelector = () => {
     if (confirm(`Подтвердите удаление задачи: ${targetComponent.name}`)) {
       deleteTaskById(targetComponent.id);
@@ -89,11 +82,6 @@ const TaskTypeCreator = ({
             </Button>
           )
         }
-        {/* <Button
-          onClick={renameTargetComponent}
-          backgroundColor={'yellow'}
-        >{'Переименовать текущий таск'}
-        </Button> */}
         <Button
           onClick={dropTaskFromSelector}
           backgroundColor={'red'}
@@ -109,8 +97,7 @@ const mapStore = ({CreateCourseStore}) => {
     targetComponent: CreateCourseStore.targetComponent,
     setTargetComponent: CreateCourseStore.setTargetComponent,
     synchTargetAndSelector: CreateCourseStore.synchTargetAndSelector,
-    deleteTaskById: CreateCourseStore.deleteTaskById,
-    renameTaskById: CreateCourseStore.renameTaskById
+    deleteTaskById: CreateCourseStore.deleteTaskById
   };
 };
 

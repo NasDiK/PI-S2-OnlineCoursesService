@@ -1,10 +1,9 @@
 const {groupBy} = require('../../utils');
 
 /**
- * 
- * @param {import('knex').Knex} knex 
- * @param {*} req 
- * @returns 
+ * @param {import('knex').Knex} knex
+ * @param {import('express').Request} req
+ * @returns
  */
 const searchCourses = async(knex, req) => {
   try {

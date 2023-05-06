@@ -463,7 +463,6 @@ export default class CreateCourseStore {
     }
 
     const _courseTasks = this.getPreparedTasks(this.targetGroup?.subGroup);
-    const _courseName = this.targetGroup?.name;
 
     const description = confirm('Хотите изменить описание курса?') ?
       prompt('Описание курса', '') : '';
@@ -473,7 +472,7 @@ export default class CreateCourseStore {
       .body({
         courseData: {
           id: this.targetGroup.id,
-          // title: _courseName,
+          // title: _courseName, пока не реализовывал)))
           description,
           tasks: _courseTasks
         }

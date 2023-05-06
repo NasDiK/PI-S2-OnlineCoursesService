@@ -7,11 +7,6 @@ import {fieldType} from '@local/enums/shared';
 import AddIcon from '@mui/icons-material/Add';
 import {magic} from '../../../../../../../mobxUtils';
 
-interface iOption {
-  'value': number;
-  'label': string;
-}
-
 const RadioCreator = ({targetComponent, setTargetComponent}) => {
   const setTaskProp = (key, val) => {
     setTargetComponent({

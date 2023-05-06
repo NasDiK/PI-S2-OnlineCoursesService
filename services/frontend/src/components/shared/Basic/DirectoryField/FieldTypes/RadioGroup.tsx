@@ -3,7 +3,6 @@ import {IOption} from './Select';
 import s from './field.module.scss';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import {isValEmpty} from '../../../../../utils';
 
 interface iProps {
   options?: Array<IOption>,
