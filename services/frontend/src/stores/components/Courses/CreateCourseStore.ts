@@ -232,7 +232,7 @@ export default class CreateCourseStore {
     const {targetGroup, selector} = this;
 
     const _newTask = {
-      id: parseInt((Math.random() * 99999).toString()),
+      id: new Date().getTime(),
       type: targetFields.ELEMENT,
       name: 'Новая задача',
       additionals: {}
