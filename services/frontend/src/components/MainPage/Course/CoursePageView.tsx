@@ -26,8 +26,11 @@ const CoursePageView = () => {
         tasksFieldsNamesEnum.TITLE,
         tasksFieldsNamesEnum.WEIGHT,
         tasksFieldsNamesEnum.COURSE_ID,
-        tasksFieldsNamesEnum.MAX_NOTE
-      ]
+        tasksFieldsNamesEnum.MAX_NOTE,
+
+        'courses.title as course_title'
+      ],
+      appends: [['courses', 'id', 'tasks', 'course_id']]
     }).then((x) => {
       const {tasks} = x;
       const groupedElement = groupTasksForSidebar(tasks);

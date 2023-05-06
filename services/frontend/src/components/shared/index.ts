@@ -5,6 +5,7 @@ import Alert from './Basic/Alert/Alert';
 import BigPanelSelector from './BigPanelSelector/BigPanelSelector';
 import {LinearProgressWithLabel} from './LinearProgress';
 import Modal from './Basic/Modal/Modal';
+import Loader from './Basic/Loader/Loader';
 
 export {
   Button,
@@ -13,5 +14,6 @@ export {
   Alert,
   BigPanelSelector,
   LinearProgressWithLabel,
-  Modal
+  Modal,
+  Loader
 };

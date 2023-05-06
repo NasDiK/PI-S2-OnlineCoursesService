@@ -5,16 +5,33 @@ import cn from 'classnames';
 interface iProps {
   'value'?: string,
   isDone?: boolean,
-  onChange: (val) => void
+  onChange: (val) => void,
+  textAreaVariant?: 'review' | 'simple',
+  placeholder?: string
 }
 
 const TextArea = (props: iProps) => {
-  const {value: val = '', isDone = false, onChange} = props;
+  const {value: val = '', isDone = false, onChange, textAreaVariant = 'review'} = props;
   const [_val, _setVal] = useState(val);
 
   useEffect(() => {
     _setVal(val || '');
   }, [val]);
+
+  if (textAreaVariant === 'simple') {
+    return (
+      <textarea
+        className={s.simpleTextArea}
+        onChange={
+          (ev) => {
+            onChange(ev.target.value);
+          }
+        }
+        value={val}
+        placeholder={props.placeholder}
+      />
+    );
+  }
 
   return (
     <div className={s.textArea}>

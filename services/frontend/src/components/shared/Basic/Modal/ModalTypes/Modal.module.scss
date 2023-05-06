@@ -1,0 +1,11 @@
+.wide {
+  max-height: 90vh;
+  overflow: auto;
+  margin: 20px 5vh;
+  background-color: white;
+  
+  .content {
+    display: flex;
+
+  }
+}

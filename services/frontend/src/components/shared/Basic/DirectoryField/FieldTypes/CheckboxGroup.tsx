@@ -1,48 +1,116 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, {useState} from 'react';
+import React from 'react';
 import {IOption} from './Select';
 import s from './field.module.scss';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import {tryConvertToNumber} from '../../../../../utils';
 
 interface iProps {
   options?: Array<IOption>,
-  onChange: (_val) => void
+  onChange: (_val) => void,
+  isEditable?: boolean,
+  editCallback?: (obj) => void, //{val, before, after}
+  deleteCallback?: (val) => void, //returns value удаленного
+  isDeletable?: boolean,
+  // eslint-disable-next-line max-len, id-denylist
+  value?: any
 }
 
 const executeClick = (values: Array<any>, checked: boolean, curV) => {
+  const _convertedValues = values.map((_) => tryConvertToNumber(_)[1]);
+  const _convertedCurV = tryConvertToNumber(curV)[1];
+
   if (checked) {
-    if (!values.includes(curV)) {
-      return [...values, curV];
+    if (!_convertedValues.includes(_convertedCurV)) {
+      return [..._convertedValues, _convertedCurV];
     }
 
     return [];
   }
 
-  return values.filter((_val) => _val !== curV);
+  return _convertedValues.filter((_val) => _val !== _convertedCurV);
 };
 
 const CheckboxGroup = (props: iProps) => {
-  const {options, onChange} = props;
-  const [values, setValues] = useState<Array<any>>([]);
+  const {
+    options,
+    onChange,
+    value: selectedVal = [],
+    isEditable,
+    isDeletable,
+    editCallback,
+    deleteCallback
+  } = props;
+
+  const handleEditElement = (val, before, func) => {
+    if (isEditable) {
+      //Возвращает {val, before, after}
+      const after = prompt('');
+
+      return after && func({val, before, after});
+    }
+  };
+
+  const handleDeleteElement = (val, func) => {
+    if (isDeletable && confirm('Реально?')) {
+      return func(val);
+    }
+  };
+
   let toRender: Array<React.ReactNode> = [null];
 
   if (options?.length) {
 
     toRender = options?.map(({value: val, label}, idx) => (
-      <label key={idx}>
-        <input
-          type={'checkbox'}
-          value={val}
-          onChange={
-            (ev) => {
-              const newValues = executeClick(values, ev.target.checked, ev.target.value);
+      <div key={idx} className={s.option}>
+        <label>
+          <input
+            type={'checkbox'}
+            value={val}
+            checked={selectedVal.includes(val)}
+            onChange={
+              (ev) => {
+                const newValues = executeClick(
+                  selectedVal,
+                  ev.target.checked,
+                  ev.target.value
+                );
 
-              onChange(newValues);
-              setValues(newValues);
+                onChange(newValues);
+              }
             }
-          }
-        />
-        {label}
-      </label>
+          />
+          {label}
+        </label>
+        {
+          isEditable && (
+            <EditIcon
+              sx={
+                {
+                  height: 12,
+                  width: 12
+                }
+              }
+              onClick={() => handleEditElement(val, label, editCallback)}
+            />
+          )
+        }
+        {
+          isDeletable && (
+            <DeleteIcon
+              sx={
+                {
+                  height: 12,
+                  width: 12
+                }
+              }
+              onClick={() => handleDeleteElement(val, deleteCallback)}
+            />
+          )
+        }
+      </div>
     ));
   }
 

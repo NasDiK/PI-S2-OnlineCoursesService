@@ -30,7 +30,7 @@ const groupTasksForSidebar = (tasks) => {
 
   return {
     id: tasks[0].course_id,
-    name: 'MOCK_COURSE_NAME',
+    name: tasks[0].course_title,
     type: targetFields.ELEMENT_GROUP,
     isDone: false,
     progress: 0,

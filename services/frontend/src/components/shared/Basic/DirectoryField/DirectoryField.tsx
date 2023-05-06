@@ -18,7 +18,14 @@ interface iPossibleProps {
   options?: ArrayLike<IOption>
   isDone?: boolean,
   name?: string,
-  isMulti?:boolean
+  isMulti?: boolean,
+  textAreaVariant?: 'simple' | 'review',
+
+  //для checkbox_group и radio_group
+  isEditable?: boolean
+  editCallback?: (obj) => void //{val, before, after}
+  isDeletable?: boolean
+  deleteCallback?: (val) => void //val удаляемой опции
 }
 
 const getFieldByType = (type: number, props: any) => {

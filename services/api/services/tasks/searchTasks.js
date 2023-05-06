@@ -4,6 +4,7 @@
 * fields: string[]
 * coursesIds: number
 * parentId: number //на будущее
+* appends: [string, string, string, string][]
 * }} requestParams
 */
 
@@ -14,7 +15,7 @@
 * @returns {object} Задача
 */
 const searchTasks = (knex, request) => {
-  const {tasksIds, fields, coursesIds} = request.body;
+  const {tasksIds, fields, coursesIds, appends} = request.body;
 
   const model = knex('tasks')
     .select(fields || 'id');
@@ -26,6 +27,13 @@ const searchTasks = (knex, request) => {
   if (coursesIds) {
     model.whereIn('course_id', coursesIds);
   }
+
+  appends.forEach((append) => {
+    const [tableToJoin, fieldToJoin, withJoin, withFieldJoin] = append;
+
+    model
+      .leftJoin(tableToJoin, `${tableToJoin}.${fieldToJoin}`, '=', `${withJoin}.${withFieldJoin}`);
+  });
 
   return model;
 };

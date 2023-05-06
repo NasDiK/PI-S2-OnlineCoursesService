@@ -20,7 +20,7 @@ interface SelectProps {
 const getSelectByType = (variant: string, props: SelectProps) => {
   //TODO доработать options
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,id-denylist
-  const {options, size, onChange, value, isMulti} = props;
+  const {options, size, onChange, value, isMulti = false} = props;
 
   switch (variant) {
     case 'outline':

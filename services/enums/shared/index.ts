@@ -13,3 +13,9 @@ export const targetFields = {
   ELEMENT_GROUP: 4, //Группа элементов
   ELEMENT: 5 //Элемент
 }
+
+export const loadingStatus = {
+  LOADING: 1,
+  SUCCESS: 2,
+  ERROR: 3
+}

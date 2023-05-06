@@ -7,8 +7,10 @@ import {iElement} from './Components/ColumnElement';
 interface iProps {
   element: iElement,
   renderableComponent: React.ReactNode,
-  elementLink: string,
-  withLinear?: boolean
+  elementLink?: string,
+  withLinear?: boolean,
+  onClickElement?: (element) => void //Если будет передан, то elementLink - не отработает
+  onClickGroup?: (element) => void //Будет отрабатывать на каждый клик по targetFields.ELEMENT_GROUP
 }
 
 const BigPanelSelector = (props: iProps) => (
@@ -17,6 +19,8 @@ const BigPanelSelector = (props: iProps) => (
       element={props.element}
       withLinear={props.withLinear}
       elementLink={props.elementLink}
+      onClickElement={props.onClickElement}
+      onClickGroup={props.onClickGroup}
     />
     <RightColumnView component={props.renderableComponent} />
   </div>

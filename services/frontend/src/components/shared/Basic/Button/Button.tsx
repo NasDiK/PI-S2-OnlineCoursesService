@@ -13,7 +13,8 @@ export type ButtonProps = {
   padding?: string,
   fullWidth?: boolean,
   onClick?: any, //функция обработчика,
-  backgroundColor?: string
+  backgroundColor?: string,
+  disabled?: boolean
 };
 
 const Button = (props: ButtonProps) => {

@@ -1,13 +1,13 @@
 export const tasksFieldsNamesEnum = {
-  ID: 'id',
-  COURSE_ID: 'course_id',
-  TITLE: 'title',
-  DESCRIPTION: 'description',
-  VALUE: 'value',
-  TYPE: 'type',
-  MAX_NOTE: 'max_note',
-  WEIGHT: 'weight',
-  CORRECT_ANSWER: 'correctAnswer'
+  ID: 'tasks.id',
+  COURSE_ID: 'tasks.course_id',
+  TITLE: 'tasks.title',
+  DESCRIPTION: 'tasks.description',
+  VALUE: 'tasks.value',
+  TYPE: 'tasks.type',
+  MAX_NOTE: 'tasks.max_note',
+  WEIGHT: 'tasks.weight',
+  CORRECT_ANSWER: 'tasks.correctAnswer'
 };
 
 const getTaskById = (taskId: number, fields: string []) => {
@@ -26,7 +26,8 @@ type tasksFilter = {
   tasksIds?: number[],
   fields?: string[],
   coursesIds?: number[],
-  parentIds?: number[]
+  parentIds?: number[],
+  appends?: [string, string, string, string][]
 };
 
 const searchTasks = (filter: tasksFilter) => {

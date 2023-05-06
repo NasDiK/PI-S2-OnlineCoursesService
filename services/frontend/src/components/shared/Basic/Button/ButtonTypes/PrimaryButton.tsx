@@ -19,12 +19,13 @@ const useStyles = makeStyles(() => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const primary = (props: any) => {
-  const {children, size = 'small', fullWidth, onClick, backgroundColor} = props;
+  const {children, size = 'small', fullWidth, onClick, backgroundColor, disabled} = props;
 
   const classes = useStyles();
 
   return (
     <button
+      disabled={disabled}
       className={
         cn(
           classes.button,

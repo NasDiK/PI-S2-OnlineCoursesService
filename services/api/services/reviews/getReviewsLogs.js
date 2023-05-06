@@ -37,7 +37,8 @@ module.exports = (knex, req) => {
   _model.whereIn('action', [
     action.SEND_TO_REVIEW,
     action.REVIEW_APPROVE,
-    action.REVIEW_FAIL
+    action.REVIEW_FAIL,
+    action.SEND
   ]);
 
   if (appends.length) {

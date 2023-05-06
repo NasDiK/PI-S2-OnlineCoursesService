@@ -5,6 +5,7 @@ export interface iState {
   users: [],
   tasks:any [],
   answers:any [],
+  groupedAnswers:any [],
   groupName: string
 }
 
@@ -12,6 +13,7 @@ const initialState: iState = {
   users: [],
   tasks: [],
   answers: [],
+  groupedAnswers: [],
   groupName: ''
 };
 
@@ -81,7 +83,7 @@ const reducer = createReducer(initialState, {
         }
       });
     });
-    state.answers = answersArr;
+    state.groupedAnswers = answersArr;
   }
 });
 

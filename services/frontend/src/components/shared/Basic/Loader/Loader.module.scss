@@ -1,0 +1,23 @@
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, .8);
+  z-index: 222;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  .container {
+    overflow: hidden;
+    position: relative;
+    z-index: 333;
+    top: 50%;
+    left: 50%;
+    width: fit-content;
+    
+    & > span {
+      color: rgb(61, 168, 240) !important;
+    }
+  }
+}
