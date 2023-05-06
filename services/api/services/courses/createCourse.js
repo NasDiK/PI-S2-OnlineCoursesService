@@ -27,6 +27,8 @@ const createCourse = async(knex, req) => {
         task.value = JSON.stringify(task.value);
       }
       task.course_id = _createdCourseId;
+
+      delete task.selectorTaskId;
     });
 
     const _createdTasksIds = await knex('tasks')
