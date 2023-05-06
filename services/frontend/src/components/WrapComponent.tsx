@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-// import {store as userStore} from '../stores/core';
-// import {Provider} from 'react-redux';
 import {magic} from '../mobxUtils';
 import {Alert, Snackbar} from '@mui/material';
 
