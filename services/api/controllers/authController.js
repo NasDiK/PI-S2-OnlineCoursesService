@@ -5,6 +5,7 @@ const knex = require('knex')(conf.development);
 const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const {getRoleEnumsMap} = require('../core');
 const generateTokens = (id, roleid) => {
   payload = {
     id,
@@ -74,9 +75,15 @@ class AuthController {
       if (!validPassword) {
         return res.status(400).json({message: `Введен неверный пароль`});
       }
-      const userRolesIds = await knex('users_roles').where('user_id', user.id)
-        .pluck('role_id');
-      const tokens = generateTokens(user, userRolesIds);
+      const [roleIdEnumMap, userRolesIds] = await Promise.all([
+        getRoleEnumsMap(),
+        knex('users_roles').where('user_id', user.id)
+          .pluck('role_id')
+      ]);
+
+      const mappedRoles = userRolesIds.map((__id) => roleIdEnumMap[__id]);
+
+      const tokens = generateTokens(user, mappedRoles);
 
       return res.json({tokens, userRolesIds, userId: user.id});
     } catch(exception) {
@@ -92,12 +99,17 @@ class AuthController {
 
       const {id: {id}} = jwt.verify(refreshtoken, config.refreshTokenKey);
 
-      const userRolesIds = await knex('users_roles').where('user_id', id)
-        .pluck('role_id');
+      const [roleIdEnumMap, userRolesIds] = await Promise.all([
+        getRoleEnumsMap(),
+        knex('users_roles').where('user_id', id)
+          .pluck('role_id')
+      ]);
+
+      const mappedRoles = userRolesIds.map((__id) => roleIdEnumMap[__id]);
 
       const payload = {
         id,
-        userRolesIds
+        userRolesIds: mappedRoles
       };
 
       payload.token = jwt.sign(

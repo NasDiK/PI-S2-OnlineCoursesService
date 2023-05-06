@@ -4,7 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import s from './AdminPanel.module.scss';
 import {getAllCourses} from '../../../api/courses';
-import {Provider, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import {BigPanelSelector, DirectoryField, Button, Typography, Modal, Tabs} from '../../shared';
 import AddUserSelectComponent from './components/AddUserSelectComponent';
 import {createGroup, getGroups} from '../../../api/groups';
@@ -13,6 +13,8 @@ import {shared} from '@local/enums';
 import {fieldType, targetFields} from '@local/enums/shared';
 import RolesComponent from './components/RolesComponent';
 import {store as adminStore} from '../../../stores/components/AdminPanel/AdminReducer';
+import {magic} from '../../../mobxUtils';
+import PropTypes from 'prop-types';
 
 const minimalElement: iElement = {
   id: -1,
@@ -36,8 +38,8 @@ const tabs = [
   }
 ];
 
-const AdminPanelPageView = () => {
-  const userId = useSelector((state: any) => state.userStore.userData.userId);
+const AdminPanelPageView = ({UserStore}) => {
+  const {userId} = UserStore;
   const [mainElement, setMainElement] = useState<any>();
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [groupElement, setGroupElement] = useState<iElement>();
@@ -172,4 +174,8 @@ const AdminPanelPageView = () => {
   );
 };
 
-export default AdminPanelPageView;
+AdminPanelPageView.propTypes = {
+  UserStore: PropTypes.object
+};
+
+export default magic(AdminPanelPageView, {store: 'UserStore'});

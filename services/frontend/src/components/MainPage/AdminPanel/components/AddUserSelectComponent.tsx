@@ -1,21 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useState} from 'react';
 import {fieldType} from '@local/enums/shared';
 import {Button, Typography, DirectoryField} from '../../../shared';
 import {getUsersByRoleName} from '../../../../api/users';
 import {getUsersInGroups, saveGroupChanges} from '../../../../api/groups';
-import {useSelector} from 'react-redux';
 import s from '../../AdminPanel/components/AddUserSelectComponent.module.scss';
 import {useMatches} from 'react-router';
+import {magic} from '../../../../mobxUtils';
+import PropTypes from 'prop-types';
 
-const AddUserSelectComponent = () => {
-  // eslint-disable-next-line
-  const [users, setUsers]: any = useState<any>();
-  // eslint-disable-next-line
-  const [teachers, setTeachers]: any = useState<any>();
-  // eslint-disable-next-line
-  const [usersIds, setUsersIds]: any = useState<any>([]);
-  // eslint-disable-next-line
-  const userId = useSelector((state: any) => state.userStore.userData.userId);
+const AddUserSelectComponent = ({UserStore}) => {
+  const [users, setUsers] = useState<any>();
+  const [teachers, setTeachers] = useState<any>();
+  const [usersIds, setUsersIds] = useState<any>([]);
+  const {userId} = UserStore;
   const [match] = useMatches();
   const {id: groupId} = match.params;
 
@@ -72,9 +70,7 @@ const AddUserSelectComponent = () => {
         <Button
           variant={'primary'}
           fullWidth={true}
-          onClick={
-            () => saveGroupChanges(groupId, usersIds)
-          }
+          onClick={() => saveGroupChanges(groupId, usersIds)}
         >{'Сохранить'}
         </Button>
       </div>
@@ -82,4 +78,8 @@ const AddUserSelectComponent = () => {
   );
 };
 
-export default AddUserSelectComponent;
+AddUserSelectComponent.propTypes = {
+  UserStore: PropTypes.object
+};
+
+export default magic(AddUserSelectComponent, {store: 'UserStore'});

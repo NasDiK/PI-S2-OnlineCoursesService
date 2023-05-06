@@ -441,7 +441,7 @@ export default class CreateCourseStore {
       return;
     }
 
-    const _createdCourse = await window.api()
+    await window.api()
       .path('/courses/createCourse')
       .body({
         courseData: {
@@ -463,7 +463,7 @@ export default class CreateCourseStore {
     const description = confirm('Хотите изменить описание курса?') ?
       prompt('Описание курса', '') : '';
 
-    const _createdCourse = await window.api()
+    await window.api()
       .path('/courses/editCourse')
       .body({
         courseData: {

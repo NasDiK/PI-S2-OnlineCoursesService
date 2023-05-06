@@ -4,10 +4,11 @@ import s from './Components/styles.module.scss';
 import {Typography, Button} from '../../shared';
 import CourseCard from './Components/CourseCard';
 import {getCoursesListByUsers} from '../../../api/courses';
-import {useSelector} from 'react-redux';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import Drawers from './Components/Drawers';
+import PropTypes from 'prop-types';
+import {magic} from '../../../mobxUtils';
 
 const renderCourseCard = ({id, title, description}) => (
   <CourseCard
@@ -18,8 +19,8 @@ const renderCourseCard = ({id, title, description}) => (
   />
 );
 
-const CoursesPageView = () => {
-  const userId = useSelector((state: any) => state.userStore.userData.userId);
+const CoursesPageView = ({UserStore}) => {
+  const {userId} = UserStore;
   const [coursesList, setCoursesList] = useState<any>();
   const [isCreateDrawerOpen, setIsCreateDrawerOpen] = useState<boolean>(false);
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState<boolean>(false);
@@ -71,4 +72,8 @@ const CoursesPageView = () => {
   );
 };
 
-export default CoursesPageView;
+CoursesPageView.propTypes = {
+  UserStore: PropTypes.object
+};
+
+export default magic(CoursesPageView, {store: 'UserStore'});
