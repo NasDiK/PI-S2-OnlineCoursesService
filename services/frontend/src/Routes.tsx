@@ -47,7 +47,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/shared',
-    element: <SharedPage />
+    element: <WrapComponent component={<SharedPage />} />
   },
   {
     path: '/auth',

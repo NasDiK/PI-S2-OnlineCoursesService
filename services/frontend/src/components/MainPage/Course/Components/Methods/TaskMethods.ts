@@ -18,11 +18,17 @@ const searchTaskWithId = async(dispatchFunc, taskId) => {
 
 const checkTaskAnswer = async(taskId, answer) => {
   try {
-    const result = await checkAnswer(taskId, answer);
+    await checkAnswer(taskId, answer);
 
-    alert(result);
+    window.notify({
+      message: 'Успешно отправлено',
+      variant: 'success'
+    });
   } catch{
-    alert('Произошла ошибка');
+    window.notify({
+      message: 'Произошла ошибка при отправке задания',
+      variant: 'error'
+    });
   }
 };
 

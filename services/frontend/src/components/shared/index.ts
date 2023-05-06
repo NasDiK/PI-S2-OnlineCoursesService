@@ -6,6 +6,7 @@ import BigPanelSelector from './BigPanelSelector/BigPanelSelector';
 import {LinearProgressWithLabel} from './LinearProgress';
 import Modal from './Basic/Modal/Modal';
 import Loader from './Basic/Loader/Loader';
+import Tabs from './Basic/Tabs/Tabs';
 
 export {
   Button,
@@ -15,5 +16,6 @@ export {
   BigPanelSelector,
   LinearProgressWithLabel,
   Modal,
-  Loader
+  Loader,
+  Tabs
 };

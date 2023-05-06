@@ -3,17 +3,17 @@ import s from './MainPage.module.scss';
 import logo from '../AuthPage/assets/cat.png';
 import {Button, Typography} from '../shared';
 import {useNavigate} from 'react-router';
-import {useDispatch} from 'react-redux';
-import {logOut as logoutFunc} from '../../stores/core/UserStoreReducer';
+import {magic} from '../../mobxUtils';
+import PropTypes from 'prop-types';
+import {roles} from '@local/enums/roles';
 
-const Header = () => {
+const Header = ({UserStore: {logOut, hasRole}}) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const executeLogOut = () => {
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
-    dispatch(logoutFunc());
+    logOut();
     navigate('/auth');
   };
 
@@ -25,21 +25,21 @@ const Header = () => {
       </div>
       <div className={s.buttons}>
         {
-          true && (
+          hasRole(roles.ADMIN) && (
             <Button variant={'thin'} onClick={() => navigate('/admin-panel')}>
               <Typography>{'Админ-панель'}</Typography>
             </Button>
           )
         }
         {
-          true && (
+          hasRole(roles.ADMIN, roles.TEACHER) && (
             <Button variant={'thin'} onClick={() => navigate('/review')}>
               <Typography>{'Код-ревью'}</Typography>
             </Button>
           )
         }
         {
-          true && (
+          hasRole(roles.ADMIN, roles.TEACHER) && (
             <Button variant={'thin'} onClick={() => navigate('/students')}>
               <Typography>{'Мои студенты'}</Typography>
             </Button>
@@ -71,4 +71,8 @@ const Header = () => {
   );
 };
 
-export default Header;
+Header.propTypes = {
+  UserStore: PropTypes.object
+};
+
+export default magic(Header, {store: 'UserStore'});

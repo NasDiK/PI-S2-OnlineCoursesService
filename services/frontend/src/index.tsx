@@ -3,19 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import {init} from './core/init';
 import Routes from './Routes';
+import {Provider} from './mobxUtils';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
 window.onload = () => {
-  init().then(() => {
+  init().then(({NotifyStore, UserStore}) => {
     root.render(
-      <React.Fragment>
-        <div id={'notify-portal'} />
-        <React.StrictMode>
+      <React.StrictMode>
+        <Provider NotifyStore={NotifyStore} UserStore={UserStore}>
           <Routes />
-        </React.StrictMode>
-      </React.Fragment>
+        </Provider>
+      </React.StrictMode>
     );
   });
 };

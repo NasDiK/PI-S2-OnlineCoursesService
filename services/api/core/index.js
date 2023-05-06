@@ -6,7 +6,16 @@
  * @typedef {import('express').Response} ExpressResponse
  */
 
+const {coupleBy} = require('../utils');
 const databaseMethods = require('./databaseMethods');
+const {roles: {roles: rolesEnum}} = require('@local/enums');
+
+const roleNameMap = {
+  //как по дурацки, конечно бы либо колонку enum_id, либо уже в енумы строку писать...
+  'admin': rolesEnum.ADMIN,
+  'student': rolesEnum.STUDENT,
+  'teacher': rolesEnum.TEACHER
+};
 
 const getCurrentDate = () => {
   const now = new Date();
@@ -46,9 +55,23 @@ const baseResponse = (response, code, responseOptions = {
   return response.json({message, ...otherOptions}).status(code);
 };
 
+const getRoleEnumsMap = async() => {
+  const rolesDBIds = await databaseMethods.getRolesIds();
+  const _rolesEnumEqual = rolesDBIds.map(({id, name}) => {
+    return {
+      id,
+      enumId: roleNameMap[name]
+    };
+  });
+
+  return coupleBy(_rolesEnumEqual, 'id', 'enumId');
+};
+
 module.exports = {
   logger,
   generateError,
   ...databaseMethods,
-  baseResponse
+  baseResponse,
+  roleNameMap,
+  getRoleEnumsMap
 };

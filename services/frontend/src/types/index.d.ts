@@ -32,8 +32,9 @@ declare global {
   }
 
   interface iNotify {
-    type: 'error' | 'success' | 'info';
+    variant: 'error' | 'success' | 'info' | 'warning';
     message: string;
+    time?: number //милисекунды
   }
 
   TaskModel;

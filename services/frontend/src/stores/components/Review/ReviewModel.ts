@@ -78,9 +78,15 @@ export class ReviewModel {
           }
         })
         .executePost();
-      console.log('Успешно');
+      window.notify({
+        variant: 'success',
+        message: 'Успешно одобрено'
+      });
     } catch{
-      console.log('Произошла ошибка отправки запроса');
+      window.notify({
+        variant: 'error',
+        message: 'Произошла ошибка отправки запроса'
+      });
     } finally {
       await this.triggers.refreshReviewTrigger();
       this.triggers.rerenderReviewTrigger();
@@ -101,9 +107,15 @@ export class ReviewModel {
           }
         })
         .executePost();
-      console.log('Успешно');
+      window.notify({
+        variant: 'success',
+        message: 'Успешно одобрено'
+      });
     } catch{
-      console.log('Произошла ошибка отправки запроса');
+      window.notify({
+        variant: 'error',
+        message: 'Произошла ошибка отправки запроса'
+      });
     } finally {
       await this.triggers.refreshReviewTrigger(); //массив логов обновленный
       this.triggers.rerenderReviewTrigger();

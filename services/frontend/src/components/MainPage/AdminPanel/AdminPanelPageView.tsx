@@ -1,8 +1,11 @@
+/* eslint-disable id-denylist */
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useState} from 'react';
 import s from './AdminPanel.module.scss';
 import {getAllCourses} from '../../../api/courses';
-import {Provider, useSelector} from 'react-redux';
-import {BigPanelSelector, DirectoryField, Button, Typography, Modal} from '../../shared';
+import {Provider} from 'react-redux';
+import {BigPanelSelector, DirectoryField, Button, Typography, Modal, Tabs} from '../../shared';
 import AddUserSelectComponent from './components/AddUserSelectComponent';
 import {createGroup, getGroups} from '../../../api/groups';
 import {iElement} from '../../shared/BigPanelSelector/Components/ColumnElement';
@@ -10,6 +13,8 @@ import {shared} from '@local/enums';
 import {fieldType, targetFields} from '@local/enums/shared';
 import RolesComponent from './components/RolesComponent';
 import {store as adminStore} from '../../../stores/components/AdminPanel/AdminReducer';
+import {magic} from '../../../mobxUtils';
+import PropTypes from 'prop-types';
 
 const minimalElement: iElement = {
   id: -1,
@@ -17,14 +22,29 @@ const minimalElement: iElement = {
   name: 'undefined'
 };
 
-const AdminPanelPageView = () => {
-  // eslint-disable-next-line
-  const userId = useSelector((state: any) => state.userStore.userData.userId);
-  // eslint-disable-next-line
+const tabsEnum = {
+  GROUP_CONTROL: 1, //Назначение груп
+  ROLES_CONTROL: 2 //Назначение ролей
+}; //очень нехорошо так делать, но при желании можно в енумы вынести
+
+const tabs = [
+  {
+    value: tabsEnum.GROUP_CONTROL,
+    label: 'Назначение групп'
+  },
+  {
+    value: tabsEnum.ROLES_CONTROL,
+    label: 'Назначение ролей'
+  }
+];
+
+const AdminPanelPageView = ({UserStore}) => {
+  const {userId} = UserStore;
   const [mainElement, setMainElement] = useState<any>();
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [groupElement, setGroupElement] = useState<iElement>();
-  let name, courseId;
+  const [activeTab, setActiveTab] = useState<number>(tabs[0].value);
+  let name: any, courseId: any;
 
   useEffect(() => {
     getAllCourses().then((x) => {
@@ -48,15 +68,14 @@ const AdminPanelPageView = () => {
   }, [userId]);
 
   const options = mainElement?.map(({id, title}) => {
-    // eslint-disable-next-line id-denylist
     return {label: title, value: id};
   });
 
-  const onChangeName = (val) => {
+  const onChangeName = (val: any) => {
     name = val;
   };
 
-  const onChangeCourse = (val) => {
+  const onChangeCourse = (val: any) => {
     courseId = val;
   };
 
@@ -72,8 +91,8 @@ const AdminPanelPageView = () => {
     setModalIsOpen(false);
   };
 
-  return (
-    <div className={s.content}>
+  const renderGroupSelector = () => (
+    <React.Fragment>
       <div className={s.groupsSelector}>
         <BigPanelSelector
           element={groupElement || minimalElement}
@@ -122,11 +141,41 @@ const AdminPanelPageView = () => {
           </div>
         </Modal>
       </div>
-      <Provider store={adminStore}>
-        <RolesComponent />
-      </Provider>
-    </div>
+    </React.Fragment>
+  );
+
+  const renderRolesSelector = () => (
+    <Provider store={adminStore}>
+      <RolesComponent />
+    </Provider>
+  );
+
+  const renderContent = () => {
+    switch (activeTab) {
+      case tabsEnum.ROLES_CONTROL:
+        return renderRolesSelector();
+      case tabsEnum.GROUP_CONTROL:
+      default:
+        return renderGroupSelector();
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <Tabs
+        tabs={tabs}
+        onChange={setActiveTab}
+        value={activeTab}
+      />
+      <div className={s.content}>
+        {activeTab && renderContent()}
+      </div>
+    </React.Fragment>
   );
 };
 
-export default AdminPanelPageView;
+AdminPanelPageView.propTypes = {
+  UserStore: PropTypes.object
+};
+
+export default magic(AdminPanelPageView, {store: 'UserStore'});

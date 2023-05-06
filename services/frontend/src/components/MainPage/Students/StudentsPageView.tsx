@@ -6,16 +6,18 @@ import {shared} from '@local/enums';
 import StudentsTableComponent from './components/StudentsTableComponent';
 import {getGroups} from '../../../api/groups';
 import {targetFields} from '@local/enums/shared';
-import {Provider, useSelector} from 'react-redux';
+import {Provider} from 'react-redux';
 import {store as studentsStore} from '../../../stores/components/Students/StudentsReducer';
+import PropTypes from 'prop-types';
+import {magic} from '../../../mobxUtils';
 
 const minimalElement: iElement = {
   id: -1,
   type: shared.targetFields.ELEMENT_GROUP,
   name: 'undefined'
 };
-const StudentsPageView = () => {
-  const userId = useSelector((state: any) => state.userStore.userData.userId);
+const StudentsPageView = ({UserStore}) => {
+  const {userId} = UserStore;
   const [groupElement, setGroupElement] = useState<iElement>();
 
   useEffect(() => {
@@ -52,4 +54,8 @@ const StudentsPageView = () => {
   );
 };
 
-export default StudentsPageView;
+StudentsPageView.propTypes = {
+  UserStore: PropTypes.object
+};
+
+export default magic(StudentsPageView, {store: 'UserStore'});

@@ -71,7 +71,6 @@ export default class CreateCourseStore {
   };
 
   setDrawerType = (type) => {
-    console.log(type);
     this.type = type;
   };
 
@@ -239,7 +238,6 @@ export default class CreateCourseStore {
     };
 
     if (targetGroup && this.type === 'edit') {
-      console.log(targetGroup);
       targetGroup.subGroup = [...targetGroup.subGroup, _newTask];
 
       const targetGroupIdx = selector.subGroup.findIndex(({id}) => id === targetGroup.id);
@@ -443,7 +441,7 @@ export default class CreateCourseStore {
       return;
     }
 
-    const _createdCourse = await window.api()
+    await window.api()
       .path('/courses/createCourse')
       .body({
         courseData: {
@@ -453,8 +451,6 @@ export default class CreateCourseStore {
         }
       })
       .executePost();
-
-    console.log(_createdCourse);
   };
 
   editTargetCourse = async() => {
@@ -467,7 +463,7 @@ export default class CreateCourseStore {
     const description = confirm('Хотите изменить описание курса?') ?
       prompt('Описание курса', '') : '';
 
-    const _createdCourse = await window.api()
+    await window.api()
       .path('/courses/editCourse')
       .body({
         courseData: {
@@ -478,7 +474,5 @@ export default class CreateCourseStore {
         }
       })
       .executePost();
-
-    console.log(_createdCourse);
   };
 }

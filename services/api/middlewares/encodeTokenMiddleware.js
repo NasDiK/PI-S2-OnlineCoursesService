@@ -1,6 +1,7 @@
+/* eslint-disable max-nested-callbacks */
 const jwt = require('jsonwebtoken');
 const {accessTokenKey: secretKey} = require('../config');
-const {getUserPermissions} = require('../core');
+const {getUserPermissions, getRoleEnumsMap} = require('../core');
 
 /**
  * С фронта через апи к нам прилетает JWT Токен, этот пайплайн начиняет запрос...
@@ -13,9 +14,13 @@ module.exports = (req, res, next) => {
   const {token} = req.body; //access token
   const {id: {id}} = jwt.verify(token, secretKey);
 
-  getUserPermissions(id).then((result) => {
-    req.body.userId = id;
-    req.body.userRoles = result;
-    next();
+  getRoleEnumsMap().then((rolesMap) => {
+    getUserPermissions(id).then((result) => {
+      const userRoles = result.map((curUserRoleId) => rolesMap[curUserRoleId]);
+
+      req.body.userId = id;
+      req.body.userRoles = userRoles;
+      next();
+    });
   });
 };

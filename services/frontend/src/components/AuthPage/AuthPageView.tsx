@@ -1,71 +1,29 @@
-import React, {useEffect} from 'react';
+/* eslint-disable react/prop-types */
+import React, {useState} from 'react';
 import s from './AuthPageView.module.scss';
 import Typography from '../shared/Basic/Typography/Typography';
 import DirectoryField from '../shared/Basic/DirectoryField/DirectoryField';
 import Button from '../shared/Basic/Button/Button';
 import {useNavigate} from 'react-router';
-import {useDispatch} from 'react-redux';
-import {logIn as loginFunc} from '../../stores/core/UserStoreReducer';
+import {magic} from '../../mobxUtils';
+import {fieldType} from '@local/enums/shared';
 
-export const tryAuth = (dispatch) => {
-  const userData = window.api().path('/auth/check')
-    .executePost();
-
-  userData.then((_data) => {
-    if (_data) {
-      dispatch(loginFunc({
-        payload: {
-          userId: _data.id,
-          roleId: _data.roleid,
-          accessToken: _data.token
-        }
-      }));
-    }
-  });
-
-  return userData;
-};
-const AuthPageView = () => {
+const AuthPageView = ({logIn, auth: authorization, registrateUser}) => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const token = localStorage.getItem('access');
-  let login;
-  let password;
 
-  useEffect(() => {
-    if (token) {
-      tryAuth(dispatch);
-    }
+  const [loginField, setLoginField] = useState<string>('');
+  const [passwordField, setPasswordField] = useState<string>('');
 
-  }, []);
-
-  const onChangeLogin = (val) => {
-    login = val;
-  };
-
-  const onChangePass = (val) => {
-    password = val;
-  };
-
-  const authorization = (user) => {
-    const res = window.api().path('/auth/auth')
-      .body(user)
-      .executePost();
-
-    return res;
-  };
   const fetchUser = async() => {
     const user = {
-      username: login,
-      password
+      username: loginField,
+      password: passwordField
     };
 
     let payload = await authorization(user);
 
     if (payload.message === `Пользователь ${user.username} не найден`) {
-      await window.api().path('/auth/registration')
-        .body(user)
-        .executePost();
+      await registrateUser(user);
 
       payload = await authorization(user);
     }
@@ -74,7 +32,8 @@ const AuthPageView = () => {
       localStorage.setItem('access', payload.tokens.accessToken);
       localStorage.setItem('refresh', payload.tokens.refreshToken);
     }
-    dispatch(loginFunc({payload}));
+
+    await logIn(payload);
 
     if (payload.userId) {
       navigate('/');
@@ -95,12 +54,13 @@ const AuthPageView = () => {
             <Typography variant={'body14'} weight={'medium'}>{'Логин'}</Typography>
             <div className={s.field}>
               <DirectoryField
-                type={2}
+                type={fieldType.TEXT}
                 placeholder={'Логин...'}
                 size={'small'}
                 fullWidth={true}
-                onChange={onChangeLogin}
+                onChange={setLoginField}
                 name={'login_auth'}
+                value={loginField}
               />
             </div>
           </div>
@@ -108,21 +68,20 @@ const AuthPageView = () => {
             <Typography variant={'body14'} weight={'medium'}>{'Пароль'}</Typography>
             <div className={s.field}>
               <DirectoryField
-                type={2}
+                type={fieldType.TEXT}
                 placeholder={'Пароль...'}
                 size={'small'}
                 fullWidth={true}
-                onChange={onChangePass}
+                onChange={setPasswordField}
                 name={'password_auth'}
+                value={passwordField}
               />
             </div>
           </div>
           <div className={s.button}>
             <Button
               variant={'primary'}
-              onClick={
-                () => fetchUser()
-              }
+              onClick={fetchUser}
             >{'Войти'}
             </Button>
           </div>
@@ -132,4 +91,12 @@ const AuthPageView = () => {
   );
 };
 
-export default AuthPageView;
+const mapStore = ({UserStore}) => {
+  return {
+    logIn: UserStore.logIn,
+    auth: UserStore.auth,
+    registrateUser: UserStore.registrateUser
+  };
+};
+
+export default magic(AuthPageView, {store: mapStore});
