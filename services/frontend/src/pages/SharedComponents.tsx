@@ -138,8 +138,21 @@ const SharedPage = () => {
       </div>
 
       <div>
-        <h2>{`Функция нотифая ${InWorkLabel}`}</h2>
-        <Button variant={'roundThin'} size={'normal'}>{'Клик'}</Button>
+        <h2>{`Функция нотифая`}</h2>
+        <Button
+          variant={'roundThin'}
+          size={'normal'}
+          onClick={
+            () => {
+              window.notify({
+                variant: 'info',
+                message: 'Проверка связи'
+              });
+            }
+          }
+        >
+          {'Клик'}
+        </Button>
         <p>{'Использование в коде: '}</p>
         <pre>
           {

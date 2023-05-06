@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import {store as userStore} from '../stores/core';
-import {Provider} from 'react-redux';
+// import {store as userStore} from '../stores/core';
+// import {Provider} from 'react-redux';
 import {magic} from '../mobxUtils';
 import {Alert, Snackbar} from '@mui/material';
 
@@ -37,16 +37,18 @@ const WrapComponent = (props: WrapComponent) => {
               autoHideDuration={_notifier.time}
               key={idx}
             >
-              <Alert severity={_notifier.variant} sx={{width: '300px'}}>
+              <Alert
+                severity={_notifier.variant}
+                sx={{width: '300px'}}
+                onClose={() => handleClose(id)}
+              >
                 {_notifier.message}
               </Alert>
             </Snackbar>
           );
         }) : null
       }
-      <Provider store={userStore}>
-        {component}
-      </Provider>
+      {component}
     </React.Fragment>
   );
 };

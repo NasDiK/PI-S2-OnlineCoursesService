@@ -85,7 +85,7 @@ class AuthController {
 
       const tokens = generateTokens(user, mappedRoles);
 
-      return res.json({tokens, userRolesIds, userId: user.id});
+      return res.json({tokens, roleid: mappedRoles, userId: user.id});
     } catch(exception) {
       res.status(400).json({message: 'Login error'});
 
@@ -109,7 +109,7 @@ class AuthController {
 
       const payload = {
         id,
-        userRolesIds: mappedRoles
+        roleid: mappedRoles
       };
 
       payload.token = jwt.sign(

@@ -2,7 +2,7 @@
 import {makeAutoObservable} from 'mobx';
 
 export class UserStore {
-  user = {
+  user: any = {
     userId: null,
     roleId: [],
     accessToken: null
@@ -23,6 +23,19 @@ export class UserStore {
     return this.user.roleId;
   }
 
+  /**
+   * Перечисление ролей с оператором ИЛИ
+   * @param {number[]} roles
+   * @returns {boolean}
+   */
+  hasRole = (...roles) => {
+    if (!this.user?.roleId?.length) {
+      return false;
+    }
+
+    return roles.some((role) => this.userRoles.includes(role));
+  };
+
   _setUser = (user) => {
     this.user = user;
   };
@@ -35,13 +48,10 @@ export class UserStore {
         const userData = await window.api().path('/auth/check')
           .executePost();
 
-        // eslint-disable-next-line no-console
-        console.log(userData);
-
         if (userData) {
           this.logIn({
             userId: userData.id,
-            roleId: userData.roleid,
+            roleid: userData.roleid,
             accessToken: userData.token
           });
         }
@@ -60,12 +70,12 @@ export class UserStore {
     window.location.pathname = '/auth';
   };
 
-  logIn = ({userId, roleId, accessToken}) => {
+  logIn = ({userId, roleid, accessToken}) => {
     if (userId) {
       this._setUser({
         ...this.user,
         userId,
-        roleId,
+        roleId: roleid,
         accessToken
       });
     }

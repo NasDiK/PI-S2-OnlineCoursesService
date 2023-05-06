@@ -5,8 +5,9 @@ import {Button, Typography} from '../shared';
 import {useNavigate} from 'react-router';
 import {magic} from '../../mobxUtils';
 import PropTypes from 'prop-types';
+import {roles} from '@local/enums/roles';
 
-const Header = ({UserStore: {logOut}}) => {
+const Header = ({UserStore: {logOut, hasRole}}) => {
   const navigate = useNavigate();
 
   const executeLogOut = () => {
@@ -24,21 +25,21 @@ const Header = ({UserStore: {logOut}}) => {
       </div>
       <div className={s.buttons}>
         {
-          true && (
+          hasRole(roles.ADMIN) && (
             <Button variant={'thin'} onClick={() => navigate('/admin-panel')}>
               <Typography>{'Админ-панель'}</Typography>
             </Button>
           )
         }
         {
-          true && (
+          hasRole(roles.ADMIN, roles.TEACHER) && (
             <Button variant={'thin'} onClick={() => navigate('/review')}>
               <Typography>{'Код-ревью'}</Typography>
             </Button>
           )
         }
         {
-          true && (
+          hasRole(roles.ADMIN, roles.TEACHER) && (
             <Button variant={'thin'} onClick={() => navigate('/students')}>
               <Typography>{'Мои студенты'}</Typography>
             </Button>
