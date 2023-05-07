@@ -6,6 +6,7 @@ interface iAlert {
   variant?: 'info' | 'warning' | 'error' | 'success',
   children?: React.ReactNode,
   width?: 'fit-content' | number,
+  margin?: number | string,
   withClose?: boolean,
   debounceTime?: number //время уничтожения https://mui.com/joy-ui/react-linear-progress/
 }
@@ -24,7 +25,7 @@ const wrapInBox = (sx: object, component: React.ReactNode) => (
 );
 
 const AlertComponent = (props: iAlert) => {
-  const {variant = 'info', children, width = 0, withClose = false, debounceTime} = props;
+  const {variant = 'info', children, width = 0, withClose = false, debounceTime, margin} = props;
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -56,8 +57,8 @@ const AlertComponent = (props: iAlert) => {
     result = wrapInDebounceProgress(result);
   }
 
-  if (width) {
-    result = wrapInBox({width}, result);
+  if (width || margin) {
+    result = wrapInBox({width, margin}, result);
   }
 
   return isVisible && result || null;

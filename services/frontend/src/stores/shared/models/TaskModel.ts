@@ -39,6 +39,10 @@ export default class TaskModel {
     return this._task?.type;
   }
 
+  get lastLogStatus() {
+    return this.lastlog?.log_status;
+  }
+
   get taskValue() {
     return this._task?.value;
   }

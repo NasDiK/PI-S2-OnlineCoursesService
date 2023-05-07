@@ -1,10 +1,23 @@
-const {tasks: {
-  fieldType: tasksEnum,
-  action: taskActionEnum
-}} = require('@local/enums');
+const {
+  tasks: {
+    fieldType: tasksEnum,
+    action: taskActionEnum
+  },
+  shared: {status: statusEnum}
+} = require('@local/enums');
 const {isEqualArrays} = require('../../utils');
 const {logger, generateError} = require('../../core');
 const writeTaskLog = require('./writeTaskLog');
+
+const _getTaskStatusByResult = (result) => {
+  if (result === true) {
+    return statusEnum.SUCCESS;
+  } else if (result === false) {
+    return statusEnum.INCORRECT;
+  }
+
+  return null;
+};
 
 /**
  * Проверяет ответ к заданию (доступно только для авто-типов)
@@ -40,7 +53,8 @@ const checkTaskAnswer = async(knex, request) => {
 
         await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
-          'value': result,
+          'value': answer,
+          status: _getTaskStatusByResult(result),
           userId: request.body.userId
         });
 
@@ -51,7 +65,8 @@ const checkTaskAnswer = async(knex, request) => {
 
         await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
-          'value': result,
+          'value': answer,
+          status: _getTaskStatusByResult(result),
           userId: request.body.userId
         });
 

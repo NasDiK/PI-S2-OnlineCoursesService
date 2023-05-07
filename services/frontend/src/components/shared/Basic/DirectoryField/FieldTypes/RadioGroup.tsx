@@ -13,12 +13,14 @@ interface iProps {
   isDeletable?: boolean,
   // eslint-disable-next-line max-len
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, id-denylist, react/no-unused-prop-types
-  value?: any
+  value?: any,
+  isDone?: boolean //readonly
 }
 
 const RadioGroup = (props: iProps) => {
   const {
-    options, onChange, isEditable, editCallback, deleteCallback, isDeletable, value: selectedVal
+    options, onChange, isEditable, editCallback, deleteCallback, isDeletable, value: selectedVal,
+    isDone
   } = props;
   const handleEditElement = (val, before, func) => {
     if (isEditable) {
@@ -48,8 +50,17 @@ const RadioGroup = (props: iProps) => {
             type={'radio'}
             value={val}
             name={`${renderId}-${renderId2}`}
-            onChange={(ev) => onChange(Number(ev.target.value))}
-            checked={selectedVal === val}
+            onChange={
+              (ev) => {
+                if (isDone) {
+                  return;
+                }
+
+                onChange(Number(ev.target.value));
+              }
+            }
+            // eslint-disable-next-line eqeqeq
+            checked={selectedVal == val}
           />
           {label}
         </label>

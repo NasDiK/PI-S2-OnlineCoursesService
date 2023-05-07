@@ -17,3 +17,9 @@ export declare const loadingStatus: {
     SUCCESS: number;
     ERROR: number;
 };
+export declare const status: {
+    SUCCESS: number;
+    INCORRECT: number;
+    ERROR: number;
+    WRONG: number;
+};
