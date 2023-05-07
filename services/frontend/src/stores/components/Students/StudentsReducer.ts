@@ -22,6 +22,7 @@ export const setTasks = createAction('SET_TASKS', (payload) => payload);
 export const setAnswers = createAction('SET_ANSWERS', (payload) => payload);
 export const setGroupName = createAction('SET_GROUP_NAME', (payload) => payload);
 export const groupComponents = createAction('GROUP_COMPONENTS', (payload) => payload);
+export const clearState = createAction('CLEAR_STATE', (payload) => payload);
 
 const reducer = createReducer(initialState, {
   [setUsers.type]: (state: iState, action) => {
@@ -86,6 +87,13 @@ const reducer = createReducer(initialState, {
       });
     });
     state.groupedAnswers = answersArr;
+  },
+  [clearState.type]: (state: iState) => {
+    state.users = [];
+    state.tasks = [];
+    state.answers = [];
+    state.groupedAnswers = [];
+    state.groupName = '';
   }
 });
 
