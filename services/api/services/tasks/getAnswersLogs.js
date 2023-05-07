@@ -14,7 +14,7 @@ const getAnswersLogs = async(knex, req) => {
 
     return await knex('tasks_logger')
       .leftJoin('groups_users', 'tasks_logger.user_id', '=', 'groups_users.user_id')
-      .whereIn('action', [action.SEND, action.REVIEW_APPROVE])
+      .whereIn('action', [action.SEND, action.REVIEW_APPROVE, action.REVIEW_FAIL])
       .whereIn('task_id', tasksIds)
       .where('groups_users.group_id', groupId)
       .orderBy([

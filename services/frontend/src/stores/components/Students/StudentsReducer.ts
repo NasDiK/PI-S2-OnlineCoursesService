@@ -1,5 +1,6 @@
 /* eslint-disable id-denylist,camelcase, @typescript-eslint/no-explicit-any*/
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
+import {action as tasksActions} from '@local/enums/tasks';
 
 export interface iState {
   users: [],
@@ -22,6 +23,7 @@ export const setTasks = createAction('SET_TASKS', (payload) => payload);
 export const setAnswers = createAction('SET_ANSWERS', (payload) => payload);
 export const setGroupName = createAction('SET_GROUP_NAME', (payload) => payload);
 export const groupComponents = createAction('GROUP_COMPONENTS', (payload) => payload);
+export const clearState = createAction('CLEAR_STATE', (payload) => payload);
 
 const reducer = createReducer(initialState, {
   [setUsers.type]: (state: iState, action) => {
@@ -64,6 +66,8 @@ const reducer = createReducer(initialState, {
                   valueAnswer = '0';
                 } else if (answer.note !== null) {
                   valueAnswer = answer.note;
+                } else if (answer.action === tasksActions.REVIEW_FAIL) {
+                  valueAnswer = 'Отклонено';
                 } else {
                   valueAnswer = 'Сдано';
                 }
@@ -74,9 +78,11 @@ const reducer = createReducer(initialState, {
             });
           }
           if (task.id === 999) {
-            answersArr.push({value: `${CompletedTasksCount / (state.tasks.length - 2) * 100}%`,
-              user_id: student.id,
-              task_id: task.id});
+            answersArr.push(
+              {value: `${Math.round(CompletedTasksCount / (state.tasks.length - 2) * 100)}%`,
+                user_id: student.id,
+                task_id: task.id}
+            );
           } else {
             answersArr.push(answerValue);
           }
@@ -84,6 +90,13 @@ const reducer = createReducer(initialState, {
       });
     });
     state.groupedAnswers = answersArr;
+  },
+  [clearState.type]: (state: iState) => {
+    state.users = [];
+    state.tasks = [];
+    state.answers = [];
+    state.groupedAnswers = [];
+    state.groupName = '';
   }
 });
 

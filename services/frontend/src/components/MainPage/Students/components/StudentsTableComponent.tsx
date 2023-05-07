@@ -17,6 +17,10 @@ const StudentsTableComponent = () => {
   const groupName = useSelector((stores: any) => stores.studentsStore.groupName);
 
   useEffect(() => {
+    dispatch({type: 'CLEAR_STATE'});
+  }, [match]);
+
+  useEffect(() => {
     if (groupId) {
       getGroupsById(groupId).then((groups) => {
         const [{title}] = groups;
