@@ -1,5 +1,6 @@
 /* eslint-disable id-denylist,camelcase, @typescript-eslint/no-explicit-any*/
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
+import {action as tasksActions} from '@local/enums/tasks';
 
 export interface iState {
   users: [],
@@ -65,7 +66,7 @@ const reducer = createReducer(initialState, {
                   valueAnswer = '0';
                 } else if (answer.note !== null) {
                   valueAnswer = answer.note;
-                } else if (answer.action === 4) {
+                } else if (answer.action === tasksActions.REVIEW_FAIL) {
                   valueAnswer = 'Отклонено';
                 } else {
                   valueAnswer = 'Сдано';

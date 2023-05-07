@@ -53,7 +53,7 @@ exports.seed = async function(knex) {
   ])
     .returning('*');
 
-  console.log(_users.map(({nickname, fullname}) => {
+  console.log('\nInserted users:', _users.map(({nickname, fullname}) => {
     return {nickname, fullname};
   }));
   _users = _users.map(({id}) => id);
