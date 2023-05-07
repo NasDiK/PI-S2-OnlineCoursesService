@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
 const {tasks: {fieldType: taskTypeEnum}} = require('@local/enums');
+const bcrypt = require('bcrypt');
 
 /* eslint-disable id-denylist */
 /* eslint-disable camelcase */
@@ -33,22 +34,22 @@ exports.seed = async function(knex) {
   let _users = await knex('users').insert([
     {nickname: 'admin',
       fullname: 'Шапцев Валерий Алексеевич',
-      password: '$2b$07$w5c5blGFTYKklBAjNdOO/O9SfRsLAxP1Qfe5iJBuqkQlA7L21bVEK'}, //admin
+      password: bcrypt.hashSync('admin', 7)},
     {nickname: 'teacher',
       fullname: 'Куликова София Тимофеевна',
-      password: '$2b$07$vpLNIZJOPUKkcn4VTzxVBOKKCqfMJ8eUPVCxbGfGyHaZ6hkvA8RmW'}, //teacher
+      password: bcrypt.hashSync('teacher', 7)},
     {nickname: 'PavlovRoman',
       fullname: 'Павлов Роман Евгеньевич',
-      password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'}, //student
+      password: bcrypt.hashSync('student', 7)},
     {nickname: 'SmirnovMax',
       fullname: 'Смирнов Максим Маркович',
-      password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'}, //student
+      password: bcrypt.hashSync('student', 7)},
     {nickname: 'BedrinSemyon',
       fullname: 'Бедрин Семён Олегович',
-      password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'}, //student
+      password: bcrypt.hashSync('student', 7)},
     {nickname: 'TungusovAlexander',
       fullname: 'Тунгусов Александр Сергеевич',
-      password: '$2b$07$3AmObFxyAFaUerwclCEzOOFEur931k6t78v4Qh3oSlbxvgA6YnWUy'} //student
+      password: bcrypt.hashSync('student', 7)}
   ])
     .returning('*');
 
