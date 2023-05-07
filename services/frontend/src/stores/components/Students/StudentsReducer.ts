@@ -77,9 +77,11 @@ const reducer = createReducer(initialState, {
             });
           }
           if (task.id === 999) {
-            answersArr.push({value: `${CompletedTasksCount / (state.tasks.length - 2) * 100}%`,
-              user_id: student.id,
-              task_id: task.id});
+            answersArr.push(
+              {value: `${Math.round(CompletedTasksCount / (state.tasks.length - 2) * 100)}%`,
+                user_id: student.id,
+                task_id: task.id}
+            );
           } else {
             answersArr.push(answerValue);
           }
