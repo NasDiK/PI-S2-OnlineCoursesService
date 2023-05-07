@@ -3,7 +3,7 @@ const getAllRoles = (knex) => {
   try {
 
     const roles = knex('roles')
-      .select('id', 'name');
+      .select('id', 'name', 'title');
 
     return roles;
   } catch(exception) {
