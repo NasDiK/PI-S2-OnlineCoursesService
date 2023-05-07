@@ -18,7 +18,7 @@ const StudentsTableComponent = () => {
 
   useEffect(() => {
     dispatch({type: 'CLEAR_STATE'});
-  }, [match]);
+  }, [match.pathname]);
 
   useEffect(() => {
     if (groupId) {

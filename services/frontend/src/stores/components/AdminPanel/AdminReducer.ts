@@ -51,7 +51,7 @@ const reducer = createReducer(initialState, {
     state.roles = action.payload;
     state.rolesOptions = state.roles.filter((role) => role.name !== 'admin')
       .map((role) => {
-        return {value: role.id, label: role.name};
+        return {value: role.id, label: role.title};
       });
   },
   [changeRoles.type]: (state: iState) => {
