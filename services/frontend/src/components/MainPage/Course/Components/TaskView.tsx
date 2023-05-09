@@ -95,12 +95,18 @@ const renderSubmitButton = (taskId, answer, permissions, additionals) => (
     {/* {permissions.canCheckAnswers && <Button>{'Список решений студентов'}</Button>} */}
     {
       permissions.canSend && (
-        <Button onClick={() => checkTaskAnswer(taskId, answer)}>
+        <Button onClick={
+          () => {
+            checkTaskAnswer(taskId, answer);
+            console.log(additionals);
+            additionals.loadTaskFunc();
+          }
+        }
+        >
           {'Отправить'}
         </Button>
       ) || (
         <Button
-          onClick={() => checkTaskAnswer(taskId, answer)}
           disabled={true}
           backgroundColor={'whitegreen'}
         >
@@ -210,7 +216,7 @@ const TaskView = ({curUserId, setTargetTaskId, _loadTask}) => {
 
   useEffect(() => {
     loadTaskInfo();
-    _loadTask();
+    _loadTask(); //mobx to work)
   }, [match.pathname]);
 
   useEffect(() => {
@@ -251,7 +257,8 @@ const TaskView = ({curUserId, setTargetTaskId, _loadTask}) => {
                   canCheckAnswers: _taskModel.isPermittedWatchLogs,
                   canSend: _taskModel.isPermittedSend
                 }, {
-                  doneAt: _taskModel?.lastlog?.log_date
+                  doneAt: _taskModel?.lastlog?.log_date,
+                  loadTaskFunc: loadTaskInfo
                 })
               }
               </div>
