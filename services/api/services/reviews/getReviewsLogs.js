@@ -68,7 +68,7 @@ module.exports = (knex, req) => {
   });
 
   if (userIds) {
-    _model.whereIn('user_id', userIds);
+    _model.whereIn('tasks_logger.user_id', userIds);
   }
 
   if (tasksIds) {

@@ -44,8 +44,7 @@ const groupTasksForSidebar = (tasks) => {
       return {
         id: task.id,
         name: task.title,
-        type: targetFields.ELEMENT,
-        'max_note': task.max_note
+        type: targetFields.ELEMENT
       };
     })
   };

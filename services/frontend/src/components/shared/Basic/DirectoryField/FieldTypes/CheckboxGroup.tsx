@@ -15,10 +15,12 @@ interface iProps {
   deleteCallback?: (val) => void, //returns value удаленного
   isDeletable?: boolean,
   // eslint-disable-next-line max-len, id-denylist
-  value?: any
+  value?: any,
+  isDone?: boolean //readonly
 }
 
 const executeClick = (values: Array<any>, checked: boolean, curV) => {
+
   const _convertedValues = values.map((_) => tryConvertToNumber(_)[1]);
   const _convertedCurV = tryConvertToNumber(curV)[1];
 
@@ -41,7 +43,8 @@ const CheckboxGroup = (props: iProps) => {
     isEditable,
     isDeletable,
     editCallback,
-    deleteCallback
+    deleteCallback,
+    isDone
   } = props;
 
   const handleEditElement = (val, before, func) => {
@@ -72,6 +75,10 @@ const CheckboxGroup = (props: iProps) => {
             checked={selectedVal.includes(val)}
             onChange={
               (ev) => {
+                if (isDone) {
+                  return;
+                }
+
                 const newValues = executeClick(
                   selectedVal,
                   ev.target.checked,

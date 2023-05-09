@@ -16,7 +16,7 @@ interface iPossibleProps {
   size?: 'small' | 'medium',
   variant?: 'outline' | 'standart',
   options?: ArrayLike<IOption>
-  isDone?: boolean,
+  isDone?: boolean, //readonly field
   name?: string,
   isMulti?: boolean,
   textAreaVariant?: 'simple' | 'review',

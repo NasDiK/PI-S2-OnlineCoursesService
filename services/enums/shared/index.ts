@@ -19,3 +19,10 @@ export const loadingStatus = {
   SUCCESS: 2,
   ERROR: 3
 }
+
+export const status = {
+  SUCCESS: 1,
+  INCORRECT: 2,
+  ERROR: 3,
+  WRONG: 4
+}
