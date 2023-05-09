@@ -441,16 +441,31 @@ export default class CreateCourseStore {
       return;
     }
 
-    await window.api()
-      .path('/courses/createCourse')
-      .body({
-        courseData: {
-          title: _courseName,
-          description,
-          tasks: _courseTasks
-        }
-      })
-      .executePost();
+    try {
+      await window.api()
+        .path('/courses/createCourse')
+        .body({
+          courseData: {
+            title: _courseName,
+            description,
+            tasks: _courseTasks
+          }
+        })
+        .executePost();
+
+      this.init();
+
+      window.notify({
+        message: 'Курс успешно создан',
+        variant: 'success'
+      });
+    } catch(_) {
+      window.notify({
+        message: 'Ошибка создания курса',
+        variant: 'error'
+      });
+    }
+
   };
 
   editTargetCourse = async() => {
@@ -463,16 +478,30 @@ export default class CreateCourseStore {
     const description = confirm('Хотите изменить описание курса?') ?
       prompt('Описание курса', '') : '';
 
-    await window.api()
-      .path('/courses/editCourse')
-      .body({
-        courseData: {
-          id: this.targetGroup.id,
-          // title: _courseName, пока не реализовывал)))
-          description,
-          tasks: _courseTasks
-        }
-      })
-      .executePost();
+    try {
+      await window.api()
+        .path('/courses/editCourse')
+        .body({
+          courseData: {
+            id: this.targetGroup.id,
+            // title: _courseName, пока не реализовывал)))
+            description,
+            tasks: _courseTasks
+          }
+        })
+        .executePost();
+
+      this.init();
+
+      window.notify({
+        message: `Курс #${this.targetGroup.id} успешно изменён`,
+        variant: 'success'
+      });
+    } catch(_) {
+      window.notify({
+        message: 'Ошибка изменения курса',
+        variant: 'error'
+      });
+    }
   };
 }
