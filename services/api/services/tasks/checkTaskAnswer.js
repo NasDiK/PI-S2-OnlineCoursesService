@@ -53,7 +53,7 @@ const checkTaskAnswer = async(knex, request) => {
 
         await writeTaskLog(knex, request, currentTask.id, {
           action: taskActionEnum.SEND,
-          'value': answer,
+          'value': JSON.stringify(answer),
           status: _getTaskStatusByResult(result),
           userId: request.body.userId
         });

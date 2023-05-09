@@ -165,7 +165,7 @@ const renderTaskResult = (taskStatus) => {
   }
 };
 
-const TaskView = ({curUserId}) => {
+const TaskView = ({curUserId, setTargetTaskId, _loadTask}) => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
   const taskLogs = useSelector((stores: iStore) => stores.taskStore.taskLogs);
@@ -210,6 +210,7 @@ const TaskView = ({curUserId}) => {
 
   useEffect(() => {
     loadTaskInfo();
+    _loadTask();
   }, [match.pathname]);
 
   useEffect(() => {
@@ -263,14 +264,18 @@ const TaskView = ({curUserId}) => {
   );
 };
 
-const mapStore = ({UserStore}) => {
+const mapStore = ({UserStore, CourseStore}) => {
   return {
-    curUserId: UserStore.userId
+    curUserId: UserStore.userId,
+    setTargetTaskId: CourseStore.setTargetTaskId,
+    _loadTask: CourseStore._loadTask
   };
 };
 
 TaskView.propTypes = {
-  curUserId: PropTypes.number
+  curUserId: PropTypes.number,
+  setTargetTaskId: PropTypes.func,
+  _loadTask: PropTypes.func //ну недолжно быть атк..
 };
 
 export default magic(TaskView, {store: mapStore});
