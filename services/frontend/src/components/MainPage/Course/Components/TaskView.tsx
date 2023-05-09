@@ -1,17 +1,20 @@
+/* eslint-disable no-console */
 import React, {useEffect, useState} from 'react';
 import {useMatches} from 'react-router';
 import {useSelector, useDispatch} from 'react-redux';
 import {searchTaskWithId, checkTaskAnswer} from './Methods/TaskMethods';
 import s from './Task.module.scss';
 import cn from 'classnames';
-import {Typography, DirectoryField, Button} from '../../../shared';
+import {Typography, DirectoryField, Button, Alert} from '../../../shared';
 import {fieldType as taskType, action as taskActionEnum} from '@local/enums/tasks';
-import {fieldType as directoryFieldEnum} from '@local/enums/shared';
+import {fieldType as directoryFieldEnum, status} from '@local/enums/shared';
 import {iState as iTaskStoreState} from '../../../../stores/components/Task/TaskReducer';
 import TaskModel from '../../../../stores/shared/models/TaskModel';
 import {getReviewsLogs} from '../../../../api/reviews';
 import {dateFormat as dateFormatList} from '@local/enums/tools';
 import {dateConverter} from '../../../../utils';
+import {magic} from '../../../../mobxUtils';
+import PropTypes from 'prop-types';
 
 interface iStore {
   taskStore: iTaskStoreState
@@ -34,6 +37,7 @@ const renderTasks = (
           onChange={setVal}
           fullWidth={true}
           value={answer}
+          isDone={!task.isPermittedSend}
         />
       );
     case taskType.RADIO:
@@ -45,6 +49,7 @@ const renderTasks = (
             type={directoryFieldEnum.RADIO_GROUP}
             options={_values}
             onChange={setVal}
+            isDone={!task.isPermittedSend}
             value={answer}
           />
         );
@@ -60,6 +65,7 @@ const renderTasks = (
             type={directoryFieldEnum.CHECKBOX_GROUP}
             options={_values}
             onChange={setVal}
+            isDone={!task.isPermittedSend}
             value={answer}
           />
         );
@@ -89,12 +95,18 @@ const renderSubmitButton = (taskId, answer, permissions, additionals) => (
     {/* {permissions.canCheckAnswers && <Button>{'Список решений студентов'}</Button>} */}
     {
       permissions.canSend && (
-        <Button onClick={() => checkTaskAnswer(taskId, answer)}>
+        <Button onClick={
+          () => {
+            checkTaskAnswer(taskId, answer);
+            console.log(additionals);
+            additionals.loadTaskFunc();
+          }
+        }
+        >
           {'Отправить'}
         </Button>
       ) || (
         <Button
-          onClick={() => checkTaskAnswer(taskId, answer)}
           disabled={true}
           backgroundColor={'whitegreen'}
         >
@@ -132,7 +144,34 @@ const renderReviewState = (action: number) => {
   }
 };
 
-const TaskView = () => {
+const renderTaskResult = (taskStatus) => {
+  switch (taskStatus) {
+    case status.SUCCESS:
+      return (
+        <Alert
+          variant={'success'}
+          width={'fit-content'}
+          margin={'8px 0 0 0'}
+        >
+          {'Правильный ответ'}
+        </Alert>
+      );
+    case status.INCORRECT:
+      return (
+        <Alert
+          variant={'error'}
+          width={'fit-content'}
+          margin={'8px 0 0 0'}
+        >
+          {'Неверный ответ'}
+        </Alert>
+      );
+    default:
+      return null;
+  }
+};
+
+const TaskView = ({curUserId, _loadTask}) => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
   const taskLogs = useSelector((stores: iStore) => stores.taskStore.taskLogs);
@@ -140,14 +179,15 @@ const TaskView = () => {
   let _taskModel = new TaskModel(task, taskLogs);
 
   const setTaskDispatch = (payload) => dispatch({type: 'SET_TASK', payload});
-  const [answer, setAnswer] = useState();
+  const [answer, setAnswer] = useState(_taskModel.lastLogValue);
 
-  useEffect(() => {
+  const loadTaskInfo = async() => {
     const taskId = Number(match.params.id);
 
-    searchTaskWithId(setTaskDispatch, taskId).then(() => setAnswer(undefined));
-    getReviewsLogs([
+    await searchTaskWithId(setTaskDispatch, taskId);
+    const _logsList = await getReviewsLogs([
       'tasks_logger.id as log_id',
+      'tasks_logger.status as log_status',
       'action as log_action',
       'tasks_logger.user_id as user_id',
       'tasks.title as task_title',
@@ -160,13 +200,23 @@ const TaskView = () => {
       'users.fullname as user_fullname',
       'tasks.max_note as task_maxNote'
     ], ['tasks', 'users'], {
-      tasksIds: [taskId]
+      tasksIds: [taskId],
+      userIds: [curUserId]
     }, [
       ['user_id', 'asc'],
       ['task_id', 'asc'],
-      ['createdAt', 'asc']
-    ]).then((result) => dispatch({type: 'SET_TASK_LOGS', payload: result}));
+      ['tasks_logger.id', 'desc']
+    ]);
 
+    const _logAnswer = _logsList?.slice(-1)?.[0]?.log_value;
+
+    setAnswer(_logAnswer);
+    dispatch({type: 'SET_TASK_LOGS', payload: _logsList});
+  };
+
+  useEffect(() => {
+    loadTaskInfo();
+    _loadTask(); //mobx to work)
   }, [match.pathname]);
 
   useEffect(() => {
@@ -200,13 +250,15 @@ const TaskView = () => {
                   }, answer
                 )
               }
+              {renderTaskResult(_taskModel.lastLogStatus)}
               </div>
               <div className={s.confirmButtons}>{
                 renderSubmitButton(_taskModel.id, answer, {
                   canCheckAnswers: _taskModel.isPermittedWatchLogs,
                   canSend: _taskModel.isPermittedSend
                 }, {
-                  doneAt: _taskModel?.lastlog?.log_date
+                  doneAt: _taskModel?.lastlog?.log_date,
+                  loadTaskFunc: loadTaskInfo
                 })
               }
               </div>
@@ -219,4 +271,17 @@ const TaskView = () => {
   );
 };
 
-export default TaskView;
+const mapStore = ({UserStore, CourseStore}) => {
+  return {
+    curUserId: UserStore.userId,
+    setTargetTaskId: CourseStore.setTargetTaskId,
+    _loadTask: CourseStore._loadTask
+  };
+};
+
+TaskView.propTypes = {
+  curUserId: PropTypes.number,
+  _loadTask: PropTypes.func //ну недолжно быть атк..
+};
+
+export default magic(TaskView, {store: mapStore});

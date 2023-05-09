@@ -11,7 +11,8 @@ const writeTaskLog = (
     'task_id': taskId,
     action: logOptions.action,
     'value': logOptions.value,
-    createdBy: userId
+    createdBy: userId,
+    status: logOptions.status
   });
 };
 
