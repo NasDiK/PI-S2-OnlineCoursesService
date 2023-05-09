@@ -65,6 +65,7 @@ export class CourseStore {
       return;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [courseId, taskId] = pathName
       .split('/')
       .slice(-2)

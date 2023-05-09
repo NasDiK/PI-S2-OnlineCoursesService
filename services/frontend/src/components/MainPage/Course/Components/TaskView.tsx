@@ -171,7 +171,7 @@ const renderTaskResult = (taskStatus) => {
   }
 };
 
-const TaskView = ({curUserId, setTargetTaskId, _loadTask}) => {
+const TaskView = ({curUserId, _loadTask}) => {
   const [match] = useMatches();
   const task = useSelector((stores: iStore) => stores.taskStore.task);
   const taskLogs = useSelector((stores: iStore) => stores.taskStore.taskLogs);
