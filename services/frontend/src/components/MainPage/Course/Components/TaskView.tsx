@@ -281,7 +281,6 @@ const mapStore = ({UserStore, CourseStore}) => {
 
 TaskView.propTypes = {
   curUserId: PropTypes.number,
-  setTargetTaskId: PropTypes.func,
   _loadTask: PropTypes.func //ну недолжно быть атк..
 };
 
