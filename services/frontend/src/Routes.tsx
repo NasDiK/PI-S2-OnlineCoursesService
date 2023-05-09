@@ -6,7 +6,6 @@ import {
 import WrapComponent from './components/WrapComponent';
 import WithHeader from './components/MainPage/WithHeader';
 
-// import MainPage from './pages/MainPage';
 import SharedPage from './pages/SharedComponents';
 import AuthPage from './pages/AuthPage';
 import ReviewPage from './components/MainPage/Review/ReviewPage';
@@ -15,6 +14,7 @@ import RatingPage from './components/MainPage/Rating/RatingPage';
 import StudentsPage from './components/MainPage/Students/StudentsPage';
 import AdminPanelPage from './components/MainPage/AdminPanel/AdminPanelPage';
 import CoursePage from './components/MainPage/Course/CoursePage';
+import ProfilePage from './components/MainPage/Profile/ProfilePage';
 
 const router = createBrowserRouter([
   {
@@ -52,6 +52,10 @@ const router = createBrowserRouter([
   {
     path: '/auth',
     element: <WrapComponent component={<AuthPage />} />
+  },
+  {
+    path: '/profile/:id?',
+    element: <WrapComponent component={<WithHeader component={<ProfilePage />} />} />
   }
 ]);
 
