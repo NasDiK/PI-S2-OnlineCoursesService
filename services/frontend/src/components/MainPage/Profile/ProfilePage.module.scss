@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100%;
+  width: 100%;
+  border: 1px solid purple;
+
+  .container {
+    border: 1px dashed black;
+    margin: auto;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+      border-bottom: 1px solid black;
+      padding: 4px 8px;
+    }
+
+    .userContent {
+      display: flex;
+      height: 100%;
+      width: 100%;
+
+      .personalInfo {
+        padding: 4px 8px;
+        display: flex;
+        justify-content: space-between;
+        flex: 50%;
+        flex-direction: column;
+        border-right: 1px solid black;
+      }
+
+      .groups {
+        padding: 4px 8px;
+        display: flex;
+        flex: 50%;
+        flex-direction: column;
+      }
+    }
+  }
+}

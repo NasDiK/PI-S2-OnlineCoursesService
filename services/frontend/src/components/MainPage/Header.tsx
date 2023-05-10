@@ -61,6 +61,13 @@ const Header = ({UserStore: {logOut, hasRole}}) => {
         }
         {
           true && (
+            <Button variant={'thin'} onClick={() => navigate('/profile/my')}>
+              <Typography>{'Профиль'}</Typography>
+            </Button>
+          )
+        }
+        {
+          true && (
             <Button variant={'thin'} onClick={executeLogOut}>
               <Typography>{'Выйти'}</Typography>
             </Button>
