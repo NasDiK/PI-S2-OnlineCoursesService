@@ -1,5 +1,6 @@
 /* eslint-disable id-denylist */
 /* eslint-disable no-console */
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {useEffect, useState} from 'react';
 import s from './AdminPanel.module.scss';
@@ -41,21 +42,36 @@ const tabs = [
 const AdminPanelPageView = ({UserStore}) => {
   const {userId} = UserStore;
   const [mainElement, setMainElement] = useState<any>();
+  const [groupName, setGroupName] = useState<string>();
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [groupElement, setGroupElement] = useState<iElement>();
   const [activeTab, setActiveTab] = useState<number>(tabs[0].value);
-  let name: any, courseId: any;
+  let courseId: any;
 
   useEffect(() => {
     getAllCourses().then((x) => {
       setMainElement(x);
     });
+    updateGroups();
+  }, [userId]);
+
+  const updateGroups = () => {
     getGroups().then((groups) => {
       // eslint-disable-next-line max-nested-callbacks
-      const subGroup = groups.map(({id, title}) => {
+      const subGroup = groups.map(({id, title, course_id}) => {
+        // eslint-disable-next-line max-nested-callbacks
+        const courseName = mainElement?.filter((course) => {
+          console.log(course);
+
+          return course;
+        });
+
+        //console.log(courseName);
+        console.log(mainElement);
+
         return {
           id,
-          name: title,
+          name: `${title} #${course_id}`,
           type: targetFields.ELEMENT
         };
       });
@@ -65,14 +81,14 @@ const AdminPanelPageView = ({UserStore}) => {
         type: targetFields.ELEMENT_GROUP,
         subGroup});
     });
-  }, [userId]);
+  };
 
   const options = mainElement?.map(({id, title}) => {
     return {label: title, value: id};
   });
 
   const onChangeName = (val: any) => {
-    name = val;
+    setGroupName(val);
   };
 
   const onChangeCourse = (val: any) => {
@@ -80,7 +96,12 @@ const AdminPanelPageView = ({UserStore}) => {
   };
 
   const addGroup = () => {
-    createGroup(name, courseId);
+    if (!groupName || !courseId) {
+      return;
+    }
+    createGroup(groupName, courseId).then(() => {
+      updateGroups();
+    });
   };
 
   const openModal = () => {
@@ -89,6 +110,7 @@ const AdminPanelPageView = ({UserStore}) => {
 
   const modalSetClose = () => {
     setModalIsOpen(false);
+    setGroupName('');
   };
 
   const renderGroupSelector = () => (
@@ -118,6 +140,7 @@ const AdminPanelPageView = ({UserStore}) => {
               type={fieldType.TEXT}
               placeholder={'Введите название группы'}
               size={'medium'}
+              value={groupName}
               fullWidth={true}
               onChange={onChangeName}
             />
