@@ -21,7 +21,6 @@ export class ProfileStore {
     id: -5,
     fullname: 'Симонов Иван Татьянович',
     rolesIds: [1, 2],
-    groupsIds: [1, 2, 3],
     groups: [
       {
         id: 1,
@@ -38,6 +37,9 @@ export class ProfileStore {
     ]
   };
 
+  password;
+  passwordConfirm;
+
   activeTab: number | undefined;
 
   constructor({UserStore}) {
@@ -46,6 +48,7 @@ export class ProfileStore {
     }, {autoBind: true});
 
     this.userStore = UserStore;
+    this._init();
   }
 
   get userId() {
@@ -63,8 +66,24 @@ export class ProfileStore {
     //Потому что 0 ид потенциально возможен. Если не указан или некорректный, то берём наш.
   }
 
+  _init = () => {
+    // this.searchUserInfo();
+  };
+
   setActiveTab = (tab) => {
     this.activeTab = tab;
+  };
+
+  setPassword = (p) => {
+    this.password = p;
+  };
+
+  setConfirmPassword = (cp) => {
+    this.passwordConfirm = cp;
+  };
+
+  setUserInfo = (ui) => {
+    this.userInfo = ui;
   };
 
   _getRoleName = (role) => {
@@ -78,6 +97,18 @@ export class ProfileStore {
       default:
         return 'Неизвестная роль';
     }
+  };
+
+  searchUserInfo = async() => {
+    const userInfo = await window.api()
+      .path('/users/searchUsers')
+      .body({
+        usersIds: [this.targetUserId],
+        appends: ['groups', 'roles']
+      })
+      .executePost();
+
+    this.setUserInfo(userInfo);
   };
 
   changeName = () => {

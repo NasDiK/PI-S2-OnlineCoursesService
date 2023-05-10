@@ -19,7 +19,10 @@ const renderTab = (tab) => {
   }
 };
 
-const renderUserContent = ({user, activeTab, setActiveTab, tabs, changeName}) => (
+const renderUserContent = ({
+  user, activeTab, setActiveTab, tabs, changeName,
+  password, setPassword, passwordConfirm, setConfirmPassword
+}) => (
   <React.Fragment>
     <div className={s.personalInfo}>
       <div>
@@ -46,16 +49,23 @@ const renderUserContent = ({user, activeTab, setActiveTab, tabs, changeName}) =>
         </div>
         <div>
           <hr />
-          <Typography>{'Смена пароля'}</Typography>
+          <Typography>{'Смена пароля'}</Typography><hr />
+          {password !== passwordConfirm && <Typography>{'Пароли не совпадают'}</Typography>}
           <DirectoryField
             type={fieldType.TEXT}
             fullWidth={true}
             placeholder={'Введите пароль...'}
+            name={'password_input'}
+            value={password}
+            onChange={setPassword}
           />
           <DirectoryField
             type={fieldType.TEXT}
             fullWidth={true}
+            name={'password_confirm'}
             placeholder={'Повторите пароль...'}
+            value={passwordConfirm}
+            onChange={setConfirmPassword}
           />
           <Button fullWidth={true}>{'Изменить пароль'}</Button>
         </div>
@@ -75,7 +85,10 @@ const renderUserContent = ({user, activeTab, setActiveTab, tabs, changeName}) =>
   </React.Fragment>
 );
 
-const ProfilePageView = ({user, activeTab, setActiveTab, tabs, changeName}) => (
+const ProfilePageView = ({
+  user, activeTab, setActiveTab, tabs, changeName,
+  password, setPassword, passwordConfirm, setConfirmPassword
+}) => (
   <div className={s.wrapper}>
     <div className={s.container}>
       <div className={s.header}>
@@ -83,7 +96,17 @@ const ProfilePageView = ({user, activeTab, setActiveTab, tabs, changeName}) => (
       </div>
       <div className={s.userContent}>
         {
-          user ? renderUserContent({user, activeTab, setActiveTab, tabs, changeName}) :
+          user ? renderUserContent({
+            user,
+            activeTab,
+            setActiveTab,
+            tabs,
+            changeName,
+            password,
+            setPassword,
+            passwordConfirm,
+            setConfirmPassword
+          }) :
             <Typography>{'Пользователь не найден'}</Typography>
         }
       </div>
@@ -97,7 +120,11 @@ const mapStore = ({ProfileStore}) => {
     setActiveTab: ProfileStore.setActiveTab,
     activeTab: ProfileStore.activeTab,
     tabs: ProfileStore.tabs,
-    changeName: ProfileStore.changeName
+    changeName: ProfileStore.changeName,
+    password: ProfileStore.password,
+    setPassword: ProfileStore.setPassword,
+    passwordConfirm: ProfileStore.passwordConfirm,
+    setConfirmPassword: ProfileStore.setConfirmPassword
   };
 };
 
@@ -106,7 +133,11 @@ ProfilePageView.propTypes = {
   setActiveTab: PropTypes.func,
   activeTab: PropTypes.number,
   tabs: PropTypes.array,
-  changeName: PropTypes.func
+  changeName: PropTypes.func,
+  password: PropTypes.string,
+  setPassword: PropTypes.func,
+  passwordConfirm: PropTypes.string,
+  setConfirmPassword: PropTypes.func
 };
 
 export default magic(ProfilePageView, {store: mapStore});

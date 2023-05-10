@@ -17,7 +17,7 @@ interface iPossibleProps {
   variant?: 'outline' | 'standart',
   options?: ArrayLike<IOption>
   isDone?: boolean, //readonly field
-  name?: string,
+  name?: string, //Если включает в себя password, то шифруется. Например, password_auth
   isMulti?: boolean,
   textAreaVariant?: 'simple' | 'review',
 
