@@ -21,7 +21,8 @@ const renderTab = (tab) => {
 
 const renderUserContent = ({
   user, activeTab, setActiveTab, tabs, changeName,
-  password, setPassword, passwordConfirm, setConfirmPassword
+  password, setPassword, passwordConfirm, setConfirmPassword,
+  changePassword, isPermittedToDelete, deleteUser, isPermittedToChangeName
 }) => (
   <React.Fragment>
     <div className={s.personalInfo}>
@@ -34,7 +35,7 @@ const renderUserContent = ({
           <Typography weight={'medium'}>{'Полное имя: '}</Typography>
           <Typography>{user.fullname}</Typography>
           {
-            true && (
+            isPermittedToChangeName && (
               <Button variant={'icon'} onClick={changeName}>
                 <EditIcon sx={
                   {
@@ -67,11 +68,20 @@ const renderUserContent = ({
             value={passwordConfirm}
             onChange={setConfirmPassword}
           />
-          <Button fullWidth={true}>{'Изменить пароль'}</Button>
+          <Button
+            fullWidth={true}
+            disabled={password !== passwordConfirm}
+            onClick={changePassword}
+          >
+            {'Изменить пароль'}
+          </Button>
         </div>
       </div>
       <div className={s.controls}>
-        {<Button backgroundColor={'red'}>{'Удалить пользователя'}</Button>}
+        {
+          isPermittedToDelete &&
+            <Button backgroundColor={'red'} onClick={deleteUser}>{'Удалить пользователя'}</Button>
+        }
       </div>
     </div>
     <div className={s.groups}>
@@ -87,7 +97,8 @@ const renderUserContent = ({
 
 const ProfilePageView = ({
   user, activeTab, setActiveTab, tabs, changeName,
-  password, setPassword, passwordConfirm, setConfirmPassword
+  password, setPassword, passwordConfirm, setConfirmPassword,
+  changePassword, isPermittedToDelete, deleteUser, isPermittedToChangeName
 }) => (
   <div className={s.wrapper}>
     <div className={s.container}>
@@ -105,7 +116,11 @@ const ProfilePageView = ({
             password,
             setPassword,
             passwordConfirm,
-            setConfirmPassword
+            setConfirmPassword,
+            changePassword,
+            isPermittedToDelete,
+            deleteUser,
+            isPermittedToChangeName
           }) :
             <Typography>{'Пользователь не найден'}</Typography>
         }
@@ -124,7 +139,11 @@ const mapStore = ({ProfileStore}) => {
     password: ProfileStore.password,
     setPassword: ProfileStore.setPassword,
     passwordConfirm: ProfileStore.passwordConfirm,
-    setConfirmPassword: ProfileStore.setConfirmPassword
+    setConfirmPassword: ProfileStore.setConfirmPassword,
+    changePassword: ProfileStore.changePassword,
+    isPermittedToDelete: ProfileStore.isPermittedToDelete,
+    deleteUser: ProfileStore.deleteUser,
+    isPermittedToChangeName: ProfileStore.isPermittedToChangeName
   };
 };
 
@@ -137,7 +156,11 @@ ProfilePageView.propTypes = {
   password: PropTypes.string,
   setPassword: PropTypes.func,
   passwordConfirm: PropTypes.string,
-  setConfirmPassword: PropTypes.func
+  setConfirmPassword: PropTypes.func,
+  changePassword: PropTypes.func,
+  isPermittedToDelete: PropTypes.bool,
+  isPermittedToChangeName: PropTypes.bool,
+  deleteUser: PropTypes.func
 };
 
 export default magic(ProfilePageView, {store: mapStore});

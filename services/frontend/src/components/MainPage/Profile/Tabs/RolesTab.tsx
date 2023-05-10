@@ -6,7 +6,11 @@ import {magic} from '../../../../mobxUtils';
 const RolesTab = ({userRoles}) => (
   <div>
     <Typography weight={'medium'}>{`Роли: `}</Typography>
-    <Typography>{userRoles.join(', ')}</Typography>
+    {
+      userRoles?.length ?
+        <Typography>{userRoles.join(', ')}</Typography> :
+        <Typography>{'Роли не найдены'}</Typography>
+    }
   </div>
 );
 

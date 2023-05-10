@@ -60,7 +60,7 @@ export class ProfileStore {
   }
 
   get userRoles() {
-    return this.userInfo.roles.map(({title}) => title);
+    return this.userInfo.roles?.map(({title}) => title) || [];
   }
 
   get targetUserId() {
@@ -68,6 +68,16 @@ export class ProfileStore {
 
     return linkUserId >= 0 ? linkUserId : this.userId;
     //Потому что 0 ид потенциально возможен. Если не указан или некорректный, то берём наш.
+  }
+
+  get isPermittedToDelete() {
+    return this.targetUserId !== this.userId &&
+      this.userStore.hasRole(roles.ADMIN);
+  }
+
+  get isPermittedToChangeName() {
+    return this.targetUserId === this.userId ||
+      this.userStore.hasRole(roles.ADMIN);
   }
 
   _init = () => {
@@ -102,11 +112,94 @@ export class ProfileStore {
     this.setUserInfo(userInfo);
   };
 
-  changeName = () => {
+  changeName = async() => {
     const newName = prompt(this.userInfo.fullname || '');
+    const oldName = this.userInfo.fullname || '';
 
     if (newName) {
-      console.log(`Сменить имя на ${newName}`);
+      try {
+        await window.api()
+          .path('/users/setUserInfo')
+          .body({
+            targetUserId: this.targetUserId,
+            fields: {
+              fullname: newName
+            }
+          })
+          .executePost();
+
+        this.setUserInfo({
+          ...this.userInfo,
+          fullname: newName
+        });
+
+        window.notify({
+          message: `Имя успешно изменено${oldName && ` с ${oldName}`} на ${newName}`,
+          variant: 'success'
+        });
+      } catch(_) {
+        console.log(_);
+        window.notify({
+          message: 'При изменении имени произошла ошибка',
+          variant: 'error'
+        });
+      }
+
+    }
+  };
+
+  changePassword = async() => {
+    try {
+      await window.api()
+        .path('/users/setUserInfo')
+        .body({
+          targetUserId: this.targetUserId,
+          fields: {
+            password: this.password
+          }
+        })
+        .executePost();
+
+      window.notify({
+        message: `Пароль успешно изменён`,
+        variant: 'success'
+      });
+    } catch(_) {
+      console.log(_);
+      window.notify({
+        message: 'При изменении пароля произошла ошибка',
+        variant: 'error'
+      });
+    }
+  };
+
+  deleteUser = async() => {
+    const {targetUserId} = this;
+
+    if (!confirm('Действие не имеет возврата')) {
+      return;
+    }
+
+    try {
+      await window.api()
+        .path('/users/deleteUserById')
+        .body({
+          targetUserId
+        })
+        .executePost();
+
+      window.notify({
+        message: 'Пользователь успешно удалён',
+        variant: 'success'
+      });
+
+      window.location.pathname = '/profile/my';
+    } catch(_) {
+      console.log(_);
+      window.notify({
+        message: 'Произошла ошибка при удалении пользователя',
+        variant: 'error'
+      });
     }
   };
 }

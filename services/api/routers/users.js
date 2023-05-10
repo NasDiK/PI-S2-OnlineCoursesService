@@ -33,4 +33,16 @@ router.post('/searchUsers', async(req, res) => {
   res.send(users);
 });
 
+router.post('/setUserInfo', async(req, res) => {
+  const users = await controller.setUserInfo(req);
+
+  res.send(users);
+});
+
+router.post('/deleteUserById', async(req, res) => {
+  const users = await controller.deleteUserById(req);
+
+  res.send(users);
+});
+
 module.exports = router;
