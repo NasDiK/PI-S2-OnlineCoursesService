@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {makeAutoObservable} from 'mobx';
 import {UserStore as UserStoreType} from '../../core/UserStore';
@@ -19,8 +20,22 @@ export class ProfileStore {
   userInfo: any = {
     id: -5,
     fullname: 'Симонов Иван Татьянович',
-    roles: [1, 2],
-    groups: [1, 2, 3]
+    rolesIds: [1, 2],
+    groupsIds: [1, 2, 3],
+    groups: [
+      {
+        id: 1,
+        title: 'Моковая #1'
+      },
+      {
+        id: 2,
+        title: 'Моковая #2'
+      },
+      {
+        id: 3,
+        title: 'Моковая #3'
+      }
+    ]
   };
 
   activeTab: number | undefined;
@@ -38,7 +53,7 @@ export class ProfileStore {
   }
 
   get userRoles() {
-    return this.userInfo.roles.map(this._getRoleName);
+    return this.userInfo.rolesIds.map(this._getRoleName);
   }
 
   get targetUserId() {
@@ -62,6 +77,14 @@ export class ProfileStore {
         return 'Учитель';
       default:
         return 'Неизвестная роль';
+    }
+  };
+
+  changeName = () => {
+    const newName = prompt(this.userInfo.fullname || '');
+
+    if (newName) {
+      console.log(`Сменить имя на ${newName}`);
     }
   };
 }
