@@ -27,4 +27,10 @@ router.post('/getUsersByIds', async(req, res) => {
   res.send(users);
 });
 
+router.post('/searchUsers', async(req, res) => {
+  const users = await controller.searchUsers(req);
+
+  res.send(users);
+});
+
 module.exports = router;

@@ -6,7 +6,7 @@ import {magic} from '../../../../mobxUtils';
 const GroupsTab = ({userGroups}) => (
   <div>
     <Typography weight={'medium'}>{`Состоит в группах: `}</Typography>
-    <Typography>{userGroups.map(({title}) => title).join(', ')}</Typography>
+    <Typography>{userGroups.map(({groupInfo}) => groupInfo.title).join(', ')}</Typography>
   </div>
 );
 

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {makeAutoObservable} from 'mobx';
@@ -20,19 +21,22 @@ export class ProfileStore {
   userInfo: any = {
     id: -5,
     fullname: 'Симонов Иван Татьянович',
-    rolesIds: [1, 2],
+    roles: [
+      {
+        id: 42,
+        title: 'Студент',
+        name: 'student'
+      }
+    ],
     groups: [
       {
-        id: 1,
-        title: 'Моковая #1'
-      },
-      {
-        id: 2,
-        title: 'Моковая #2'
-      },
-      {
-        id: 3,
-        title: 'Моковая #3'
+        group_id: 4,
+        isModerator: false,
+        groupInfo: {
+          id: 1,
+          course_id: 40,
+          title: 'Моковая #1'
+        }
       }
     ]
   };
@@ -56,7 +60,7 @@ export class ProfileStore {
   }
 
   get userRoles() {
-    return this.userInfo.rolesIds.map(this._getRoleName);
+    return this.userInfo.roles.map(({title}) => title);
   }
 
   get targetUserId() {
@@ -67,7 +71,7 @@ export class ProfileStore {
   }
 
   _init = () => {
-    // this.searchUserInfo();
+    this.searchUserInfo();
   };
 
   setActiveTab = (tab) => {
@@ -86,21 +90,8 @@ export class ProfileStore {
     this.userInfo = ui;
   };
 
-  _getRoleName = (role) => {
-    switch (role) {
-      case roles.ADMIN:
-        return 'Админ';
-      case roles.STUDENT:
-        return 'Студент';
-      case roles.TEACHER:
-        return 'Учитель';
-      default:
-        return 'Неизвестная роль';
-    }
-  };
-
   searchUserInfo = async() => {
-    const userInfo = await window.api()
+    const [userInfo] = await window.api()
       .path('/users/searchUsers')
       .body({
         usersIds: [this.targetUserId],
