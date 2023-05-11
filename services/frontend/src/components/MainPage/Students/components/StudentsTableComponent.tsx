@@ -44,7 +44,7 @@ const StudentsTableComponent = () => {
         }
         getUsersByGroup(groupId).then((usersList) => {
           dispatch({type: 'SET_USERS', payload: usersList});
-          //dispatch({type: 'GROUP_COMPONENTS'});
+          dispatch({type: 'GROUP_COMPONENTS'});
         });
       });
     }
