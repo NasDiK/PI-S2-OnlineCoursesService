@@ -42,10 +42,10 @@ const StudentsTableComponent = () => {
         } else {
           dispatch({type: 'SET_ANSWERS', payload: answersList});
         }
-      });
-      getUsersByGroup(groupId).then((usersList) => {
-        dispatch({type: 'SET_USERS', payload: usersList});
-        dispatch({type: 'GROUP_COMPONENTS'});
+        getUsersByGroup(groupId).then((usersList) => {
+          dispatch({type: 'SET_USERS', payload: usersList});
+          dispatch({type: 'GROUP_COMPONENTS'});
+        });
       });
     }
   };
