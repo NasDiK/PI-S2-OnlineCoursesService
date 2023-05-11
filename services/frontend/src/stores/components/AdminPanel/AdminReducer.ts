@@ -8,7 +8,7 @@ export interface iState {
   usersOptions: any [],
   rolesOptions: any [],
   selectedUsers: any [],
-  selectedRole: any []
+  selectedRole: number | null
 }
 
 const initialState: iState = {
@@ -17,7 +17,7 @@ const initialState: iState = {
   usersOptions: [],
   rolesOptions: [],
   selectedUsers: [],
-  selectedRole: []
+  selectedRole: null
 };
 
 export const setUsers = createAction('SET_USERS', (payload) => payload);
@@ -44,7 +44,7 @@ const reducer = createReducer(initialState, {
       user.role_id === state.selectedRole).map((user) => user.id);
   },
   [clearSelected.type]: (state: iState) => {
-    state.selectedRole = [];
+    state.selectedRole = null;
     state.selectedUsers = [];
   },
   [setRoles.type]: (state: iState, action) => {

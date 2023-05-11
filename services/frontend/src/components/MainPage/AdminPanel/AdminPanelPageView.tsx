@@ -49,37 +49,30 @@ const AdminPanelPageView = ({UserStore}) => {
   let courseId: any;
 
   useEffect(() => {
-    getAllCourses().then((x) => {
-      setMainElement(x);
-    });
     updateGroups();
   }, [userId]);
 
   const updateGroups = () => {
-    getGroups().then((groups) => {
-      // eslint-disable-next-line max-nested-callbacks
-      const subGroup = groups.map(({id, title, course_id}) => {
+    getAllCourses().then((x) => {
+      setMainElement(x);
+      getGroups().then((groups) => {
         // eslint-disable-next-line max-nested-callbacks
-        const courseName = mainElement?.filter((course) => {
-          console.log(course);
+        const subGroup = groups.map(({id, title, course_id}) => {
+          // eslint-disable-next-line max-nested-callbacks
+          const courseName = x?.find((course) => course.id === course_id);
 
-          return course;
+          return {
+            id,
+            name: `${title} (#${course_id} | ${courseName?.title})`,
+            type: targetFields.ELEMENT
+          };
         });
 
-        //console.log(courseName);
-        console.log(mainElement);
-
-        return {
-          id,
-          name: `${title} #${course_id}`,
-          type: targetFields.ELEMENT
-        };
+        setGroupElement({id: groups[0].id,
+          name: 'Выберите группу',
+          type: targetFields.ELEMENT_GROUP,
+          subGroup});
       });
-
-      setGroupElement({id: groups[0].id,
-        name: 'Выберите группу',
-        type: targetFields.ELEMENT_GROUP,
-        subGroup});
     });
   };
 
@@ -96,12 +89,23 @@ const AdminPanelPageView = ({UserStore}) => {
   };
 
   const addGroup = () => {
-    if (!groupName || !courseId) {
-      return;
+    try {
+      if (!groupName || !courseId) {
+        throw new Error();
+      }
+      createGroup(groupName, courseId).then(() => {
+        updateGroups();
+      });
+      window.notify({
+        message: 'Группа создана',
+        variant: 'success'
+      });
+    } catch(_) {
+      window.notify({
+        message: 'Ошибка создания группы',
+        variant: 'error'
+      });
     }
-    createGroup(groupName, courseId).then(() => {
-      updateGroups();
-    });
   };
 
   const openModal = () => {

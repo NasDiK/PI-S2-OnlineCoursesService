@@ -42,6 +42,25 @@ const AddUserSelectComponent = ({UserStore}) => {
     return {label: fullname, value: id};
   });
 
+  const callGroupChanges = () => {
+    try {
+      if (!groupId) {
+        throw new Error();
+      }
+      saveGroupChanges(groupId, usersIds);
+
+      window.notify({
+        message: 'Успешно обновлено',
+        variant: 'success'
+      });
+    } catch(_) {
+      window.notify({
+        message: 'Ошибка обновления пользователей',
+        variant: 'error'
+      });
+    }
+  };
+
   return (
     <div className={s.column}>
       <div className={s.text}>
@@ -70,7 +89,7 @@ const AddUserSelectComponent = ({UserStore}) => {
         <Button
           variant={'primary'}
           fullWidth={true}
-          onClick={() => saveGroupChanges(groupId, usersIds)}
+          onClick={callGroupChanges}
         >{'Сохранить'}
         </Button>
       </div>

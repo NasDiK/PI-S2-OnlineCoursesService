@@ -32,8 +32,22 @@ const RolesComponent = () => {
     });
   };
   const changeRole = () => {
-    dispatch({type: 'CHANGE_ROLES'});
-    getUsers();
+    try {
+      if (!selectedRole) {
+        throw new Error();
+      }
+      dispatch({type: 'CHANGE_ROLES'});
+      getUsers();
+      window.notify({
+        message: 'Успешно обновлено',
+        variant: 'success'
+      });
+    } catch(_) {
+      window.notify({
+        message: 'Ошибка обновления ролей',
+        variant: 'error'
+      });
+    }
   };
 
   return (
