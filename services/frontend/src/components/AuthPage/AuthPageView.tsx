@@ -28,15 +28,22 @@ const AuthPageView = ({logIn, auth: authorization, registrateUser}) => {
       payload = await authorization(user);
     }
 
-    if (payload.tokens.accessToken) {
-      localStorage.setItem('access', payload.tokens.accessToken);
-      localStorage.setItem('refresh', payload.tokens.refreshToken);
-    }
+    try {
+      if (payload.tokens.accessToken) {
+        localStorage.setItem('access', payload.tokens.accessToken);
+        localStorage.setItem('refresh', payload.tokens.refreshToken);
+      }
 
-    await logIn(payload);
+      await logIn(payload);
 
-    if (payload.userId) {
-      navigate('/');
+      if (payload.userId) {
+        navigate('/');
+      }
+    } catch(_) {
+      window.notify({
+        message: payload.message,
+        variant: 'error'
+      });
     }
   };
 
