@@ -1,6 +1,9 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
-const {tasks: {fieldType: taskTypeEnum}} = require('@local/enums');
+const {
+  tasks: {fieldType: taskTypeEnum},
+  shared: {status: statusEnum}
+} = require('@local/enums');
 const bcrypt = require('bcrypt');
 
 /* eslint-disable id-denylist */
@@ -220,7 +223,8 @@ Kek();`,
       createdBy: _users[2],
       action: 1,
       note: 5,
-      value: true
+      value: 'Лампочка',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[2],
@@ -228,7 +232,8 @@ Kek();`,
       createdBy: _users[2],
       action: 1,
       note: null,
-      value: false
+      value: '1',
+      status: statusEnum.INCORRECT
     },
     {
       user_id: _users[2],
@@ -236,7 +241,8 @@ Kek();`,
       createdBy: _users[2],
       action: 1,
       note: null,
-      value: false
+      value: '[1,2]',
+      status: statusEnum.INCORRECT
     },
     {
       user_id: _users[2],
@@ -248,7 +254,8 @@ Kek();`,
         '//TODO task\n' +
         '}sdgfsg\n' +
         '\n' +
-        'Kek();'
+        'Kek();',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[3],
@@ -256,7 +263,8 @@ Kek();`,
       createdBy: _users[3],
       action: 1,
       note: 5,
-      value: true
+      value: 'Лампочка',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[3],
@@ -264,7 +272,8 @@ Kek();`,
       createdBy: _users[3],
       action: 1,
       note: 10,
-      value: true
+      value: '1',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[3],
@@ -272,7 +281,8 @@ Kek();`,
       createdBy: _users[3],
       action: 1,
       note: 8,
-      value: true
+      value: '[1,3]',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[3],
@@ -292,7 +302,8 @@ Kek();`,
       createdBy: _users[4],
       action: 1,
       note: 10,
-      value: true
+      value: '1',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[4],
@@ -300,7 +311,8 @@ Kek();`,
       createdBy: _users[4],
       action: 1,
       note: null,
-      value: false
+      value: '[1,2]',
+      status: statusEnum.INCORRECT
     },
     {
       user_id: _users[4],
@@ -320,7 +332,8 @@ Kek();`,
       createdBy: _users[5],
       action: 1,
       note: 5,
-      value: true
+      value: 'Лампочка',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[5],
@@ -328,7 +341,8 @@ Kek();`,
       createdBy: _users[5],
       action: 1,
       note: null,
-      value: false
+      value: '1',
+      status: statusEnum.INCORRECT
     },
     {
       user_id: _users[5],
@@ -336,7 +350,8 @@ Kek();`,
       createdBy: _users[5],
       action: 1,
       note: 8,
-      value: true
+      value: '[1,3]',
+      status: statusEnum.SUCCESS
     },
     {
       user_id: _users[5],
@@ -356,7 +371,8 @@ Kek();`,
       createdBy: _users[4],
       action: 1,
       note: 777,
-      value: true
+      value: 'Бархатные',
+      status: statusEnum.SUCCESS
     }
   ])
     .returning('*');
