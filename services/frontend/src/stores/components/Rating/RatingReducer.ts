@@ -1,5 +1,6 @@
 /* eslint-disable id-denylist,camelcase, @typescript-eslint/no-explicit-any*/
 import {createAction, createReducer, combineReducers, configureStore} from '@reduxjs/toolkit';
+import {status as statusEnum} from '@local/enums/shared';
 
 export interface iState {
   answers: any [],
@@ -40,7 +41,7 @@ const reducer = createReducer(initialState, {
     state.users.forEach((user) => {
       const count = state.answers
         .filter((answer) => answer.user_id === user.id)
-        .filter((answer) => answer.value !== 'false').length;
+        .filter((answer) => answer.status === statusEnum.SUCCESS).length;
 
       newArray.push({user: user.fullname, count});
     });
